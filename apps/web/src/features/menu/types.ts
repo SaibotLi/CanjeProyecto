@@ -13,6 +13,7 @@ export interface MenuItem {
   description?: string
   price: number
   imageUrl?: string
+  imageAlt?: string
   isAvailable: boolean
   isFeatured: boolean
   displayOrder: number

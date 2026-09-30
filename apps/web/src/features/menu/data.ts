@@ -1,5 +1,6 @@
 import type { MenuData } from './types'
 import canImage from './assets/can.svg'
+import brahmaImage from '../../assets/menu/brahma lata.webp'
 import bottleImage from './assets/bottle.svg'
 import cocktailImage from './assets/cocktail.svg'
 import wineImage from './assets/wine.svg'
@@ -20,7 +21,7 @@ export const mockMenu: MenuData = {
   ],
   items: [
     { id: 'bud', businessId, categoryId: 'beer', name: 'Budweiser', description: 'Lata · 473 ml', price: 6000, imageUrl: canImage, isAvailable: true, isFeatured: false, displayOrder: 10 },
-    { id: 'brahma', businessId, categoryId: 'beer', name: 'Brahma', description: 'Lata · 473 ml', price: 4000, imageUrl: canImage, isAvailable: true, isFeatured: false, displayOrder: 20 },
+    { id: 'brahma', businessId, categoryId: 'beer', name: 'Brahma', description: 'Lata · 473 ml', price: 4000, imageUrl: brahmaImage, imageAlt: 'Lata de Brahma de 473 ml', isAvailable: true, isFeatured: false, displayOrder: 20 },
     { id: 'heineken', businessId, categoryId: 'beer', name: 'Heineken', description: 'Botella · 330 ml', price: 7000, imageUrl: bottleImage, isAvailable: true, isFeatured: false, displayOrder: 30 },
     { id: 'stella', businessId, categoryId: 'beer', name: 'Stella Artois', description: 'Lata · 473 ml', price: 6500, imageUrl: canImage, isAvailable: true, isFeatured: false, displayOrder: 40 },
     { id: 'patagonia', businessId, categoryId: 'beer', name: 'Patagonia Amber Lager', description: 'Botella · 730 ml · para compartir', price: 9500, imageUrl: bottleImage, isAvailable: false, isFeatured: false, displayOrder: 50 },
