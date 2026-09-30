@@ -5,15 +5,14 @@ import valhallaLogo from '../assets/brand/valhalla/valhalla-logo-web.webp'
 
 export function CustomerLayout() {
   const isMenu = useLocation().pathname === '/'
-  return <div className="app-shell">
+  return <div className={isMenu ? 'app-shell menu-app' : 'app-shell'}>
     <a className="skip-link" href="#main-content">Saltar al contenido</a>
     <header className="site-header"><div className="header-inner">
       <Link to="/" className="brand-lockup" aria-label="Valhalla Space, carta">
         <img src={valhallaLogo} alt="" className="brand-logo" width="44" height="44" decoding="async" />
-        <span className="brand-copy"><strong>VALHALLA</strong><small>SPACE</small></span>
+        <span className="brand-copy"><strong>VALHALLA</strong><small>{isMenu ? 'Carta · Villaguay' : 'SPACE'}</small></span>
       </Link>
-      <span className="location-label">VILLAGUAY · ENTRE RÍOS</span>
-      <span className="header-tag">{isMenu ? 'Carta Digital' : 'Carta & comunidad'}</span>
+      {!isMenu && <><span className="location-label">VILLAGUAY · ENTRE RÍOS</span><span className="header-tag">Carta & comunidad</span></>}
     </div></header>
     <Navigation />
     <main id="main-content" className={isMenu ? 'main-container menu-main' : 'main-container'}><PreviewNotice /><Outlet /></main>

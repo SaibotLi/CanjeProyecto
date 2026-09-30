@@ -35,11 +35,11 @@ Las fuentes se sirven localmente desde paquetes Fontsource; la interfaz no depen
 
 ## Mobile-first y responsive
 
-El customer se diseña primero para 360–430 px. La navegación inferior respeta `safe-area-inset-bottom`, los controles tienen un mínimo táctil de 44 px y el contenido usa gutters fluidos. A partir de 1024 px la navegación pasa al flujo superior y las grillas aprovechan tres columnas. El admin está preparado conceptualmente para móvil y desktop.
+La Carta se diseña primero para 390 × 844 px y se comprueba a 360 y 430 px. La navegación inferior respeta `safe-area-inset-bottom`, los controles tienen un mínimo táctil de 44 px y el contenido usa gutters fluidos. La Carta mantiene una columna por debajo de 768 px, dos desde 768 px y navegación en el flujo superior desde 1024 px. Desktop adapta el mismo lenguaje de cards; no es una landing distinta. Los otros skeletons conservan su responsive anterior.
 
 ## Componentes actuales
 
-Header de marca compacto, navegación customer, aviso de muestra, categorías sticky, secciones y filas tipográficas de bebidas, destacado, agotado y onboarding Valhalla Points. Puntos, premios, perfil/QR placeholder y admin conservan sus skeletons.
+Header de marca compacto “VALHALLA / Carta · Villaguay”, navegación customer, aviso de muestra, categorías sticky en pills, cards visuales de bebidas, destacado con imagen, agotado y onboarding compacto Valhalla Points. Puntos, premios, perfil/QR placeholder y admin conservan sus skeletons. Los ajustes al shell se limitan a la ruta Carta mediante `.menu-app`.
 
 ## Estados y accesibilidad
 
@@ -49,15 +49,25 @@ Hay foco visible, enlace “saltar al contenido”, nombres accesibles, categor�
 
 Valhalla solo ofrece bebidas. Las cuatro categorías vienen de la fuente de datos: Cervezas, Tragos, Vinos / Espumantes y Sin alcohol. No hay buscador; reconsiderarlo únicamente si la cantidad real de productos justifica esa necesidad.
 
-El header y título son compactos para llegar rápido a los precios. En móvil, las categorías forman un carril horizontal sticky con targets de al menos 44 px. Al tocar una categoría, el scroll coloca su sección debajo del carril; al desplazarse manualmente, se actualiza la categoría activa. Reduced motion desactiva scroll suave y transiciones.
+Task 02B elimina el hero visible “Carta Digital / Tu próximo brindis / Solo bebidas” y toda numeración editorial. Se conserva un h1 accesible, visualmente oculto, y headings de categorías sin números. El header concentra marca y contexto para llegar antes a las bebidas. Oswald se restringe al lockup, categorías y nombre destacado; productos normales y onboarding usan Inter.
 
-El producto prioriza nombre, presentación y precio; el precio tiene mayor jerarquía que los puntos. El contenido es tipográfico. Imagen opcional con alt, dimensiones reservadas y lazy loading: el catálogo mock no incluye fotos. Desde 768 px se utilizan dos columnas por sección para evitar filas estiradas.
+En móvil, las categorías forman un carril horizontal sticky con pills de al menos 44 px y estado activo amarillo. No son controles de compra. Al tocar una categoría, el scroll coloca su sección debajo del carril; al desplazarse manualmente, se actualiza la categoría activa y se hace visible su pill. Reduced motion desactiva scroll suave y transiciones. La lógica existente de navegación no cambia.
 
-`isFeatured` muestra “RECOMENDADO · VALHALLA” y una superficie con borde amarillo. Funciona sin imagen. `isAvailable=false` conserva el producto con etiqueta AGOTADO y atenúa precio/puntos. No existe un botón de compra ni control de cantidad.
+El producto normal combina thumbnail de 72 × 72 px, nombre, descripción opcional, precio y puntos amarillos. El precio tiene mayor tamaño/peso que los puntos. Las cards no son botones ni enlaces de compra. Nombres largos y contenido sin descripción conservan su espacio natural sin truncamiento obligatorio. Los detalles permiten wrap si no caben.
 
-Los puntos se calculan visualmente por `floor(price / 1000)`, sin campo manual de puntos y sin acreditación. La pieza “Tu noche también suma” aparece después de Cervezas, informa la regla prevista y enlaza a /points. Su texto aclara que el programa está en vista previa.
+Las imágenes son opcionales, locales, con alt que declara su carácter ilustrativo, dimensiones reservadas, `loading="lazy"` y `decoding="async"`. Task 02B incorpora siete SVG originales sin logotipos comerciales, fotos descargadas ni dependencias nuevas. Son placeholders visuales por formato de bebida, no fotografías ni imágenes oficiales de cada marca. Negroni queda sin imageUrl para ejercitar el fallback. Si falta una imagen o falla su carga, aparece un vaso neutro con nombre accesible. SVG es apropiado para estas ilustraciones vectoriales pequeñas; WebP/AVIF se considerará para futuros assets raster, con autorización y tamaños adecuados.
+
+`isFeatured` usa imagen protagonista 16:9 en móvil, badge amarillo “★ RECOMENDADO” sobre la imagen y contenido debajo. Desde 768 px ocupa el ancho de la grilla con composición imagen/contenido lado a lado; no usa carrusel. Funciona también con el fallback sin imagen. `isAvailable=false` conserva el producto con etiqueta textual AGOTADO, thumbnail menos saturado y precio/puntos secundarios. La disponibilidad no se comunica solo mediante opacidad. No existe un botón de compra ni control de cantidad.
+
+Los puntos se calculan visualmente por `floor(price / 1000)`, sin campo manual de puntos y sin acreditación. La pieza “Cada consumo suma” aparece después de Cervezas, explica brevemente el beneficio, conserva la regla marcada como preview y enlaza a /points. Sus márgenes y tipografía evitan una landing dentro de la Carta.
 
 Todos los productos, precios y disponibilidades actuales son ilustrativos. Oswald continúa como current display candidate.
+
+## Estado de validación — Task 02B
+
+El baseline público previo al rediseño fue inspeccionado realmente el 30/09/2026 en 390 × 844, 360 × 844, 430 × 844 y 1280 × 900 px en https://valhalla-green.vercel.app/. Se confirmaron numeración editorial, introducción dominante, ausencia de imágenes y featured basado principalmente en borde/texto. Se preservan las fortalezas de jerarquía precio/puntos, sticky categories, estado agotado y bottom navigation.
+
+La implementación local de Task 02B NO está visualmente aprobada ni publicada. El deployment inspeccionado es anterior a estos cambios. Tras un nuevo deployment deben inspeccionarse 390, 360, 430, 768 y 1280 px; guardar capturas reales de primera pantalla, featured, onboarding y agotados; revisar overflow, legibilidad, foco, sticky/active categories, safe area y consola. No usar capturas del baseline como evidencia del rediseño ni declarar completa la Task antes de esta revisión.
 
 ## Theming futuro
 

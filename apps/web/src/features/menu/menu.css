@@ -1,49 +1,74 @@
-/* Carta pública. Los colores consumen el tema semántico aprobado. */
-.menu-main { padding-top: var(--space-md); }
-.menu-main .preview-notice { margin-bottom: var(--space-md); font-size: 0.65rem; }
-.digital-menu { --menu-nav-height: 4.5rem; }
-.menu-heading { padding: var(--space-sm) 0 var(--space-lg); }
-.menu-heading h1 { font-size: clamp(2rem, 6vw, 2.8rem); letter-spacing: -0.015em; margin-bottom: var(--space-xs); }
-.menu-heading p { color: var(--color-text-muted); font-size: 0.8rem; }
-.menu-heading p span { color: var(--color-primary); padding: 0 var(--space-xs); }
-.menu-category-nav { position: sticky; top: 0; z-index: 10; margin: 0 calc(-1 * var(--page-gutter)); padding: 0 var(--page-gutter); background: var(--color-bg); border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); }
-.menu-category-track { display: flex; position: relative; gap: var(--space-sm); overflow-x: auto; scrollbar-width: none; padding: 0.75rem 0; }
+/* Carta app-first: solo presentación; colores del tema semántico aprobado. */
+.menu-app { --page-gutter: clamp(1rem, 4vw, 2rem); --content-max: 60rem; }
+.menu-app .header-inner { padding-block: 0.875rem; min-height: 4.5rem; }
+.menu-app .brand-copy > strong { font-size: 1.35rem; letter-spacing: 0.06em; }
+.menu-app .brand-copy > small { font-size: 0.7rem; letter-spacing: 0; color: var(--color-text-muted); margin-top: 0.35rem; }
+.menu-main { padding-top: 0.5rem; }
+.menu-main .preview-notice { margin-bottom: 0.25rem; font-size: 0.65rem; min-height: 1.25rem; }
+.digital-menu { --menu-nav-height: 4rem; }
+.menu-accessible-title { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.menu-category-nav { position: sticky; top: 0; z-index: 10; margin: 0 calc(-1 * var(--page-gutter)); padding: 0 var(--page-gutter); background: var(--color-bg); border-bottom: 1px solid var(--color-border); }
+.menu-category-track { display: flex; position: relative; gap: 0.5rem; overflow-x: auto; scrollbar-width: none; padding: 0.625rem 0; }
 .menu-category-track::-webkit-scrollbar { display: none; }
-.menu-category-link { flex: 0 0 auto; min-height: var(--touch-min); display: inline-flex; align-items: center; justify-content: center; padding: var(--space-sm) 0.95rem; border-radius: var(--radius-sm); border: 1px solid transparent; color: var(--color-text-muted); font-size: 0.8rem; transition: background-color 160ms, color 160ms; }
+.menu-category-link { flex: 0 0 auto; min-height: var(--touch-min); display: inline-flex; align-items: center; justify-content: center; padding: 0.5rem 0.875rem; border-radius: 999px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-muted); font-size: 0.75rem; line-height: 1.25; transition: background-color 160ms, color 160ms; }
 .menu-category-link:hover { background: var(--color-surface-elevated); color: var(--color-text); }
-.menu-category-link.active { color: var(--color-on-primary); background: var(--color-primary); font-weight: 600; border-color: var(--color-primary-bright); }
-.drink-section { padding-top: var(--space-xl); scroll-margin-top: calc(var(--menu-nav-height) + var(--space-md)); }
-.drink-section-heading { display: flex; align-items: baseline; gap: 0.7rem; margin-bottom: var(--space-md); padding-bottom: var(--space-md); border-bottom: 1px solid var(--color-border); }
-.drink-section-heading h2 { font-size: clamp(1.6rem, 4vw, 2rem); text-transform: uppercase; letter-spacing: 0.025em; min-width: 0; }
-.section-number { color: var(--color-primary); font-size: 0.7rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.menu-category-link.active { color: var(--color-on-primary); background: var(--color-primary); font-weight: 650; border-color: var(--color-primary); }
+.menu-category-link:active { background: var(--color-surface-elevated); }
+.menu-category-link.active:active { background: var(--color-primary-bright); }
+.drink-section { padding-top: 1.5rem; scroll-margin-top: calc(var(--menu-nav-height) + 1rem); }
+.drink-section-heading { display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 0.75rem; }
+.drink-section-heading h2 { font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.015em; min-width: 0; }
 .section-count { margin-left: auto; color: var(--color-text-muted); font-size: 0.65rem; white-space: nowrap; }
-.drink-grid { display: grid; }
-.drink-item { padding: 1.25rem 0; border-bottom: 1px solid var(--color-border); min-width: 0; }
-.drink-title-row { display: flex; align-items: flex-start; flex-wrap: wrap; gap: var(--space-sm); }
-.drink-title-row h3 { text-transform: uppercase; letter-spacing: 0.025em; font-size: 0.95rem; line-height: 1.45; overflow-wrap: anywhere; flex: 1 1 10rem; }
-.drink-description { margin-top: 0.4rem; font-size: 0.8rem; line-height: 1.5; color: var(--color-text-muted); }
-.drink-details { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-sm); justify-content: space-between; margin-top: var(--space-md); }
-.drink-price { font-size: 1.2rem; font-weight: 650; font-variant-numeric: tabular-nums; line-height: 1.3; }
-.drink-points { color: var(--color-primary); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.025em; white-space: nowrap; }
-.drink-points > span { margin-right: 0.15rem; }
-.drink-featured { border: 1px solid color-mix(in srgb, var(--color-primary) 50%, var(--color-border)); border-radius: var(--radius-md); background: var(--color-surface); padding: var(--space-lg); margin-top: var(--space-sm); }
-.featured-label { color: var(--color-primary); font-size: 0.6rem; letter-spacing: 0.13em; font-weight: 600; margin-bottom: var(--space-md); }
-.drink-featured h3 { font-family: var(--font-display); font-size: 1.65rem; font-weight: 500; }
-.drink-image { width: 100%; height: auto; max-height: 14rem; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: var(--space-md); }
+.drink-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.625rem; }
+.drink-item { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr); gap: 0.75rem; align-items: center; padding: 0.75rem; border: 1px solid var(--color-border); border-radius: 0.875rem; background: var(--color-surface); min-width: 0; }
+.drink-media { position: relative; width: 4.5rem; height: 4.5rem; overflow: hidden; border-radius: 0.625rem; background: var(--color-surface-elevated); }
+.drink-image { display: block; width: 100%; height: 100%; object-fit: cover; }
+.drink-image-placeholder { width: 100%; height: 100%; display: grid; place-items: center; color: var(--color-text-muted); }
+.drink-image-placeholder svg { width: 4.5rem; height: 4.5rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.drink-content { min-width: 0; }
+.drink-title-row { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 0.35rem; }
+.drink-title-row h3 { font-size: 0.875rem; line-height: 1.35; overflow-wrap: anywhere; font-weight: 650; width: 100%; }
+.drink-description { margin-top: 0.25rem; font-size: 0.75rem; line-height: 1.4; color: var(--color-text-muted); }
+.drink-details { display: flex; align-items: center; flex-wrap: wrap; gap: 0.35rem 0.5rem; justify-content: space-between; margin-top: 0.5rem; }
+.drink-price { font-size: 1.0625rem; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1.3; white-space: nowrap; }
+.drink-points { color: var(--color-primary); font-size: 0.6875rem; font-weight: 650; white-space: nowrap; }
+.drink-featured { display: block; padding: 0; overflow: hidden; border-color: color-mix(in srgb, var(--color-primary) 35%, var(--color-border)); }
+.drink-featured .drink-media { width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 0; }
+.drink-featured .drink-content { padding: 1rem; }
+.featured-label { position: absolute; bottom: 0.75rem; left: 1rem; color: var(--color-on-primary); background: var(--color-primary); padding: 0.35rem 0.65rem; border-radius: 999px; font-size: 0.625rem; line-height: 1.3; font-weight: 700; letter-spacing: 0.035em; }
+.featured-label span { margin-right: 0.25rem; }
+.drink-featured h3 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 500; text-transform: uppercase; }
+.drink-featured .drink-price { font-size: 1.25rem; }
+.drink-featured .drink-points { font-size: 0.75rem; }
+.drink-featured .drink-details { margin-top: 0.75rem; }
 .drink-unavailable h3, .drink-unavailable .drink-description { color: var(--color-text-muted); }
-.drink-unavailable .drink-price, .drink-unavailable .drink-points { color: var(--color-text-muted); font-size: 0.85rem; font-weight: 400; }
-.unavailable-label { display: inline-block; color: var(--color-text-muted); border: 1px solid var(--color-border); padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-sm); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.08em; }
-.menu-points-onboarding { border-left: 3px solid var(--color-primary); border-radius: 0 var(--radius-md) var(--radius-md) 0; padding: var(--space-lg); background: var(--color-surface); margin-top: var(--space-xl); }
-.menu-points-onboarding h2 { font-size: 1.9rem; margin: var(--space-sm) 0 var(--space-md); }
-.menu-points-onboarding > p:not(.eyebrow) { font-size: 0.8rem; margin-bottom: var(--space-xs); }
-.menu-points-link { color: var(--color-primary); display: inline-flex; min-height: var(--touch-min); align-items: center; gap: var(--space-md); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-top: var(--space-sm); }
+.drink-unavailable .drink-price, .drink-unavailable .drink-points { color: var(--color-text-muted); font-size: 0.75rem; font-weight: 500; }
+.drink-unavailable .drink-image { filter: saturate(0.3); }
+.unavailable-label { display: inline-block; color: var(--color-text-muted); border: 1px solid var(--color-border); background: var(--color-bg); padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-size: 0.5625rem; line-height: 1.4; font-weight: 700; letter-spacing: 0.05em; }
+.menu-points-onboarding { border: 1px solid var(--color-border); border-radius: 0.875rem; padding: 1rem; background: var(--color-surface-elevated); margin-top: 1.25rem; }
+.menu-points-onboarding .eyebrow { font-size: 0.625rem; letter-spacing: 0.08em; }
+.menu-points-onboarding h2 { font-family: var(--font-body); font-size: 1rem; font-weight: 650; margin: 0.5rem 0 0.3rem; }
+.menu-points-onboarding > p:not(.eyebrow) { font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.45; }
+.menu-points-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.25rem 0.75rem; margin-top: 0.25rem; }
+.menu-points-bottom small { color: var(--color-text-muted); font-size: 0.625rem; }
+.menu-points-link { color: var(--color-primary); display: inline-flex; min-height: var(--touch-min); align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 650; }
 .menu-points-link:hover { color: var(--color-primary-bright); }
-.menu-points-onboarding small { display: block; color: var(--color-text-muted); font-size: 0.6rem; margin-top: var(--space-sm); }
-.menu-endnote { margin: var(--space-xl) 0 var(--space-md); color: var(--color-text-muted); font-size: 0.7rem; text-align: center; }
+.menu-endnote { margin: 1.5rem 0 0; color: var(--color-text-muted); font-size: 0.6875rem; text-align: center; line-height: 1.5; }
+.menu-app .customer-nav { padding-top: 0.5rem; background: var(--color-surface); }
+.menu-app .nav-item { gap: 0.2rem; font-size: 0.6875rem; border-radius: 0.75rem; transition: background-color 160ms, color 160ms; }
+.menu-app .nav-item svg { width: 1.375rem; height: 1.375rem; }
+.menu-app .nav-item:active { background: var(--color-surface-elevated); }
 @media (min-width: 48rem) {
-  .drink-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-xl); align-items: stretch; }
-  .drink-section-heading { margin-top: var(--space-sm); }
+  .drink-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; align-items: stretch; }
+  .drink-featured { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); gap: 0; }
+  .drink-featured .drink-media { height: 100%; min-height: 12rem; aspect-ratio: auto; }
+  .drink-featured .drink-content { padding: 1.5rem; }
   .menu-points-onboarding { max-width: 38rem; }
-  .menu-category-link { padding-inline: var(--space-lg); }
+  .drink-section { padding-top: 1.75rem; }
 }
-@media (prefers-reduced-motion: reduce) { .menu-category-link { transition: none; } }
+@media (min-width: 64rem) {
+  .menu-app .customer-nav { background: var(--color-bg); }
+  .menu-app .nav-item { gap: 0.5rem; font-size: 0.8rem; }
+  .menu-main { padding-top: 0.75rem; }
+}
+@media (prefers-reduced-motion: reduce) { .menu-category-link, .menu-app .nav-item { transition: none; } }

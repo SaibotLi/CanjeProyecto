@@ -1,4 +1,11 @@
 import type { MenuData } from './types'
+import canImage from './assets/can.svg'
+import bottleImage from './assets/bottle.svg'
+import cocktailImage from './assets/cocktail.svg'
+import wineImage from './assets/wine.svg'
+import waterImage from './assets/water.svg'
+import lemonImage from './assets/lemon.svg'
+import specialImage from './assets/special.svg'
 
 // Carta de demostración: no representa productos, precios o disponibilidad reales.
 // Solo bebidas. Sustituir esta fuente por un adaptador de lectura en una futura task.
@@ -12,21 +19,21 @@ export const mockMenu: MenuData = {
     { id: 'soft', name: 'Sin alcohol', slug: 'sin-alcohol', displayOrder: 40 },
   ],
   items: [
-    { id: 'bud', businessId, categoryId: 'beer', name: 'Budweiser', description: 'Lata · 473 ml', price: 6000, isAvailable: true, isFeatured: false, displayOrder: 10 },
-    { id: 'brahma', businessId, categoryId: 'beer', name: 'Brahma', description: 'Lata · 473 ml', price: 4000, isAvailable: true, isFeatured: false, displayOrder: 20 },
-    { id: 'heineken', businessId, categoryId: 'beer', name: 'Heineken', description: 'Botella · 330 ml', price: 7000, isAvailable: true, isFeatured: false, displayOrder: 30 },
-    { id: 'stella', businessId, categoryId: 'beer', name: 'Stella Artois', description: 'Lata · 473 ml', price: 6500, isAvailable: true, isFeatured: false, displayOrder: 40 },
-    { id: 'patagonia', businessId, categoryId: 'beer', name: 'Patagonia Amber Lager', description: 'Botella · 730 ml · para compartir', price: 9500, isAvailable: false, isFeatured: false, displayOrder: 50 },
-    { id: 'special', businessId, categoryId: 'cocktail', name: 'Valhalla Special', description: 'Gin, cítricos y un toque de jengibre. Un trago de muestra con espíritu de la casa.', price: 12000, isAvailable: true, isFeatured: true, displayOrder: 10 },
-    { id: 'gin', businessId, categoryId: 'cocktail', name: 'Gin Tonic', description: 'Gin, tónica y un toque cítrico', price: 10000, isAvailable: true, isFeatured: false, displayOrder: 20 },
-    { id: 'fernet', businessId, categoryId: 'cocktail', name: 'Fernet con cola', description: 'El clásico de la noche', price: 8500, isAvailable: true, isFeatured: false, displayOrder: 30 },
-    { id: 'aperol', businessId, categoryId: 'cocktail', name: 'Aperol Spritz', description: 'Aperol, espumante y soda', price: 11000, isAvailable: true, isFeatured: false, displayOrder: 40 },
+    { id: 'bud', businessId, categoryId: 'beer', name: 'Budweiser', description: 'Lata · 473 ml', price: 6000, imageUrl: canImage, isAvailable: true, isFeatured: false, displayOrder: 10 },
+    { id: 'brahma', businessId, categoryId: 'beer', name: 'Brahma', description: 'Lata · 473 ml', price: 4000, imageUrl: canImage, isAvailable: true, isFeatured: false, displayOrder: 20 },
+    { id: 'heineken', businessId, categoryId: 'beer', name: 'Heineken', description: 'Botella · 330 ml', price: 7000, imageUrl: bottleImage, isAvailable: true, isFeatured: false, displayOrder: 30 },
+    { id: 'stella', businessId, categoryId: 'beer', name: 'Stella Artois', description: 'Lata · 473 ml', price: 6500, imageUrl: canImage, isAvailable: true, isFeatured: false, displayOrder: 40 },
+    { id: 'patagonia', businessId, categoryId: 'beer', name: 'Patagonia Amber Lager', description: 'Botella · 730 ml · para compartir', price: 9500, imageUrl: bottleImage, isAvailable: false, isFeatured: false, displayOrder: 50 },
+    { id: 'special', businessId, categoryId: 'cocktail', name: 'Valhalla Special', description: 'Gin, cítricos y un toque de jengibre. Un trago de muestra con espíritu de la casa.', price: 12000, imageUrl: specialImage, isAvailable: true, isFeatured: true, displayOrder: 10 },
+    { id: 'gin', businessId, categoryId: 'cocktail', name: 'Gin Tonic', description: 'Gin, tónica y un toque cítrico', price: 10000, imageUrl: cocktailImage, isAvailable: true, isFeatured: false, displayOrder: 20 },
+    { id: 'fernet', businessId, categoryId: 'cocktail', name: 'Fernet con cola', description: 'El clásico de la noche', price: 8500, imageUrl: cocktailImage, isAvailable: true, isFeatured: false, displayOrder: 30 },
+    { id: 'aperol', businessId, categoryId: 'cocktail', name: 'Aperol Spritz', description: 'Aperol, espumante y soda', price: 11000, imageUrl: cocktailImage, isAvailable: true, isFeatured: false, displayOrder: 40 },
     { id: 'negroni', businessId, categoryId: 'cocktail', name: 'Negroni', price: 11500, isAvailable: true, isFeatured: false, displayOrder: 50 },
-    { id: 'malbec', businessId, categoryId: 'wine', name: 'Malbec', description: 'Copa · selección de muestra', price: 5500, isAvailable: true, isFeatured: false, displayOrder: 10 },
-    { id: 'white', businessId, categoryId: 'wine', name: 'Sauvignon Blanc', description: 'Copa · selección de muestra', price: 5500, isAvailable: true, isFeatured: false, displayOrder: 20 },
-    { id: 'sparkling', businessId, categoryId: 'wine', name: 'Espumante Extra Brut', description: 'Botella · 750 ml · para compartir', price: 22000, isAvailable: false, isFeatured: false, displayOrder: 30 },
-    { id: 'cola', businessId, categoryId: 'soft', name: 'Gaseosa', description: 'Línea cola · 350 ml', price: 3000, isAvailable: true, isFeatured: false, displayOrder: 10 },
-    { id: 'water', businessId, categoryId: 'soft', name: 'Agua mineral', description: 'Con o sin gas · 500 ml', price: 2500, isAvailable: true, isFeatured: false, displayOrder: 20 },
-    { id: 'lemon', businessId, categoryId: 'soft', name: 'Limonada de menta y jengibre', description: 'Vaso · refrescante y sin alcohol', price: 4500, isAvailable: true, isFeatured: false, displayOrder: 30 },
+    { id: 'malbec', businessId, categoryId: 'wine', name: 'Malbec', description: 'Copa · selección de muestra', price: 5500, imageUrl: wineImage, isAvailable: true, isFeatured: false, displayOrder: 10 },
+    { id: 'white', businessId, categoryId: 'wine', name: 'Sauvignon Blanc', description: 'Copa · selección de muestra', price: 5500, imageUrl: wineImage, isAvailable: true, isFeatured: false, displayOrder: 20 },
+    { id: 'sparkling', businessId, categoryId: 'wine', name: 'Espumante Extra Brut', description: 'Botella · 750 ml · para compartir', price: 22000, imageUrl: bottleImage, isAvailable: false, isFeatured: false, displayOrder: 30 },
+    { id: 'cola', businessId, categoryId: 'soft', name: 'Gaseosa', description: 'Línea cola · 350 ml', price: 3000, imageUrl: canImage, isAvailable: true, isFeatured: false, displayOrder: 10 },
+    { id: 'water', businessId, categoryId: 'soft', name: 'Agua mineral', description: 'Con o sin gas · 500 ml', price: 2500, imageUrl: waterImage, isAvailable: true, isFeatured: false, displayOrder: 20 },
+    { id: 'lemon', businessId, categoryId: 'soft', name: 'Limonada de menta y jengibre', description: 'Vaso · refrescante y sin alcohol', price: 4500, imageUrl: lemonImage, isAvailable: true, isFeatured: false, displayOrder: 30 },
   ],
 }
