@@ -1,0 +1,17 @@
+{
+  "name": "canjeproyect",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Fundación frontend de Valhalla Space",
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @canjeproyect/web dev",
+    "lint": "pnpm --filter @canjeproyect/web lint",
+    "typecheck": "pnpm --filter @canjeproyect/web typecheck",
+    "build": "pnpm --filter @canjeproyect/web build",
+    "preview": "pnpm --filter @canjeproyect/web preview"
+  }
+}

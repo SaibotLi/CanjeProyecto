@@ -1,0 +1,7 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Vite/PWA necesita el binario de esbuild; el resto de scripts siguen bloqueados.
+allowBuilds:
+  esbuild: true
