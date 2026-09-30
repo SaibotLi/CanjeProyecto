@@ -14,6 +14,8 @@ export interface MenuItem {
   price: number
   imageUrl?: string
   imageAlt?: string
+  /** Recorte transparente de producto: muestra el envase completo sobre la card. */
+  imagePresentation?: 'cutout'
   isAvailable: boolean
   isFeatured: boolean
   displayOrder: number

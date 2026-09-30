@@ -6,7 +6,7 @@ export function MenuItemCard({ item, currencyPerPoint }: { item: MenuItem; curre
   const [failedImageUrl, setFailedImageUrl] = useState<string>()
   const hasImage = item.imageUrl && item.imageUrl !== failedImageUrl
   return <article className={['drink-item', item.isFeatured ? 'drink-featured' : '', !item.isAvailable ? 'drink-unavailable' : ''].filter(Boolean).join(' ')}>
-    <div className="drink-media">
+    <div className={item.imagePresentation === 'cutout' ? 'drink-media drink-media-cutout' : 'drink-media'}>
       {hasImage ? <img className="drink-image" src={item.imageUrl} alt={item.imageAlt ?? `Ilustración de muestra para ${item.name}`} loading="lazy" decoding="async" width={item.isFeatured ? 640 : 80} height={item.isFeatured ? 360 : 80} onError={() => setFailedImageUrl(item.imageUrl)} /> : <div className="drink-image-placeholder" role="img" aria-label={`Sin imagen de ${item.name}`}><svg viewBox="0 0 80 80" aria-hidden="true"><path d="M24 19h32l-5 42H29zM29 32h22M39 32l7-20" /><path d="M34 40h9v9h-9z" /></svg></div>}
       {item.isFeatured && <p className="featured-label"><span aria-hidden="true">★</span> RECOMENDADO</p>}
     </div>

@@ -23,7 +23,7 @@ export default defineConfig({
         icons: [{ src: '/icons/app.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' }],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,woff2,webp}'],
+        globPatterns: ['**/*.{js,css,html,svg,woff2,webp,png}'],
         navigateFallback: 'index.html',
         navigateFallbackDenylist: [/^\/api\//, /^\/auth\//],
         runtimeCaching: [],
