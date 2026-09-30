@@ -41,7 +41,7 @@ Las decisiones `CLOSED` no cambian sin una propuesta documentada y aprobación. 
 | P-004 | Composición y copy de los skeletons actuales. |
 | P-005 | Catálogo, precios y disponibilidad mock de Carta, hasta recibir información del negocio. |
 | P-006 | Copia WebP lossless para headers; master conservado. Favicon/app icon continúa pendiente. |
-| P-007 | Composición Task 02B: thumbnails 72 px, cards compactas, featured 16:9 mobile, onboarding breve y ajustes de bottom nav. Pendiente inspección final del nuevo deployment. |
+| P-007 | Composición Task 02B: thumbnails 72 px, cards compactas, featured 16:9 mobile, onboarding breve y bottom nav. Inspección del deployment superada el 30/09/2026; refinamientos con catálogo real/negocio siguen posibles. |
 | P-008 | Siete ilustraciones SVG locales originales y fallback neutro; no son fotos ni imágenes oficiales del catálogo. Reemplazo por assets definitivos pendiente. |
 
 ## OPEN
@@ -66,4 +66,4 @@ Todo cambio de una decisión cerrada incluye problema, alternativas, impacto en 
 
 La dirección tipográfica de Task 02 se sustituye, a pedido del usuario, por una Carta app-first con apoyo visual. El baseline público fue inspeccionado en 390/360/430/1280 px el 30/09/2026; no sirve para validar los cambios locales posteriores. Oswald continúa provisional y se usa con moderación, sin cambiar Inter ni la paleta aprobada. Los contratos MenuCategory/MenuItem/MenuData, displayOrder, mocks económicos y hook de categorías se conservan. Se elimina únicamente la prop visual `number` de MenuSection, porque deja de existir esa numeración.
 
-No hay aprobación visual final: hace falta un nuevo deployment autorizado por el usuario y sus capturas. No se realizaron commit, push, deployment ni cambios de backend en Task 02B.
+Task 02B CERRADA el 30/09/2026 tras validar el deployment publicado por el usuario en 390/360/430/768/1280 px, con capturas reales, navegación, teclado/foco, estados y consola sin errores/warnings. No se requirieron correcciones de código ni otro deployment. Safe areas no nulas y ciclo de actualización de PWA instalada quedan como comprobaciones de producción; Oswald y recursos de muestra continúan provisionales. No se realizaron commit, push, deployment propio ni cambios de backend en Task 02B.

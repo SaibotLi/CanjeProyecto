@@ -67,7 +67,9 @@ Todos los productos, precios y disponibilidades actuales son ilustrativos. Oswal
 
 El baseline público previo al rediseño fue inspeccionado realmente el 30/09/2026 en 390 × 844, 360 × 844, 430 × 844 y 1280 × 900 px en https://valhalla-green.vercel.app/. Se confirmaron numeración editorial, introducción dominante, ausencia de imágenes y featured basado principalmente en borde/texto. Se preservan las fortalezas de jerarquía precio/puntos, sticky categories, estado agotado y bottom navigation.
 
-La implementación local de Task 02B NO está visualmente aprobada ni publicada. El deployment inspeccionado es anterior a estos cambios. Tras un nuevo deployment deben inspeccionarse 390, 360, 430, 768 y 1280 px; guardar capturas reales de primera pantalla, featured, onboarding y agotados; revisar overflow, legibilidad, foco, sticky/active categories, safe area y consola. No usar capturas del baseline como evidencia del rediseño ni declarar completa la Task antes de esta revisión.
+Task 02B fue cerrada tras revisar el deployment nuevo el 30/09/2026: primero 390 × 844, luego 360/430, 768 × 1024 y 1280 × 900 px. Se verificó el build `index-J4-CB4a8.js` y se guardaron capturas reales de primera pantalla, featured, onboarding, agotados, fallback y foco. La composición app-first, densidad y jerarquía superaron la revisión del agente sin correcciones adicionales. No se detectó overflow horizontal de página en ningún tamaño ni errores/warnings de consola; sticky/active categories y activación con teclado funcionan.
+
+Límites: navegador con safe-area efectiva 0; se verificaron viewport-fit y env() de nav/footer, no un notch/home indicator físico. Reduced motion se comprobó en código, no con una preferencia de navegador emulada. Recursos y Oswald siguen provisionales para producción. Inicialmente una pestaña cargó la versión anterior de la PWA; reabrir la pestaña permitió ver el nuevo build sin cambiar permisos. La experiencia de actualización de una instalación existente deberá revisarse antes de producción. Esta aprobación del prototipo no equivale a aprobación comercial de marca ni readiness de producción.
 
 ## Theming futuro
 
