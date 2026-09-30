@@ -54,10 +54,6 @@
 .menu-points-link { color: var(--color-primary); display: inline-flex; min-height: var(--touch-min); align-items: center; gap: 0.5rem; font-size: 0.75rem; font-weight: 650; }
 .menu-points-link:hover { color: var(--color-primary-bright); }
 .menu-endnote { margin: 1.5rem 0 0; color: var(--color-text-muted); font-size: 0.6875rem; text-align: center; line-height: 1.5; }
-.menu-app .customer-nav { padding-top: 0.5rem; background: var(--color-surface); }
-.menu-app .nav-item { gap: 0.2rem; font-size: 0.6875rem; border-radius: 0.75rem; transition: background-color 160ms, color 160ms; }
-.menu-app .nav-item svg { width: 1.375rem; height: 1.375rem; }
-.menu-app .nav-item:active { background: var(--color-surface-elevated); }
 @media (min-width: 48rem) {
   .drink-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; align-items: stretch; }
   .drink-featured { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); gap: 0; }
@@ -67,8 +63,6 @@
   .drink-section { padding-top: 1.75rem; }
 }
 @media (min-width: 64rem) {
-  .menu-app .customer-nav { background: var(--color-bg); }
-  .menu-app .nav-item { gap: 0.5rem; font-size: 0.8rem; }
   .menu-main { padding-top: 0.75rem; }
 }
-@media (prefers-reduced-motion: reduce) { .menu-category-link, .menu-app .nav-item { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .menu-category-link { transition: none; } }

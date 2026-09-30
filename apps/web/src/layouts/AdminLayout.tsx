@@ -1,6 +1,6 @@
 import { Link, Outlet } from 'react-router-dom'
 import { PreviewNotice } from '../components/PreviewNotice'
-import valhallaLogo from '../assets/brand/valhalla/valhalla-logo-web.webp'
+import valhallaLogo from '../assets/brand/valhalla/valhalla-logo-header.webp'
 
 export function AdminLayout() {
   return <div className="admin-shell">

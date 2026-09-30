@@ -1,7 +1,7 @@
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { Navigation } from '../components/Navigation'
 import { PreviewNotice } from '../components/PreviewNotice'
-import valhallaLogo from '../assets/brand/valhalla/valhalla-logo-web.webp'
+import valhallaLogo from '../assets/brand/valhalla/valhalla-logo-header.webp'
 
 export function CustomerLayout() {
   const isMenu = useLocation().pathname === '/'

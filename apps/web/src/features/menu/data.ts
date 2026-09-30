@@ -1,6 +1,6 @@
 import type { MenuData } from './types'
 import canImage from './assets/can.svg'
-import brahmaImage from '../../assets/menu/brahma lata.webp'
+import brahmaImage from './assets/brahma-lata.webp'
 import bottleImage from './assets/bottle.svg'
 import cocktailImage from './assets/cocktail.svg'
 import wineImage from './assets/wine.svg'
