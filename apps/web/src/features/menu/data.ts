@@ -1,13 +1,9 @@
 import type { MenuData } from './types'
 import canImage from './assets/can.svg'
-<<<<<<< HEAD
-import brahmaImage from './assets/brahma-lata.webp'
-=======
-import brahmaImage from '../../assets/menu/brahma-cutout.png'
-import budweiserImage from '../../assets/menu/budweiser-cutout.png'
-import cocaColaImage from '../../assets/menu/cocacola-cutout.png'
-import fernetImage from '../../assets/menu/fernet-cutout.png'
->>>>>>> b578d7e55e56609004143973276d7e98d9517f9a
+import brahmaImage from './assets/brahma-cutout.png'
+import budweiserImage from './assets/budweiser-cutout.png'
+import cocaColaImage from './assets/cocacola-cutout.png'
+import fernetImage from './assets/fernet-cutout.png'
 import bottleImage from './assets/bottle.svg'
 import cocktailImage from './assets/cocktail.svg'
 import wineImage from './assets/wine.svg'
