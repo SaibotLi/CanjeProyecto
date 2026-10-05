@@ -2,6 +2,7 @@ packages:
   - apps/*
   - packages/*
 
-# Vite/PWA necesita el binario de esbuild; el resto de scripts siguen bloqueados.
+# Solo herramientas revisadas: esbuild para Vite/PWA y CLI oficial de Supabase.
 allowBuilds:
   esbuild: true
+  supabase: true

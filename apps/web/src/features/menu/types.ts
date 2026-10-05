@@ -1,4 +1,4 @@
-/** Contratos de lectura del menú. price se expresa en pesos ARS enteros. */
+/** Contratos de lectura del menú. price se expresa en pesos ARS, con centavos. */
 export interface MenuCategory {
   id: string
   name: string
@@ -23,6 +23,7 @@ export interface MenuItem {
 export interface MenuData {
   categories: MenuCategory[]
   items: MenuItem[]
-  /** Regla exclusiva de la vista demo; no concede puntos ni autoriza operaciones. */
+  /** Estimación visual con la regla del negocio; nunca concede puntos. */
   previewCurrencyPerPoint: number
+  pointsEnabled?: boolean
 }

@@ -1,5 +1,10 @@
 # UI Guide — Valhalla
 
+QA 2H preserva el diseño aprobado; sólo alinea el input display_name a 80 con helper compartido
+y copy de límite. SSR verifica labels/submit/guards/status, código conserva foco/touch/safe areas.
+No capturas nuevas ni certificación visual adicional. Checklist humano por tamaños en
+[TASK_2H_WALKTHROUGH](TASK_2H_WALKTHROUGH.md); 2F aprobada por el usuario.
+
 ## Dirección visual actual
 
 La interfaz representa una noche de Valhalla: contraste alto, amarillo intenso, negro y superficies negro-azuladas. El lenguaje es moderno, underground e industrial. Se evitan clichés vikingos, fuego, calaveras y estética gamer.
@@ -39,7 +44,7 @@ La Carta se diseña primero para 390 × 844 px y se comprueba a 360 y 430 px. La
 
 ## Componentes actuales
 
-Header de marca compacto “VALHALLA / Carta · Villaguay”, navegación customer, aviso de muestra, categorías sticky en pills, cards visuales de bebidas, destacado con imagen, agotado y onboarding compacto Valhalla Points. Puntos, premios, perfil/QR placeholder y admin conservan sus skeletons. Los ajustes al shell se limitan a la ruta Carta mediante `.menu-app`.
+Header de marca compacto “VALHALLA / Carta · Villaguay”, navegación customer, aviso de muestra, categorías sticky en pills, cards visuales de bebidas, destacado con imagen, agotado y onboarding compacto Valhalla Points. Puntos/premios siguen demo; profile/Auth reales desde 2E, Admin Carta desde 2F. No QR customer. Los ajustes de Carta usan `.menu-app`.
 
 ## Estados y accesibilidad
 
@@ -59,7 +64,39 @@ Las imágenes son opcionales, locales, con alt que declara su carácter ilustrat
 
 `isFeatured` usa imagen protagonista 16:9 en móvil, badge amarillo “★ RECOMENDADO” sobre la imagen y contenido debajo. Desde 768 px ocupa el ancho de la grilla con composición imagen/contenido lado a lado; no usa carrusel. Funciona también con el fallback sin imagen. `isAvailable=false` conserva el producto con etiqueta textual AGOTADO, thumbnail menos saturado y precio/puntos secundarios. La disponibilidad no se comunica solo mediante opacidad. No existe un botón de compra ni control de cantidad.
 
-Los puntos se calculan visualmente por `floor(price / 1000)`, sin campo manual de puntos y sin acreditación. La pieza “Cada consumo suma” aparece después de Cervezas, explica brevemente el beneficio, conserva la regla marcada como preview y enlaza a /points. Sus márgenes y tipografía evitan una landing dentro de la Carta.
+En 2D los puntos se estiman por floor(price / loyalty_settings.currency_per_point real), sin campo manual/acreditación. points_enabled=false oculta badges/onboarding. “Cada consumo suma” aparece después de la primera categoría publicada (Cervezas en seed), aclara que aún no acredita/canjea y enlaza a /points demo. Dos de 6500 muestran +6 cada una, sin prometer suma de badges como total.
+
+Task 2D conserva cards/header/paleta/tipografía/navigation/sticky responsive. ARS conserva
+centavos, imágenes URL/null/onError con fallback neutral; carga/error/vacío sin mocks.
+Seed DEMO, no comercial. **2D aprobada visualmente por el usuario el 05/10/2026**: Carta
+correcta/diseño conservado/datos DB visibles/sin bloqueantes. No atribuir al agente capturas
+ni al usuario checks adicionales individuales no declarados. Evidencia histórica conservada.
+
+Auth 2E reutiliza tokens Valhalla/Inter/Oswald, columna max30rem, inputs16px y touch44px,
+labels visibles/autocomplete/password manager, errores seguros role alert y estados status.
+CSS separado features/auth/auth.css; sin rediseño Carta. Profile real, avisos diferencian
+cuenta de mocks puntos/rewards. TOTP QR/secret efímeros no capturables para documentación.
+Overflow/email/secret wrap y spacing previstos en código. **2E COMPLETADA/APROBADA por el usuario
+en prompt 2F**: login/register/profile/recovery/navegación/responsive/tabs/rutas y comportamiento
+general. No atribuir validación individual de QR/console/PWA instalada no declarada; SSR no PASS visual.
+
+Admin 2F conserva branding y tokens, navegación simple Panel/Categorías/Productos/Mi cuenta,
+listas de activos/inactivos y formularios inline, sin modales ni herramientas económicas.
+Inputs 16px, labels, fieldset disabled, aria-busy, estados alert/status, foco del editor y
+controles táctiles. Precios ARS text input con inputMode decimal y ejemplo 6500,50.
+Estado inactivo explícito, readonly sin botón de reactivación. Cuenta customer no ve enlace
+administrativo; ruta manual muestra Sin acceso. Preview local efímera al elegir archivo;
+upload sólo al guardar, aviso público/orphan y retry explícito. Sin media manager ni DELETE.
+CSS scoped features/admin/admin.css, no rediseño de Carta. **2F COMPLETADA/APROBADA por el usuario**:
+Admin/membership, catálogo/centavos/uploads, inactivo read-only y customer sin permisos bloqueado.
+Eso no certifica individualmente 390×844/360/430/768/1280, teclado/foco/overflow/safe areas/consola.
+Platform mínimo A-S2-006 APPROVED: /platform muestra sólo negocios, nombre/slug/estado,
+sin edición ni herramientas globales. RPC false → Sin acceso; true+AAL1 → “Se requiere
+verificación en dos pasos” y /auth/mfa?continue=platform; true+AAL2 → lista read-only.
+Tras verificar MFA aparece enlace fijo de regreso a Platform, sin redirects arbitrarios.
+Error/assurance desconocida fail-closed; loading/refetch oculta lista global. Perfil ofrece
+enlace sólo con capacidad actual comprobada. Platform aprobado por el usuario:
+funciona, AAL1 requiere MFA, AAL2 accede y vista sigue read-only.
 
 Todos los productos, precios y disponibilidades actuales son ilustrativos. Oswald continúa como current display candidate.
 

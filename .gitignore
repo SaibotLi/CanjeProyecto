@@ -9,8 +9,13 @@ coverage/
 .env.*
 !.env.example
 supabase/.temp/
+supabase/.branches/
+# Local credentials, dumps and key material (never migration SQL)
+*.pem
+*.key
+*.dump
+*.backup
 
 # Editor and operating-system files
 .DS_Store
 Thumbs.db
-

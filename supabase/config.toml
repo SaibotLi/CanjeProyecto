@@ -1,0 +1,71 @@
+# Local-only identifier, NOT a hosted Project Ref. CLI 2.119.0.
+# Read docs/SUPABASE_WORKFLOW.md before changing environments.
+project_id = "canjeproyect"
+
+[api]
+enabled = true
+port = 54321
+# private is never a Data API schema or extra search path.
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+# Application access has explicit grants in the Task 2C migration.
+auto_expose_new_tables = false
+
+[db]
+port = 54322
+shadow_port = 54320
+health_timeout = "2m"
+# Verify hosted major version before future environment setup.
+major_version = 17
+
+[db.migrations]
+enabled = true
+schema_paths = []
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[studio]
+enabled = true
+port = 54323
+api_url = "http://127.0.0.1"
+
+# CLI 2.119.0 uses local_smtp (older docs call this inbucket).
+[local_smtp]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+file_size_limit = "50MiB"
+# No application bucket in Task 2A.
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:5173"
+additional_redirect_urls = [
+  "http://127.0.0.1:5173/auth/callback",
+  "http://127.0.0.1:5173/auth/recovery",
+  "http://localhost:5173/auth/callback",
+  "http://localhost:5173/auth/recovery",
+]
+# Exact LOCAL SPA redirects; no hosted wildcard. Mailpit captures real email links.
+# No credentials, personal identity, OAuth or custom claims here.
+
+[auth.email]
+enable_confirmations = true
+
+# Official TOTP for LOCAL security tests and the Task 2E frontend.
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
+
+[edge_runtime]
+enabled = false
+# No Edge Functions in Task 2A; enable when a reviewed task requires them.
+
+[analytics]
+enabled = false
+# Local log analytics is not required for the schema-foundation sprint.

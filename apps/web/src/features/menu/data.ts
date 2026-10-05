@@ -1,3 +1,4 @@
+// Historical visual reference only. Public MenuPage never imports this module.
 import type { MenuData } from './types'
 import canImage from './assets/can.svg'
 import brahmaImage from './assets/brahma-cutout.png'

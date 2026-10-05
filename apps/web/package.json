@@ -8,11 +8,20 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --max-warnings 0"
+    "lint": "eslint . --max-warnings 0",
+    "test:env": "node --test tests/env.test.mjs",
+    "test:qa": "node --import ./tests/register-typescript.mjs --test tests/sprint2-qa.test.mjs",
+    "test:menu": "node --import ./tests/register-typescript.mjs --test tests/menu-data.test.mjs",
+    "test:menu:local": "node --import ./tests/register-typescript.mjs --test tests/menu-local.test.mjs",
+    "test:admin": "node --import ./tests/register-typescript.mjs --test tests/authority-admin.test.mjs",
+    "test:admin:local": "node --import ./tests/register-typescript.mjs --test tests/admin-local.test.mjs",
+    "test:auth": "node --import ./tests/register-typescript.mjs --test tests/auth-state.test.mjs",
+    "test:auth:local": "node --import ./tests/register-typescript.mjs --test --test-concurrency=1 tests/auth-flow-proof.test.mjs tests/auth-local.test.mjs"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.2.0",
     "@fontsource-variable/oswald": "^5.2.0",
+    "@supabase/supabase-js": "2.117.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.0"

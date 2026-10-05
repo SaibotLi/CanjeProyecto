@@ -1,0 +1,23 @@
+/* Auth only: reuse Valhalla tokens without changing the approved Carta. */
+.auth-panel { width: min(100%, 30rem); margin: 0 auto; display: grid; gap: 1rem; min-width: 0; }
+.auth-panel h1 { font-size: clamp(2rem, 8vw, 3rem); }
+.auth-panel h2 { font-size: 1.5rem; }
+.auth-form { display: grid; gap: 0.65rem; margin-top: 0.5rem; min-width: 0; }
+.auth-form label { font-size: 0.85rem; font-weight: 600; }
+.auth-form input, .auth-form select { width: 100%; min-width: 0; min-height: var(--touch-min); padding: 0.8rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface); color: var(--color-text); font: inherit; font-size: 1rem; }
+.auth-form .button-primary { width: 100%; margin-top: 0.5rem; }
+.auth-status { font-size: 0.85rem; color: var(--color-text-muted); padding: 0.8rem; background: var(--color-surface); border-radius: var(--radius-sm); overflow-wrap: anywhere; }
+.auth-error { color: #ffb6a7; border-left: 2px solid #ffb6a7; }
+.auth-links { display: grid; gap: 0.25rem; }
+.auth-links a, .auth-enrollment summary { min-height: var(--touch-min); display: flex; align-items: center; text-decoration: underline; text-underline-offset: 4px; font-size: 0.85rem; }
+.auth-email, .auth-secret { overflow-wrap: anywhere; }
+.auth-security { border-top: 1px solid var(--color-border); padding-top: 1rem; display: grid; gap: 0.75rem; }
+.auth-enrollment { display: grid; gap: 1rem; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1rem; }
+.auth-mfa-qr { width: min(100%, 13.75rem); height: auto; background: white; padding: 0.5rem; justify-self: center; border-radius: var(--radius-sm); }
+.auth-secret { display: block; user-select: all; font-size: 0.95rem; }
+.auth-factors { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.75rem; }
+.auth-factors li { display: grid; gap: 0.75rem; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0.8rem; }
+.auth-factors li > div:first-child { display: grid; gap: 0.25rem; overflow-wrap: anywhere; }
+.auth-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.auth-actions p { flex-basis: 100%; }
+.auth-logout { margin-top: 0.5rem; }

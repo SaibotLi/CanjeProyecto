@@ -25,7 +25,9 @@ export default defineConfig({
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,woff2,webp,png}'],
         navigateFallback: 'index.html',
-        navigateFallbackDenylist: [/^\/api\//, /^\/auth\//],
+        // /auth/* are SPA pages, not Auth API responses. API/private responses
+        // are never runtime-cached; only the static application shell is cached.
+        navigateFallbackDenylist: [/^\/api\//],
         runtimeCaching: [],
         cleanupOutdatedCaches: true,
       },

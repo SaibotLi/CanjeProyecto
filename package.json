@@ -5,13 +5,34 @@
   "description": "Fundación frontend de Valhalla Space",
   "packageManager": "pnpm@11.19.0",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.13.0"
   },
   "scripts": {
     "dev": "pnpm --filter @canjeproyect/web dev",
     "lint": "pnpm --filter @canjeproyect/web lint",
     "typecheck": "pnpm --filter @canjeproyect/web typecheck",
     "build": "pnpm --filter @canjeproyect/web build",
-    "preview": "pnpm --filter @canjeproyect/web preview"
+    "preview": "pnpm --filter @canjeproyect/web preview",
+    "test:menu": "pnpm --filter @canjeproyect/web test:menu",
+    "test:menu:local": "pnpm --filter @canjeproyect/web test:menu:local",
+    "test:admin": "pnpm --filter @canjeproyect/web test:admin",
+    "test:admin:local": "pnpm --filter @canjeproyect/web test:admin:local",
+    "test:auth": "pnpm --filter @canjeproyect/web test:auth",
+    "test:auth:local": "pnpm --filter @canjeproyect/web test:auth:local",
+    "test:qa": "pnpm --filter @canjeproyect/web test:qa",
+    "supabase:audit:secrets": "node supabase/scripts/sprint2-secret-audit.mjs",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:status": "supabase status",
+    "supabase:test:db": "node supabase/scripts/database-tests.mjs",
+    "supabase:test:smoke": "node --test supabase/tests/local-smoke.test.mjs",
+    "supabase:test:authz": "node --test supabase/tests/authorization-rest.test.mjs",
+    "supabase:test:storage": "node --test supabase/tests/storage-rest.test.mjs",
+    "supabase:test:storage:orphan-probe": "node --test supabase/tests/orphan-delete-probe.test.mjs",
+    "supabase:types": "node supabase/scripts/database-types.mjs --write",
+    "supabase:types:check": "node supabase/scripts/database-types.mjs --check"
+  },
+  "devDependencies": {
+    "supabase": "2.119.0"
   }
 }

@@ -1,0 +1,12 @@
+{
+  "purpose": "Task 2C logical actors; REST suite creates ephemeral real Auth accounts. No credentials or persistent identities.",
+  "identities": [
+    { "label": "Customer A", "adminBusinessIds": [] },
+    { "label": "Customer B", "adminBusinessIds": [] },
+    { "label": "Admin Valhalla", "adminBusinessIds": ["a11a0000-0000-4000-8000-000000000001"] },
+    { "label": "Admin B", "adminBusinessIds": ["b22b0000-0000-4000-8000-000000000002"] },
+    { "label": "Admin Both", "adminBusinessIds": ["a11a0000-0000-4000-8000-000000000001", "b22b0000-0000-4000-8000-000000000002"] },
+    { "label": "Platform", "adminBusinessIds": [], "platform": true, "mfa": true },
+    { "label": "Customer MFA", "adminBusinessIds": [], "mfa": true }
+  ]
+}
