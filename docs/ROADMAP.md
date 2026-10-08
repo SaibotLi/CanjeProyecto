@@ -4,13 +4,14 @@ La numeración es única y expresa dependencias, no fechas.
 
 ## Estado consolidado — 08/10/2026
 
-**Hosted Foundation H1/H2/H3: COMPLETADA. Cierre final Sprint 2: EN VALIDACIÓN.**
+**Sprint 2 + Hosted Foundation: COMPLETADOS.**
 **External Pilot Ready: NO.**
 
 Sprint 2 LOCAL READY; H1 HOSTED FOUNDATION VERIFIED; H2 AUTH + VALHALLA BOOTSTRAP
 COMPLETED; H3 HOSTED FRONTEND CONNECTED en https://valhallapp.vercel.app.
 Auth, perfil, Business Admin y Platform read-only con MFA/AAL2 operativos. Catálogo Hosted
-vacío; sin economía real. El cierre versiona rewrite SPA, decisiones/documentación Hosted
+con categoría Vinos y sin productos; Carta vacía controlada. Sin economía real.
+El cierre versiona rewrite SPA, decisiones/documentación Hosted
 y copy correcta, sin cambiar las cinco migrations ni permisos.
 [Cierre vigente](SPRINT_2_CLOSEOUT.md); las entregas por Task abajo son históricas.
 
@@ -21,9 +22,9 @@ Pendientes operativos antes de invitar externos, no fallos de Sprint 2:
 - Validaciones finales de operación: runbook MFA/recovery, backups/rollback, PWA física y smoke final.
 - Google OAuth opcional; requiere tarea propia y no es gate del email/password existente.
 
-**Sprint 3 pausado hasta resolver y cerrar la regresión temporal de Admin.**
-Corrección frontend desplegada y edición prolongada PASS; guardado real pendiente sobre
-catálogo comercial aprobado. [Causa raíz y validación](ADMIN_CATALOG_LIFECYCLE_FIX.md).
+**SPRINT 3 READY TO PLAN.** La regresión temporal de Admin quedó corregida y verificada:
+edición prolongada, revalidación, guardado real y restauración PASS; deployment Git activo.
+[Causa raíz y validación](ADMIN_CATALOG_LIFECYCLE_FIX.md).
 Sin implementación automática ni nuevas tablas/migrations.
 
 ## Sprint 0 — Foundation

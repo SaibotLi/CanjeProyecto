@@ -9,7 +9,7 @@ Fundación frontend de una futura plataforma SaaS de fidelización para comercio
 **SPRINT 2 + HOSTED FOUNDATION CLOSED — SPRINT 3 READY TO PLAN.**
 H1 foundation, H2 Auth/bootstrap real y H3 conexión HTTPS completados en
 https://valhallapp.vercel.app. Perfil/Admin/Platform MFA read-only operativos, catálogo
-comercial vacío. **External Pilot Ready: NO**: custom SMTP/dominio autenticado, catálogo
+sin productos (categoría Vinos existente). **External Pilot Ready: NO**: custom SMTP/dominio autenticado, catálogo
 real y validaciones operativas finales pendientes. Google OAuth opcional; economía no implementada.
 [Cierre vigente](docs/SPRINT_2_CLOSEOUT.md) y [roadmap](docs/ROADMAP.md).
 

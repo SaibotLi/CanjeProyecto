@@ -1,13 +1,14 @@
 # Sprint 2 + Hosted — cierre definitivo
 
-08/10/2026 (America/Buenos_Aires). **CIERRE FINAL EN VALIDACIÓN.**
-**Sprint 3 pausado. External Pilot Ready: NO.**
+08/10/2026 (America/Buenos_Aires). **SPRINT 2 + HOSTED FOUNDATION CLOSED.**
+**SPRINT 3 READY TO PLAN. External Pilot Ready: NO.**
 
 La foundation H1/H2/H3 aprobada se conserva. El bug temporal de Admin detectado después
-del smoke H3 está corregido y desplegado como candidato: edición real de casi siete
-minutos PASS. Falta comprobar guardado real sobre catálogo comercial aprobado.
+del smoke H3 está corregido y publicado: edición de casi siete minutos, revalidación,
+guardado real después de tres minutos, persistencia y restauración PASS. El commit
+funcional ca71f52 tiene deployment Git Production READY y activo.
 [Causa raíz y regresión](ADMIN_CATALOG_LIFECYCLE_FIX.md).
-No iniciar Sprint3 hasta completar guardado Hosted y verificar deployment final.
+No se inició Sprint3; su planificación requiere un nuevo encargo.
 
 Este documento reemplaza el estado exclusivamente LOCAL del cierre original. La evidencia
 histórica de 2H y sus 1.257 comprobaciones permanece en
@@ -39,7 +40,8 @@ El dominio anterior de A-H2-001 fue corregido expresamente durante H3; no usarlo
 - Valhalla Space / valhalla-space / ARS / America/Argentina/Cordoba / activo.
   Loyalty settings1000.00/true sólo preview; membership Business Admin independiente
   de Platform. Platform exige fila actual + MFA/AAL2 para global READ, sin global writes.
-- Catálogo comercial y objetos Storage vacíos en el último inventario; Carta controlada.
+- Catálogo observado durante la validación final: categoría Vinos existente, sin productos;
+  Carta vacía controlada. El cambio reversible de orden usado para validar se restauró.
   No productos, precios o imágenes ficticios, seed Hosted ni economía real.
 - Storage menu-images PUBLIC, límites/policies aprobados; app DELETE/overwrite/move/copy
   DENY. Orphans posibles aceptados; GC futuro coordinado, no cleanup automático.

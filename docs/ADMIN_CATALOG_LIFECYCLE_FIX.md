@@ -1,7 +1,7 @@
 # Admin — corrección del ciclo de vida del catálogo
 
-08/10/2026. Corrección frontend verificada con edición prolongada Hosted; el cierre
-definitivo depende de comprobar el guardado real después de esperar.
+08/10/2026. **CORRECCIÓN VERIFICADA EN HOSTED.** Edición prolongada, revalidación,
+guardado real, persistencia y restauración comprobados. Commit funcional: ca71f52.
 
 ## Causa raíz reproducida
 
@@ -61,10 +61,18 @@ montado, el borrador intacto, el fieldset habilitado y sin el error inicial. Tam
 conservó el borrador durante «Actualizar datos y permisos»; las operaciones se pausaron
 sólo mientras se comprobaba acceso. El borrador de diagnóstico no fue guardado.
 
-En esta validación el catálogo visible no contenía categorías ni productos. El guardado
-real requiere identificar un registro existente o recibir datos comerciales aprobados;
-no se crearon productos/categorías ficticios para completar esa comprobación.
+Al inicio no había registros visibles; luego apareció una categoría existente, Vinos.
+Sobre ese registro se dejó un cambio de orden 0 → 1 durante 182.197 ms, incluyendo
+revalidación manual. Guardado confirmado, recarga completa y orden 1 persistido PASS.
+Se restauró 1 → 0 y otra recarga confirmó el valor original. No se creó ninguna categoría,
+producto o imagen ficticia; el borrador de diagnóstico anterior fue descartado.
 
-La validación Hosted prolongada, guardado sobre catálogo comercial aprobado y deployment
-posterior al push se registran en la evidencia final del cierre. No se afirma un guardado
-real hasta observar su persistencia. No nuevos productos ficticios o modificación backend.
+El push de ca71f52 generó automáticamente un deployment Git Production READY y activo
+en valhallapp.vercel.app, comprobando SHA y URL del deployment detrás del alias. Su código
+frontend coincide con los 14 archivos del candidato validado. Ocho rutas HTTPS/bundle
+PASS; consola de la pestaña: cero errores/advertencias. Platform sigue mostrando sólo
+READ global protegido. No se amplió autoridad ni se modificó backend.
+
+La evidencia final incluye capturas antes/después, tiempos reales y comprobaciones de
+persistencia/restauración. Catálogo actual: categoría Vinos, sin productos observados;
+Carta vacía controlada. Sprint3 no se inició; SMTP mantiene el gate para usuarios externos.
