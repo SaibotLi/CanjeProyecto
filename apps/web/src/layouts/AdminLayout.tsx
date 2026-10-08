@@ -11,6 +11,6 @@ export function AdminLayout() {
       {!business?.isActive && <p className="admin-readonly" role="status">Negocio inactivo · Sólo lectura. La reactivación requiere un canal privilegiado; no se realiza desde este panel.</p>}
       {authority.checking && <p role="status" className="muted">Actualizando permisos…</p>}
       <Outlet /></main>
-    <footer className="site-footer">Administración real LOCAL · Sin operaciones de puntos o canjes</footer>
+    <footer className="site-footer">Administración de Carta · Sin operaciones de puntos o canjes</footer>
   </div>
 }

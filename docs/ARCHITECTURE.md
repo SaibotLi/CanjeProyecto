@@ -1,5 +1,19 @@
 # Architecture — CanjeProyect
 
+## Estado consolidado — 08/10/2026
+
+Admin añade store de catálogo frontend con deadline por request y cache de display del
+mismo dueño, separado de la autoridad vigente. Refresh/error recuperable conserva el
+editor; permisos desconocidos pausan writes. [Regresión temporal](ADMIN_CATALOG_LIFECYCLE_FIX.md).
+
+Sprint 2 + H1/H2/H3 completados. Frontend HTTPS https://valhallapp.vercel.app conectado a
+Supabase Hosted liojmtsopplgzderrrqi. Mismo cliente browser y arquitectura aprobada;
+Production sólo URL/publishable key, raíz Vercel apps/web, Vite/Node24.x y rewrite SPA
+versionado en apps/web/vercel.json. Auth/profile/Admin/Platform MFA read-only operativos.
+Catálogo real vacío; puntos por producto sólo estimativos y /points-/rewards demostrativos.
+No economía, tablas nuevas o permisos nuevos. SMTP custom/dominio bloquean piloto externo.
+[Cierre vigente](SPRINT_2_CLOSEOUT.md). Secciones de Tasks siguientes describen historia LOCAL.
+
 ## Estado de cierre LOCAL 2H
 
 2A/B/C/G/D/E/F aprobadas por el usuario. 2H integra y revalida las capas existentes sin
@@ -33,7 +47,7 @@ No se mantienen carpetas vacías. `packages/domain` queda reservado para reglas 
 ## Carta Digital — fuente actual Task 2D
 
 ```text
-Supabase LOCAL / businesses.slug=valhalla-space
+Supabase (Hosted en Production; LOCAL sólo desarrollo) / businesses.slug=valhalla-space
   → publicMenuQuery (publicación explícita, relaciones tenant, un snapshot SQL)
   → menuMapper (DB → MenuData, orden displayOrder/id, oculta categorías vacías)
   → usePublicMenu (loading / success / empty / error / not-found)

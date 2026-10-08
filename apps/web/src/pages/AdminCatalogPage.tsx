@@ -12,7 +12,7 @@ export function AdminCatalogPage({ section }: { section: 'categories' | 'items' 
   const editor = useRef<HTMLDivElement>(null)
   useEffect(() => { if (selected) { editor.current?.focus(); editor.current?.scrollIntoView({ block: 'start' }) } }, [selected])
   const business = authority.data?.tenant
-  const disabled = !business?.isActive || authority.checking
+  const disabled = !business?.isActive || authority.checking || authority.status !== 'ready'
   const open = (id: string) => { setSelected(id); setNotice('') }
   const refresh = async () => { await authority.store.reload(); catalog.reload() }
   const saved = () => { setNotice('Guardado confirmado.'); setSelected(null); catalog.reload() }
@@ -22,6 +22,8 @@ export function AdminCatalogPage({ section }: { section: 'categories' | 'items' 
   return <section className="admin-workspace"><div className="admin-heading"><div><span className="eyebrow">CARTA · {business?.name}</span><h1>{section === 'categories' ? 'Categorías' : 'Productos'}</h1></div><button className="button-secondary" type="button" disabled={authority.checking} onClick={() => { void refresh() }}>Actualizar datos y permisos</button></div>
     {notice && <AuthStatus message={notice} />}
     {catalog.status === 'loading' && <AuthStatus message="Cargando catálogo…" />}
+    {catalog.refreshing && <AuthStatus message="Actualizando catálogo… Tus cambios siguen en el formulario." />}
+    {catalog.refreshError && <><AuthStatus error message="No pudimos actualizar el catálogo. Conservamos la última carga y tus cambios; al guardar se volverán a comprobar permisos y datos." /><button className="button-secondary" onClick={() => { void refresh() }}>Reintentar actualización</button></>}
     {catalog.status === 'error' && <><AuthStatus error message="No pudimos cargar el catálogo. No se habilitó edición." /><button className="button-secondary" onClick={() => { void refresh() }}>Reintentar</button></>}
     {catalog.status === 'ready' && <>
       {selected && !selectedExists && <AuthStatus error message="El registro ya no está disponible. Elegí otro; no se convirtió la edición en una creación." />}

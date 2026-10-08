@@ -1,5 +1,14 @@
 # UI Guide — Valhalla
 
+## Copy actual de Hosted — 08/10/2026
+
+Carta conectada a Hosted, catálogo comercial vacío/controlado. Copy pública «Carta de
+Valhalla · Puntos estimativos»; cuenta/Platform no se describen como mock. Admin usa
+«Administración de Carta», sin referencia LOCAL; Auth no remite a Mailpit en producción.
+Puntos/premios conservan explícitamente datos de ejemplo y controles económicos pendientes.
+Sin rediseño, cambio de branding o promesa de economía/piloto externo listo.
+Las referencias a seed/demo en las entregas anteriores son evidencia histórica LOCAL.
+
 QA 2H preserva el diseño aprobado; sólo alinea el input display_name a 80 con helper compartido
 y copy de límite. SSR verifica labels/submit/guards/status, código conserva foco/touch/safe areas.
 No capturas nuevas ni certificación visual adicional. Checklist humano por tamaños en
@@ -98,7 +107,8 @@ Error/assurance desconocida fail-closed; loading/refetch oculta lista global. Pe
 enlace sólo con capacidad actual comprobada. Platform aprobado por el usuario:
 funciona, AAL1 requiere MFA, AAL2 accede y vista sigue read-only.
 
-Todos los productos, precios y disponibilidades actuales son ilustrativos. Oswald continúa como current display candidate.
+Los productos/precios del seed LOCAL y los mocks históricos son ilustrativos; Hosted
+permanece vacío hasta aprobar catálogo comercial. Oswald continúa como current display candidate.
 
 ## Estado de validación — Task 02B
 

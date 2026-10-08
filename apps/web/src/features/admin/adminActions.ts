@@ -11,6 +11,7 @@ export function createAdminActions(auth: AuthStore, authority: AuthorityStore) {
     const current = () => auth.getSnapshot().session?.user.id === userId && auth.getSnapshot().epoch === initial.epoch
     const data = await authority.reload()
     if (!current()) throw new AdminError('La sesión cambió. No se inició otra operación.', 'session')
+    if (!data) throw new AdminError('No pudimos comprobar tus permisos. La operación no se inició; conservá tus cambios y reintentá al recuperar la conexión.', 'authority')
     const business = data?.adminBusinesses.find(b => b.id === businessId)
     if (!business) throw new AdminError('Ya no tenés acceso administrativo a este negocio.', 'authority')
     if (!business.isActive) throw new AdminError('El negocio está inactivo: sólo se permite lectura.', 'authority')

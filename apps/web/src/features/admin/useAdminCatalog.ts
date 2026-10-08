@@ -1,26 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import { useAuth } from '../auth/authContext'
 import { useAuthority } from '../authority/authorityContext'
-import { readAdminCatalog, type AdminCatalog } from './adminData'
+import { createAdminCatalogStore, emptyAdminCatalog } from './adminCatalogStore'
 
 export function useAdminCatalog() {
   const auth = useAuth(), authority = useAuthority()
-  const businessId = authority.data?.tenant?.id
+  const userId = auth.session?.user.id, businessId = authority.data?.tenant?.id
+  const owner = userId && businessId ? `${userId}:${businessId}` : null
   const [attempt, retry] = useState(0)
-  const [result, setResult] = useState<{ key: string; status: 'ready' | 'error'; data?: AdminCatalog } | null>(null)
-  const key = `${auth.session?.user.id}:${auth.revision}:${businessId}:${attempt}`
+  const [store] = useState(createAdminCatalogStore)
+  const result = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getSnapshot)
   useEffect(() => {
-    if (!businessId || !auth.session) return
-    const controller = new AbortController()
-    const signal = AbortSignal.any([controller.signal, AbortSignal.timeout(15000)])
-    void readAdminCatalog(auth.store.getClient(), businessId, signal).then(data => {
-      if (!signal.aborted) setResult({ key, status: 'ready', data })
-    }).catch(() => { if (!signal.aborted) setResult({ key, status: 'error' }) })
-    // Timeout is an error, while cleanup abortion is silently discarded.
-    const timedOut = () => { if (!controller.signal.aborted) setResult({ key, status: 'error' }) }
-    signal.addEventListener('abort', timedOut)
-    return () => { controller.abort(); signal.removeEventListener('abort', timedOut) }
-  }, [auth.store, auth.session, businessId, key])
-  const visible = result?.key === key ? result : null
-  return { status: visible?.status ?? 'loading', data: visible?.data, reload: () => retry(value => value + 1) }
+    if (!businessId || !owner || authority.checking || authority.status !== 'ready') return
+    void store.load(auth.store.getClient(), owner, businessId)
+    return store.cancel
+    // Session revisions/focus revalidation refresh data without changing its owner
+    // or unmounting the editor. Whole session/context object references are excluded.
+  }, [store, auth.store, owner, businessId, auth.revision, authority.checking, authority.status, attempt])
+  const visible = result.owner === owner ? result : emptyAdminCatalog
+  return { ...visible, reload: () => retry(value => value + 1) }
 }

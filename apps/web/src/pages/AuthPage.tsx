@@ -59,6 +59,6 @@ export function AuthPage({ mode }: { mode: Mode }) {
         <button className="button-primary" type="submit" disabled={status === 'submitting' || auth.logoutError || auth.signingOut}>{status === 'submitting' ? 'Un momento…' : mode === 'login' ? 'Ingresar' : mode === 'register' ? 'Crear cuenta' : 'Enviar enlace'}</button>
       </form>}
     <div className="auth-links">{mode === 'login' ? <><Link to="/auth/forgot-password">Olvidé mi contraseña</Link><Link to="/register">Crear una cuenta</Link></> : <Link to="/login">Ya tengo cuenta · Ingresar</Link>}<Link to="/">Seguir viendo la carta</Link></div>
-    <p className="context-note">Prueba local: los correos llegan a Mailpit. Puntos y recompensas todavía son demostrativos.</p>
+    <p className="context-note">Revisá tu bandeja de correo para confirmar tu cuenta. Puntos y recompensas todavía son demostrativos.</p>
   </section>
 }

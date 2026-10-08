@@ -1,4 +1,14 @@
-# Database — esquema real Sprint 2 LOCAL
+# Database — esquema real Sprint 2 LOCAL + HOSTED
+
+## Estado Hosted consolidado — 08/10/2026
+
+Las mismas cinco migrations están aplicadas y verificadas en Hosted; sin cambios de schema,
+RLS/grants/RPC/Storage durante este cierre. Valhalla real, settings1000.00/true, perfil
+operador confirmado y capacidades Business Admin/Platform independientes persistidos.
+Catálogo comercial vacío. Managed Storage ACLs pueden diferir de LOCAL conforme A-H1-001;
+se inventarían, conservando invariantes de policies/grants app. No reset remoto ni seed.
+Ledger/compras/economía siguen futuros, sin tablas/migrations nuevas.
+[Cierre vigente](SPRINT_2_CLOSEOUT.md); las secciones LOCAL siguientes son historia técnica.
 
 ## Cierre 2H — 05/10/2026
 

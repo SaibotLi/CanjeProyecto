@@ -35,18 +35,25 @@ select is((select count(*) from pg_policies where schemaname='storage' and cmd i
 select is((select count(*) from pg_policies where schemaname='storage' and tablename='buckets'),0::bigint,'No app bucket administration');
 select is((select count(*) from pg_policies where schemaname='storage' and 'anon'=any(roles)),0::bigint,'No anon management policy needed for public download');
 
--- Preserve the exact managed baseline ACL, not GRANT ALL by application migration.
-select is(has_table_privilege(r,'storage.'||t,p),
- case when r='service_role' then true else p in ('SELECT','INSERT','UPDATE','DELETE') end,
- 'Managed ACL unchanged: '||r||'/'||t||'/'||p)
+-- A-H1-001: platform-managed ACLs are observations, not app-owned expectations.
+-- Managed Storage ACL may differ between local Supabase distribution and Hosted;
+-- CanjeProyecto owns policies/application grants, not Supabase-managed schema ACL.
+-- Keep exact policy/bucket/RLS assertions above. Real API exposure must be checked
+-- independently; TRUNCATE/REFERENCES are not constrained by row policies.
+select diag('Supabase-managed effective ACL: '||r||'/'||t||'/'||p||'='||
+ has_table_privilege(r,'storage.'||t,p)::text)
  from unnest(array['anon','authenticated','service_role']) r
  cross join unnest(array['objects','buckets']) t
  cross join unnest(array['SELECT','INSERT','UPDATE','DELETE','TRUNCATE','REFERENCES','TRIGGER','MAINTAIN']) p;
+select diag('Supabase-managed direct ACL: '||c.relname||'/grantor='||
+ pg_get_userbyid(a.grantor)||'/grantee='||case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end||
+ '/privilege='||a.privilege_type||'/grantable='||a.is_grantable::text)
+ from pg_class c cross join lateral aclexplode(c.relacl) a
+ where c.oid in ('storage.objects'::regclass,'storage.buckets'::regclass);
 select is((select count(*) from pg_class c cross join lateral aclexplode(c.relacl) a
  where c.oid in ('storage.objects'::regclass,'storage.buckets'::regclass) and
- (a.grantee not in (c.relowner,'postgres'::regrole::oid,'service_role'::regrole::oid,'authenticated'::regrole::oid,'anon'::regrole::oid)
- or a.is_grantable and a.grantee in ('authenticated'::regrole::oid,'anon'::regrole::oid,'service_role'::regrole::oid))),
- 0::bigint,'No unexpected PUBLIC/grantees/application grant options');
+ a.grantor in ('authenticated'::regrole::oid,'anon'::regrole::oid,'service_role'::regrole::oid)),
+ 0::bigint,'No Storage privileges/grant options issued by application roles; app migration ownership checked separately');
 select has_trigger('storage','objects','protect_objects_delete','Managed delete protection preserved');
 select has_trigger('storage','buckets','protect_buckets_delete','Managed bucket delete protection preserved');
 select is(storage.foldername('not-uuid/sub/file.png'),array['not-uuid','sub'],'foldername splits, does not validate canonical path');

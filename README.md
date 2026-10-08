@@ -6,11 +6,18 @@ Fundación frontend de una futura plataforma SaaS de fidelización para comercio
 
 ## Estado actual
 
-**SPRINT 2 LOCAL READY — Task 2H completada LOCAL.** 1.257 comprobaciones PASS,
-0 FAIL/skipped; lint/typecheck/build/env/types y reconstrucción controlada superados.
-Único ajuste QA de producto: display_name frontend alineado al límite80 existente en DB.
-[Evidencia final](docs/TASK_2H_WALKTHROUGH.md) y [cierre/checklist hosted-pilot/Git](docs/SPRINT_2_CLOSEOUT.md).
-No production ready: PWA física/hosted/SMTP/CSP/runbooks/economía siguen fuera de esta entrega.
+**SPRINT 2 + HOSTED FOUNDATION CLOSED — SPRINT 3 READY TO PLAN.**
+H1 foundation, H2 Auth/bootstrap real y H3 conexión HTTPS completados en
+https://valhallapp.vercel.app. Perfil/Admin/Platform MFA read-only operativos, catálogo
+comercial vacío. **External Pilot Ready: NO**: custom SMTP/dominio autenticado, catálogo
+real y validaciones operativas finales pendientes. Google OAuth opcional; economía no implementada.
+[Cierre vigente](docs/SPRINT_2_CLOSEOUT.md) y [roadmap](docs/ROADMAP.md).
+
+### Historia de Sprint 2 LOCAL
+
+2H completada LOCAL: 1.257 comprobaciones históricas PASS, sin repetir la matriz en el
+cierre Hosted. Display_name frontend alineado al límite80 existente en DB.
+[Evidencia histórica](docs/TASK_2H_WALKTHROUGH.md). Las Tasks siguientes describen esa etapa.
 
 Task 01/01B entregó React, Vite, TypeScript, Tailwind, React Router, PWA, tokens y skeletons.
 2D conecta Carta pública a Supabase LOCAL y está COMPLETADA/APROBADA: el usuario validó
@@ -37,7 +44,7 @@ actual ni blocker de 2G.
 **2A/2B/2C/2G/2D/2E/2F COMPLETADAS/APROBADAS por el usuario** en el contrato 2H.
 Cliente único 2.117.2, implicit explícito, persistencia/refresh/URL habilitados, profile self
 y MFA opcional sin autoridad frontend. Seed DEV demo de 5 bebidas, no carta comercial.
-Admin de Carta y Platform read-only reales LOCAL; hosted pendiente. [Evidencia 2F](docs/TASK_2F_WALKTHROUGH.md),
+Admin de Carta y Platform read-only probados primero LOCAL y después Hosted H1–H3. [Evidencia 2F](docs/TASK_2F_WALKTHROUGH.md),
 [evidencia 2E](docs/TASK_2E_WALKTHROUGH.md),
 [evidencia 2D](docs/TASK_2D_WALKTHROUGH.md), [evidencia 2G](docs/TASK_2G_WALKTHROUGH.md), [modelo](docs/DATABASE.md),
 [seguridad](docs/SECURITY.md), [evidencia 2C](docs/TASK_2C_WALKTHROUGH.md).

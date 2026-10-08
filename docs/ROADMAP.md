@@ -2,6 +2,30 @@
 
 La numeración es única y expresa dependencias, no fechas.
 
+## Estado consolidado — 08/10/2026
+
+**Hosted Foundation H1/H2/H3: COMPLETADA. Cierre final Sprint 2: EN VALIDACIÓN.**
+**External Pilot Ready: NO.**
+
+Sprint 2 LOCAL READY; H1 HOSTED FOUNDATION VERIFIED; H2 AUTH + VALHALLA BOOTSTRAP
+COMPLETED; H3 HOSTED FRONTEND CONNECTED en https://valhallapp.vercel.app.
+Auth, perfil, Business Admin y Platform read-only con MFA/AAL2 operativos. Catálogo Hosted
+vacío; sin economía real. El cierre versiona rewrite SPA, decisiones/documentación Hosted
+y copy correcta, sin cambiar las cinco migrations ni permisos.
+[Cierre vigente](SPRINT_2_CLOSEOUT.md); las entregas por Task abajo son históricas.
+
+Pendientes operativos antes de invitar externos, no fallos de Sprint 2:
+
+- A-H2-SMTP: custom SMTP + dominio autenticado, entrega/confirmation/recovery y límites revisados.
+- Catálogo, precios e imágenes reales de Valhalla aprobados.
+- Validaciones finales de operación: runbook MFA/recovery, backups/rollback, PWA física y smoke final.
+- Google OAuth opcional; requiere tarea propia y no es gate del email/password existente.
+
+**Sprint 3 pausado hasta resolver y cerrar la regresión temporal de Admin.**
+Corrección frontend desplegada y edición prolongada PASS; guardado real pendiente sobre
+catálogo comercial aprobado. [Causa raíz y validación](ADMIN_CATALOG_LIFECYCLE_FIX.md).
+Sin implementación automática ni nuevas tablas/migrations.
+
 ## Sprint 0 — Foundation
 
 React/Vite/TypeScript, Tailwind, routing, PWA, tokens, skeletons, Git local, documentación e integración inicial de marca. **Estado: Task 01 y Task 01B aprobadas.**
@@ -84,7 +108,17 @@ estrategia Git en [closeout](SPRINT_2_CLOSEOUT.md). No hosted/commit/push autom�
 
 ## Sprint 3 — Loyalty Ledger + Admin Operations
 
-Ledger inmutable, acreditación de compras, reversiones compensatorias, idempotencia, auditoría y consola admin autorizada.
+Alcance inicial a planificar, todavía no implementado:
+
+- Registro de consumos efectivamente pagados, aislado por negocio.
+- Regla inicial: ARS 1.000 efectivamente pagados = 1 punto; cálculo sobre total de transacción,
+  no suma de badges estimativos por producto. Definir redondeo y snapshot de regla en el contrato.
+- Ledger inmutable; historial y saldo derivados para clientes.
+- Operaciones económicas autorizadas desde backend; UI expresa intención y no acredita puntos.
+- Idempotencia, reversas compensatorias y auditoría suficiente de operaciones sensibles.
+
+Resolver política de reversas con saldo insuficiente antes de implementar. Premios, vouchers
+y canje QR quedan exclusivamente en Sprint 4. Ninguna interfaz de compras/Edge Function ahora.
 
 ## Sprint 4 — Rewards + Voucher Redemption
 
@@ -109,7 +143,7 @@ Segundo negocio piloto, onboarding, tema/configuración por tenant, aislamiento 
 ## Decisiones que bloquean etapas futuras
 
 - Sprint 1: assets definitivos, contenido real y aprobación visual.
-- Hosted/pilot posterior a Sprint 2 LOCAL: runbooks admins/MFA, SMTP/dominio y configuración manual autorizada. No blockers del cierre local; flujo Auth cerrado en D-035.
+- Piloto externo después de foundation Hosted completada: SMTP/dominio, catálogo real y validación operativa final. No blockers de Sprint 2; flujo Auth cerrado en D-035.
 - Sprint 3: política de reversión con saldo insuficiente.
 - Sprint 4: vencimiento y formato de token QR.
 - Sprint 5/6: reglas de gamificación, votación y abuso.

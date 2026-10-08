@@ -1,4 +1,63 @@
-# Security — frontera implementada Sprint 2 LOCAL
+# Security — frontera implementada Sprint 2 LOCAL + HOSTED
+
+## Admin — recuperación frontend ante errores de refetch (08/10/2026)
+
+El catálogo conserva datos/borrador del mismo dueño durante revalidación y fallos de red;
+no se convierten en autoridad. Si falla el check de permisos, status error pausa operaciones
+y businessGate permanece error; Platform global permanece oculto. Una respuesta DB válida
+sin membership retira acceso; logout/cambio de identidad limpia inmediatamente. Guardar
+siempre exige revalidación DB y RLS/representation actuales. No grants/schema/RPC nuevos.
+[Causa temporal y regresión](ADMIN_CATALOG_LIFECYCLE_FIX.md).
+
+## A-H1-001 — ownership de Storage administrado
+
+Managed Storage ACL may differ between local Supabase distribution and Hosted;
+CanjeProyecto owns policies/application grants, not Supabase-managed schema ACL.
+Decisión aprobada el 07/10/2026: no revocar TRUNCATE/REFERENCES/TRIGGER/MAINTAIN del
+baseline HOSTED ni modificar managed Storage DDL. Esos privilegios se inventarían;
+la seguridad requiere también comprobar la superficie efectiva de API/RPC, porque
+TRUNCATE/REFERENCES no se limitan mediante RLS. Nunca probar TRUNCATE destructivo hosted.
+Policies, roles, RLS, bucket/MIME/límite, no app UPDATE/DELETE y grants app propios siguen
+siendo invariantes estrictas. Guard de fuentes complementario:
+`node --test supabase/tests/storage-ownership-contract.test.mjs`.
+No atribuir las ACL administradas a la aplicación por una diferencia respecto a LOCAL.
+Estado/evidencia de H1 en HOSTED_FOUNDATION_WALKTHROUGH.md; no cierre por inventario solo.
+
+## A-H1-002/003/004 — frontera de validación Hosted
+
+H1: A-H1-002 acepta el stub `graphql_public` administrado, con extensión deshabilitada y
+sin autoridad app/SQL arbitrario. A-H1-003 permite fixtures ficticias acotadas para requests
+JWT y TOTP reales, revocación sin relogin y cleanup exacto. No habilita bootstrap real ni
+DELETE app/overwrite/move/copy remotos. A-H1-004 deja valores Auth inaccesibles como
+`UNKNOWN / TO CONFIGURE IN H2`; H1 no configura Auth ni certifica delivery productiva.
+
+## H3 — HOSTED FRONTEND CONNECTED (07/10/2026)
+
+https://valhallapp.vercel.app conectado al Hosted liojmtsopplgzderrrqi. Production usa
+exclusivamente VITE_SUPABASE_URL/VITE_SUPABASE_PUBLISHABLE_KEY públicas. Sin secretos de
+servidor en browser ni nuevos grants, RLS, schema, migrations o Storage. Sólo Site URL/
+redirects exactos corregidos por el dominio indicado por usuario y rewrite SPA mínimo.
+Login/profile/Admin con reload PASS; Platform AAL1 exige MFA y AAL2 permanece read-only.
+La denegación backend conserva evidencia H1/H2 sin cambios ni nuevas escrituras globales.
+Cero errores/warnings de consola observados; URL configurada Hosted sin loopback.
+No HAR/payloads/JWT exportados. [Evidencia y límites H3](H3_VERCEL_HOSTED_SMOKE_WALKTHROUGH.md).
+A-H2-SMTP sigue HARD GATE externo. No Google OAuth, economía o fase posterior automática.
+
+## H2 — COMPLETADA / APROBADA (07/10/2026)
+
+H2 / A-H2-001: bootstrap interno de una identidad operadora confirmada mediante signup
+normal; password/confirmation/MFA humanos. SMTP default sólo dirección autorizada del
+equipo, sin retries automáticos/bypass/auto-confirmación. A-H2-SMTP: custom SMTP + dominio
+autenticado HARD GATE antes de usuarios externos/piloto clientes/lanzamiento público.
+Platform sólo UUID confirmado + autorización exacta inmediata; Business Admin mediante
+membership independiente. Global writes permanecen DENY. Sin secreto browser/Vercel/H3.
+
+Auth Hosted, factor TOTP real y Platform AAL2 read-only verificados. AAL1 conserva el gate
+MFA. Revalidación final mantiene las 27 policies y 720 comprobaciones ACL propias sin drift;
+private/storage no expuestos en Data API. Reingreso y validación visual final confirmados
+por el usuario. [Cierre H2](H2_HOSTED_BOOTSTRAP_WALKTHROUGH.md). Al cierre de H2 Vercel aún no estaba conectado;
+Google OAuth pendiente y economía/Sprint 3 fuera de scope. Ningún blocker interno de H2;
+el gate SMTP externo continúa vigente. No nuevas operaciones funcionales en este cierre.
 
 ## Cierre QA 2H — 05/10/2026
 

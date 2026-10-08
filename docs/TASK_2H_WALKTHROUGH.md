@@ -1,5 +1,9 @@
 # Task 2H — Final Integration, Security Hardening & QA
 
+> Registro histórico LOCAL del 05/10/2026. El cierre definitivo del 08/10/2026 incorpora
+> H1/H2/H3 y sincronización Git autorizada en [SPRINT_2_CLOSEOUT.md](SPRINT_2_CLOSEOUT.md).
+> Las 1.257 comprobaciones siguen siendo evidencia histórica, no una nueva corrida.
+
 05/10/2026. **COMPLETADA LOCAL — SPRINT 2 LOCAL READY.**
 LOCAL FOUNDATION COMPLETE, **no PRODUCTION READY**. No blockers de seguridad/integración
 detectados en la matriz ejecutada. No aprobación automática de un futuro entorno remoto.

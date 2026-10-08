@@ -49,9 +49,27 @@ Active-business correction adds SAME JWT active→inactive→privileged fixture 
 for Admin Valhalla/B and Admin Both in A/B: own READ persists, all tenant writes denied
 when inactive, other active tenant remains writable. App activation denied; no new endpoint.
 
-Task 2G adds 05_storage_inventory.test.sql: 65 independent exact bucket/policy/managed ACL
-assertions, no UPDATE/DELETE/ALL/bucket/anon policy, unchanged managed delete-protection
-triggers and native helper semantics. Full pgTAP: 1,092 assertions in five files.
+Task 2G originally added 05_storage_inventory.test.sql with 65 assertions; historical
+full pgTAP was 1,092 assertions in five files. A-H1-001 (07/10/2026) removes the 48
+fixed managed-ACL expectations from PASS/FAIL and emits their observed values as diagnostics.
+The 17 remaining assertions preserve exact bucket/policies/roles/RLS, no UPDATE/DELETE/ALL/
+bucket/anon policy, managed delete-protection triggers and native helper semantics.
+Direct grantor/grantee/grant-option metadata is inventoried; app roles must not issue ACLs.
+`node --test supabase/tests/storage-ownership-contract.test.mjs` additionally checks app
+migration provenance: no managed Storage grants/default ACL/role grant/DDL edits.
+Managed Storage ACL may differ between local Supabase distribution and Hosted;
+CanjeProyecto owns policies/application grants, not Supabase-managed schema ACL.
+These SQL files and fixture suites remain LOCAL only. Hosted requires read-only catalog
+checks plus effective Data API/Storage requests with real authorized identities; no SQL
+claim simulation substitutes for JWT/AAL proof and no destructive TRUNCATE is permitted.
+
+H1-only exception A-H1-003 (07/10/2026): a separate target-pinned runner may create at
+most four fictitious Hosted identities and two temporary tenants, use real JWT/TOTP,
+test SAME-JWT revocation and perform exact fixture cleanup. Existing LOCAL runners
+retain their Hosted guards. This exception does not authorize remote app DELETE,
+Storage overwrite/move/copy, TRUNCATE, production bootstrap or seed.sql. A-H1-002 accepts
+only the managed disabled GraphQL stub; A-H1-004 treats inaccessible Auth inventory fields
+as `UNKNOWN / TO CONFIGURE IN H2`, with no Auth configuration in H1.
 
 `pnpm supabase:test:storage`: 24 tests including parent, seven genuine Auth identities,
 real AAL1/AAL2, standard uploads and public byte equality/info, tenant listing/management,

@@ -1,4 +1,62 @@
-# Supabase — entorno y workflow (Sprint 2 LOCAL)
+# Supabase — entorno y workflow (Sprint 2 LOCAL + HOSTED)
+
+## H1 / A-H1-001 — Storage ownership (07/10/2026)
+
+Managed Storage ACL may differ between local Supabase distribution and Hosted;
+CanjeProyecto owns policies/application grants, not Supabase-managed schema ACL.
+No igualar HOSTED a LOCAL mediante REVOKE o managed DDL. 05_storage_inventory conserva
+sus assertions de policies/roles/RLS/bucket/DELETE DENY; ACL administrada es diagnóstico.
+Los counts de 65/1.092/1.110 de walkthroughs anteriores son evidencia histórica, antes
+del ajuste de 48 assertions administradas; no son el resultado de una nueva corrida.
+Guard de fuentes sin backend: `node --test supabase/tests/storage-ownership-contract.test.mjs`.
+Hosted requiere inventario read-only y requests autorizados; fixtures sólo mediante la
+excepción A-H1-003. No ejecutar los runners LOCAL/fixtures/reset contra linked.
+Exposición private/storage/RPC y JWT reales
+deben verificarse explícitamente antes de cerrar H1. Sin identidades autorizadas, la matriz
+Customer/Business Admin/Platform AAL2 queda pendiente; no bootstrap implícito ni JWT fabricado.
+
+## A-H1-002/003/004 — excepción Hosted de H1
+
+Excepción acotada A-H1-003: el runner separado de H1 usa únicamente el project ref
+aprobado, estado vacío, identidades ficticias y manifests de UUID propios para cleanup.
+No elimina los guards hosted de los runners LOCAL ni autoriza ejecutarlos contra linked.
+A-H1-002 acepta el stub GraphQL administrado sin cambiar exposed schemas o extensiones.
+A-H1-004 inventaría Auth sin configurarlo: información inaccesible queda `UNKNOWN / TO
+CONFIGURE IN H2`, sin bloqueo artificial de H1. Ningún avance automático a H2.
+
+## H3 — HOSTED FRONTEND CONNECTED (07/10/2026)
+
+Frontend Production actual: https://valhallapp.vercel.app. La corrección del usuario
+supersede el dominio anterior de H2. Site URL y callback/recovery Hosted exactos corregidos;
+loopback exacto de desarrollo preservado, sin wildcard ni otros cambios Auth/backend.
+Proyecto Vercel valhalla/saibotlis-projects: dos env públicas Production, redeploy limpio
+main8042780 + apps/web/vercel.json, READY. Ocho rutas200 y smoke login/profile/Admin/
+Platform AAL1/AAL2 con reload PASS. Fuente cliente publicado apunta al Hosted correcto.
+Sin commit/push; incluir rewrite en el próximo deployment desde Git para conservar SPA.
+[Cierre H3](H3_VERCEL_HOSTED_SMOKE_WALKTHROUGH.md). No repetir bootstrap/fixtures/reset.
+Custom SMTP + dominio autenticado bloquean external pilot. No Google OAuth/economía
+ni avance automático a SMTP u otra fase. Los párrafos H2 siguientes son históricos.
+
+## H2 — COMPLETADA / APROBADA (07/10/2026)
+
+H2 / A-H2-001 autoriza bootstrap interno con SMTP default sólo operador del equipo.
+Site URL https://valhalapp.vercel.app y sus callback/recovery exactos; verificación local
+contra Hosted en127.0.0.1:5173 agrega sólo sus dos redirects exactos, sin wildcard.
+Frontend recibe URL/publishable key en el proceso; no .env persistido ni Vercel modificado.
+Private Platform requiere identidad confirmada y autorización inmediatamente anterior
+para ese UUID. Valhalla usa UUID Hosted nuevo, timezone America/Argentina/Cordoba,
+settings1000.00/true y membership independiente; catálogo vacío sin datos comerciales.
+A-H2-SMTP bloquea external pilot hasta custom SMTP/dominio autenticado, preferencia Resend
+sin proveedor nuevo o hardcode ahora. No auto-confirmación/seed/economía/H3 automático.
+
+Bootstrap ejecutado y verificado; reingreso/validación visual final confirmados por usuario.
+La cuenta, profile, Platform row, business, settings, membership y único TOTP verificado
+son datos reales persistentes; no limpiar como fixtures ni repetir provisioning/reset.
+Catálogo/Storage continúan vacíos en el último inventario. No blocker interno H2 restante.
+[Walkthrough de cierre H2](H2_HOSTED_BOOTSTRAP_WALKTHROUGH.md).
+Próxima fase recomendada H3: env públicas Vercel, redeploy y smoke HTTPS tras autorización
+explícita. Vercel aún no conectado; Google OAuth pendiente; economía/Sprint 3 fuera de scope.
+Piloto externo sigue bloqueado por A-H2-SMTP, incluso después de conectar Vercel.
 
 ## Cierre 2H y repetición segura
 

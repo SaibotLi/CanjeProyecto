@@ -2,7 +2,128 @@
 
 Las decisiones `CLOSED` no cambian sin una propuesta documentada y aprobación. `PROVISIONAL` identifica elecciones de Foundation que requieren validación. `OPEN` no debe resolverse por accidente en código.
 
+## A-H1-001 — APPROVED (07/10/2026)
+
+Managed Storage ACL may differ between local Supabase distribution and Hosted;
+CanjeProyecto owns policies/application grants, not Supabase-managed schema ACL.
+
+El usuario acepta el baseline HOSTED con TRUNCATE/REFERENCES/TRIGGER/MAINTAIN adicionales
+para anon/authenticated sobre storage.objects/buckets. No revocarlos, alterar internals
+ni crear una migration para igualar el baseline LOCAL. Las cinco migrations se conservan.
+El test 05 mantiene policies/roles/RLS/bucket y ausencia de UPDATE/DELETE de aplicación;
+las ACL administradas se inventarían mediante diagnósticos, sin ser drift de app por sí solas.
+El guard de fuentes storage-ownership-contract.test.mjs comprueba que las migrations no
+crean grants, grantees, grant options, role grants indirectos o DDL sobre Storage administrado.
+La procedencia histórica de una ACL no puede atribuirse sólo por su catálogo actual.
+
+Antes de cerrar H1: verificar exposición efectiva de Data API/private/storage, RPCs sin SQL
+arbitrario/whole-table/DDL y requests reales con identidades/JWT autorizados. No ejecutar
+TRUNCATE ni suites destructivas hosted. STOP si private/SQL Storage quedan expuestos, aparece
+una capacidad API nueva o resulta necesario modificar managed ACLs para asegurar la frontera.
+Inventario SQL y checks anon solos no equivalen a la matriz Customer/Admin/Platform AAL2.
+No seed/bootstrap productivo/Vercel/OAuth/economía ni avance automático a H2.
+La excepción posterior A-H1-003 autoriza únicamente fixtures efímeras H1.
+
+## A-H1-002 / A-H1-003 / A-H1-004 — APPROVED (07/10/2026)
+
+A-H1-002 acepta `graphql_public` como superficie administrada HOSTED: sólo el stub
+administrado, sin objetos CanjeProyecto, sin `pg_graphql` habilitado, sin exposición
+private/storage, SQL arbitrario ni autoridad app adicional. No forzar paridad de schemas
+con LOCAL, quitar ese schema por migration ni habilitar la extensión. STOP ante capacidad
+SQL arbitraria u objeto app bajo ese schema.
+
+A-H1-003 autoriza fixtures ficticias mínimas exclusivamente H1: hasta cuatro usuarios,
+dos businesses, memberships mínimas, una fila Platform temporal, categorías/items/objetos
+mínimos y TOTP. Tooling privilegiado sólo para setup/revocación/cleanup exacto; assertions
+con publishable key/JWT reales. Customer/Admin A/Admin B/Customer AAL2/Platform AAL1/AAL2
+y revocaciones SAME JWT obligatorias. Sin cuentas personales ni secretos persistidos.
+No TRUNCATE, whole-table destructivo, DELETE de aplicación o Storage overwrite/move/copy.
+Cleanup debe dejar cero fixtures y MFA residual. No es bootstrap productivo ni seed.sql.
+
+A-H1-004 limita Auth a inventario read-only: Site URL, redirects, email/confirmación,
+MFA/TOTP, SMTP general, límites/templates visibles. Datos no accesibles de forma fiable
+se documentan `UNKNOWN / TO CONFIGURE IN H2` y no bloquean H1. No configuración Auth ni
+certificación de delivery; SMTP/templates/URLs/redirects/cuotas productivos son H2.
+H1 cierra sólo con foundation/matriz/revocación/cleanup verificados. No avance automático
+a H2, Vercel, Google OAuth, economía, bootstrap real o seed.
+
+## A-H2-001 — APPROVED (07/10/2026)
+
+Frontend piloto confirmado: https://valhalapp.vercel.app. Auth Site URL y sus redirects
+exactos /auth/callback y /auth/recovery autorizados; sin wildcard ni conexión Vercel en H2.
+Para verificar H2 antes de H3, frontend local contra Hosted en127.0.0.1:5173 con sólo URL/
+publishable key del proyecto en el proceso. Se autorizan las dos rutas callback/recovery
+exactas de loopback necesarias; no LOCAL Supabase ni Mailpit como backend de esa prueba.
+Email/password, confirmation, implicit y TOTP se mantienen; no Google OAuth.
+
+SMTP default permitido únicamente para una cuenta operadora interna con dirección
+autorizada como miembro del proyecto/organización y correo efectivamente recibido.
+Sin sortear cuotas, bajar controles o auto-confirmación SQL/Admin. STOP si correo falla.
+Usuario completa signup/confirmation/password/MFA por UI normal, sin secretos en chat/logs.
+Platform: UUID Auth confirmado y autorización explícita inmediatamente antes de INSERT
+exacto private.platform_admins; no metadata ni profiles.role. Después AAL1 DENY/AAL2 READ.
+Valhalla real sólo después: slug valhalla-space, name Valhalla Space, ARS, timezone
+America/Argentina/Cordoba, activo, UUID DB nuevo; loyalty1000.00/true sólo preview.
+Membership Admin del operador independiente de Platform; catálogo vacío sin datos aprobados.
+Sin imágenes ficticias, economía, seed, global writes, proveedor nuevo, commit/push o H3.
+
+### A-H2-SMTP — HARD GATE externo / DEFERRED interno
+
+Custom SMTP + dominio autenticado requeridos antes de external pilot.
+Bloquea usuarios reales externos, piloto con clientes Valhalla y lanzamiento público.
+Preferencia arquitectónica futura: Resend; sin crear cuenta/proveedor/dominio ahora ni
+hardcodearlo en la app. H2 puede cerrar con bootstrap interno verificado y este gate
+explícito. H3 conecta Vercel/redeploy/smoke HTTPS; no habilita piloto externo automáticamente.
+
 ## CLOSED
+
+### Admin — defecto temporal de catálogo (08/10/2026)
+
+Se reabre únicamente la validación de edición prolongada: timeout15s sobrevivía una lectura
+exitosa y convertía ready a error, desmontando el formulario. Corrección frontend de deadline
+por request, cache de display por identidad/negocio y refresh recuperable. Cache no es
+autoridad: permisos desconocidos pausan operaciones, revocación confirmada retira acceso,
+save revalida DB/RLS. Sin cambios a schema/grants/migrations/RPC/Storage. Regresión temporal
+incluida en test:admin. [Causa y evidencia](ADMIN_CATALOG_LIFECYCLE_FIX.md). No Sprint3 antes
+de verificar edición prolongada/guardado Hosted y publicación Git del fix.
+
+### Sprint 2 + Hosted — cierre definitivo autorizado (08/10/2026)
+
+Sprint 2 LOCAL READY y H1/H2/H3 completados. External Pilot Ready: NO, por A-H2-SMTP,
+catálogo comercial y validaciones operativas finales. El usuario autoriza stage, commit
+de consolidación y push normal origin/main, sin force/history rewrite, con auditoría del
+diff staged y verificación del nuevo deployment que dispare Git. Se versiona rewrite SPA
+ya probado; sólo copy corrige LOCAL/prueba sobre datos reales. Sin cambios a migrations,
+RLS, grants, RPC o Storage. Reportes repo sanitizados: sin identidad UUID del operador,
+credenciales, logs privados ni temporales. [Cierre vigente](SPRINT_2_CLOSEOUT.md).
+Sprint3 queda listo para planificar consumos/ledger/backend/idempotencia/reversas, no para
+implementación automática. Premios/vouchers/canje QR siguen Sprint4. Decisiones aprobadas
+de managed ACL y stub GraphQL conservadas, sin nueva auditoría extensiva.
+
+### H3 — HOSTED FRONTEND CONNECTED (07/10/2026)
+
+El usuario corrigió la URL frontend a **https://valhallapp.vercel.app**, supersediendo
+valhalapp.vercel.app de A-H2-001. H3 iniciado explícitamente: env públicas Production,
+redeploy limpio y smoke HTTPS; rewrite SPA mínimo permitido si rutas internas dan404.
+Sólo Site URL/redirects exactos fueron corregidos en Hosted Auth, sin arquitectura ni
+controles nuevos. Production recibió únicamente URL/publishable del Hosted correcto.
+Deployment limpio main8042780 + rewrite SPA mínimo READY, ocho rutas HTTPS200, login/
+profile/Admin/reload y Platform AAL1 gate/AAL2 read-only PASS; consola sin errores/warnings.
+H2 continúa COMPLETADA/APROBADA. A-H2-SMTP vigente: no external pilot ready. Sin Google
+OAuth/economía ni avance automático. Sin commit/push; versionar rewrite antes del próximo
+deployment desde Git. [Cierre H3 y límites](H3_VERCEL_HOSTED_SMOKE_WALKTHROUGH.md).
+
+### H2 — COMPLETADA / APROBADA (07/10/2026)
+
+Auth Hosted y bootstrap interno real verificados: operador confirmado/profile, MFA/AAL2
+con Platform read-only, Valhalla Space ARS/America/Argentina/Cordoba activo, loyalty
+1000.00/true y Business Admin membership independiente. Catálogo/Storage vacíos por falta
+de datos comerciales aprobados. Reingreso y validación visual final confirmados por usuario;
+ningún blocker interno restante. [Evidencia H2](H2_HOSTED_BOOTSTRAP_WALKTHROUGH.md).
+A-H2-SMTP permanece HARD GATE para externos. Al cierre de H2 Vercel aún no estaba conectado;
+el H3 iniciado después lo conecta, según su cierre arriba. Google OAuth pendiente;
+economía/Sprint 3 fuera de scope.
+Este cierre sólo actualiza documentación, sin nuevos cambios funcionales/Hosted/commit/push.
 
 | ID | Decisión |
 | --- | --- |

@@ -46,7 +46,10 @@ export function createAuthorityStore(auth: AuthStore, reader = readAuthority) {
       if (!current()) return null
       emit({ status: 'ready', checking: false, data, userId, revision: snapshot.revision }); return data
     } catch {
-      if (current()) emit({ status: 'error', checking: false, data: null, userId, revision: snapshot.revision })
+      // Keep same-owner display data/drafts, never a positive authority decision.
+      // Gates remain error and all writes require a successful fresh DB check.
+      if (current()) emit({ status: 'error', checking: false,
+        data: state.data?.userId === userId ? state.data : null, userId, revision: snapshot.revision })
       return null
     }
   }

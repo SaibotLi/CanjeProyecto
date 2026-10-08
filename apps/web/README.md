@@ -2,6 +2,12 @@
 
 Frontend React/Vite/TypeScript, React Router, Tailwind, CSS tokens y PWA; Carta Task 02B aprobada.
 
+Production https://valhallapp.vercel.app conecta al Supabase Hosted aprobado con únicamente
+VITE_SUPABASE_URL/VITE_SUPABASE_PUBLISHABLE_KEY públicas. Vercel root apps/web, Vite/Node24.x;
+vercel.json conserva fallback SPA a index.html. Auth/Admin/Platform MFA read-only operativos.
+Catálogo vacío, puntos estimativos y puntos/premios demo; external pilot bloqueado por SMTP
+custom/dominio autenticado. [Cierre actual](../../docs/SPRINT_2_CLOSEOUT.md).
+
 Desde la raíz: `pnpm install`, Docker operativo, `pnpm supabase:start`, completar únicamente URL/publishable key LOCAL en apps/web/.env.local y `pnpm dev`. La Carta necesita backend; configuración ausente/fallo muestra error, no mock. El build no inicializa el cliente ni requiere env.
 
 Carta lee Supabase → query → mapper → contratos → cards; sin mocks ante fallo.
@@ -23,4 +29,5 @@ Pruebas: test:menu, test:auth y test:admin (fuente real/SSR); test:menu:local, t
 Suites LOCAL exclusivas/secuenciales, cero cuentas ajenas, cleanup propio; nunca hosted.
 2H cierra QA LOCAL: ver ../../docs/TASK_2H_WALKTHROUGH.md y ../../docs/SPRINT_2_CLOSEOUT.md.
 test:qa se ejecuta después de build (SSR/PWA estática), no sustituye browser físico.
-Supabase/Vite disponibles para revisión; no cuenta admin persistente ni avance automático a hosted.
+Las suites anteriores siguen LOCAL exclusivamente; Hosted conserva el operador/bootstrap
+real de H2. No reset ni suites de fixtures LOCAL sobre Production; no avance automático a economía.
