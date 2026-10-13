@@ -8,6 +8,7 @@ import { createAuthStore } from '../features/auth/sessionStore'
 import '../features/auth/auth.css'
 import { AuthorityProvider } from '../features/authority/AuthorityProvider'
 import '../features/admin/admin.css'
+import '../features/loyalty/loyalty.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 root.render(<p className="auth-status" role="status">Abriendo Valhalla…</p>)

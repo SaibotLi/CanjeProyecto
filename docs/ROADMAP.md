@@ -22,14 +22,16 @@ Pendientes operativos antes de invitar externos, no fallos de Sprint 2:
 - Validaciones finales de operación: runbook MFA/recovery, backups/rollback, PWA física y smoke final.
 - Google OAuth opcional; requiere tarea propia y no es gate del email/password existente.
 
-**SPRINT 3B BACKEND LOCAL VERIFIED.** Staff, identificación por código, ledger,
+**SPRINT 3C VERIFIED LOCAL.** Staff, identificación por código, ledger,
 acreditación/idempotencia/reversas y consultas seguras implementadas y probadas LOCAL.
-Hosted conserva Sprint 2; 3C y aplicación remota pendientes de autorización.
+3C conecta acreditación/recovery, reversas y puntos/historial reales con UX móvil.
+Hosted conserva Sprint 2; aplicación remota/3D pendientes de autorización.
+[Walkthrough 3C](SPRINT_3C_WALKTHROUGH.md).
 [Contrato y walkthrough](SPRINT_3B_BACKEND.md).
 La regresión temporal de Admin quedó corregida y verificada:
 edición prolongada, revalidación, guardado real y restauración PASS; deployment Git activo.
 [Causa raíz y validación](ADMIN_CATALOG_LIFECYCLE_FIX.md).
-No avance automático a 3C, Hosted, SMTP u otras fases.
+No avance automático a 3D, Hosted, SMTP u otras fases.
 
 ## Sprint 0 — Foundation
 
@@ -113,7 +115,7 @@ estrategia Git en [closeout](SPRINT_2_CLOSEOUT.md). No hosted/commit/push autom�
 
 ## Sprint 3 — Loyalty Ledger + Admin Operations
 
-3A aprobado; backend 3B implementado y verificado exclusivamente LOCAL:
+3A aprobado; backend 3B e interfaz 3C implementados y verificados exclusivamente LOCAL:
 
 - Registro de consumos efectivamente pagados, aislado por negocio.
 - Regla inicial: ARS 1.000 efectivamente pagados = 1 punto; cálculo sobre total de transacción,
@@ -124,8 +126,8 @@ estrategia Git en [closeout](SPRINT_2_CLOSEOUT.md). No hosted/commit/push autom�
 
 Reversas completas y compensatorias, sólo Admin, sin bloquear por saldo insuficiente:
 decisión aprobada en 3B; aún no hay canjes. Referencia opcional, autoacreditación prohibida,
-código público exacto e idempotencia atómica PostgreSQL. Frontend operativo corresponde a
-3C y no comenzó; sin nuevo servidor/Edge Function. Premios/vouchers/canje QR siguen Sprint 4.
+código público exacto e idempotencia atómica PostgreSQL. Frontend operativo 3C probado con
+cuentas ficticias y navegador móvil; sin nuevo servidor/Edge Function. Premios/vouchers/canje QR siguen Sprint 4.
 
 ## Sprint 4 — Rewards + Voucher Redemption
 
@@ -151,6 +153,6 @@ Segundo negocio piloto, onboarding, tema/configuración por tenant, aislamiento 
 
 - Sprint 1: assets definitivos, contenido real y aprobación visual.
 - Piloto externo después de foundation Hosted completada: SMTP/dominio, catálogo real y validación operativa final. No blockers de Sprint 2; flujo Auth cerrado en D-035.
-- Sprint 3C/aplicación Hosted: tareas posteriores que requieren autorización explícita.
+- Sprint 3D/aplicación Hosted: tareas posteriores que requieren autorización explícita.
 - Sprint 4: vencimiento y formato de token QR.
 - Sprint 5/6: reglas de gamificación, votación y abuso.

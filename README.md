@@ -6,7 +6,7 @@ Fundación frontend de una futura plataforma SaaS de fidelización para comercio
 
 ## Estado actual
 
-**SPRINT 2 + HOSTED FOUNDATION CLOSED — SPRINT 3B BACKEND LOCAL VERIFIED.**
+**SPRINT 2 + HOSTED FOUNDATION CLOSED — SPRINT 3C VERIFIED LOCAL.**
 H1 foundation, H2 Auth/bootstrap real y H3 conexión HTTPS completados en
 https://valhallapp.vercel.app. Perfil/Admin/Platform MFA read-only operativos, catálogo
 sin productos (categoría Vinos existente). **External Pilot Ready: NO**: custom SMTP/dominio autenticado, catálogo
@@ -16,8 +16,9 @@ real y validaciones operativas finales pendientes. Google OAuth opcional; econom
 Sprint 3B implementa exclusivamente LOCAL Staff, código público de cliente, ledger inmutable,
 acreditación/reversas atómicas e idempotentes y saldo/historial por RPC. Seis migrations
 reproducibles; las cinco de Sprint 2 intactas. Hosted continúa con cinco y no fue modificado.
-[Contrato y pruebas de 3B](docs/SPRINT_3B_BACKEND.md). Frontend operativo 3C pendiente;
-`/points` conserva su mock hasta una implementación explícitamente autorizada.
+[Contrato y pruebas de 3B](docs/SPRINT_3B_BACKEND.md). 3C conecta `/operar` y `/points`
+al backend LOCAL: código personal, acreditación, recovery idempotente, historial y reversas.
+[Walkthrough y reproducción segura](docs/SPRINT_3C_WALKTHROUGH.md). Sin deployment Hosted.
 
 ### Historia de Sprint 2 LOCAL
 
@@ -95,7 +96,8 @@ La validación 2D se limita a loopback local. El antiguo comando Wi-Fi de fronte
 ## Rutas de demostración
 
 - `/`: Carta pública leída de Supabase; el seed LOCAL es ficticio/DEV-only.
-- `/points`: saldo e historial mock.
+- `/points`: sesión requerida, código personal y saldo/historial reales por negocio.
+- `/operar`: Admin/Staff actuales, acreditación e historial operativo; reversas sólo Admin.
 - `/rewards`: recompensas mock, sin canje.
 - `/login`, `/register`: ingreso/registro email+password LOCAL con confirmación email.
 - `/profile`: sesión requerida, perfil DB propio y edición display_name, logout local.

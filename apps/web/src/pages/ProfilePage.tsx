@@ -17,9 +17,11 @@ export function ProfilePage() {
     {auth.profile && auth.profile.id === auth.session.user.id && <ProfileForm key={auth.profile.id} displayName={auth.profile.displayName ?? ''} />}
     <div className="auth-security"><h2>Seguridad de tu cuenta</h2><p className="muted">{needsMfa(auth.assurance) ? 'Verificá tu segundo factor para completar esta sesión.' : auth.assurance?.currentLevel === 'aal2' ? 'Segundo factor verificado en esta sesión.' : 'Podés activar un segundo factor con una app de autenticación.'}</p><Link className="text-link" to="/auth/mfa">{needsMfa(auth.assurance) ? 'Verificar segundo factor' : 'Configurar segundo factor'}</Link></div>
     <LogoutButton />
+    <Link className="button-secondary" to="/points">Ver mis puntos y mi código</Link>
+    {authority.status === 'ready' && !authority.checking && authority.data?.operatorTenant && <Link className="button-primary" to="/operar">Acreditar consumos</Link>}
     {authority.status === 'ready' && authority.data?.tenant && <Link className="button-secondary" to="/admin">Administrar Carta de Valhalla</Link>}
     {authority.status === 'ready' && !authority.checking && authority.data?.platform.isAdmin && <Link className="button-secondary" to="/platform">Platform · Vista de negocios</Link>}
-    <p className="context-note">Tu perfil es real. Los puntos y premios todavía son ejemplos: no representan tu saldo.</p>
+    <p className="context-note">Tu saldo y tu código están en Mis puntos. Los premios siguen siendo una vista de ejemplo.</p>
   </section>
 }
 function ProfileForm({ displayName }: { displayName: string }) {

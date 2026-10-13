@@ -2,11 +2,13 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import { Navigation } from '../components/Navigation'
 import { PreviewNotice } from '../components/PreviewNotice'
 import valhallaLogo from '../assets/brand/valhalla/valhalla-logo-header.webp'
+import { useAuthority } from '../features/authority/authorityContext'
 
 export function CustomerLayout() {
+  const authority = useAuthority()
   const pathname = useLocation().pathname
   const isMenu = pathname === '/'
-  const isAccount = ['/login', '/register', '/profile', '/platform'].includes(pathname) || pathname.startsWith('/auth/')
+  const isAccount = ['/login', '/register', '/profile', '/platform', '/points', '/operar'].includes(pathname) || pathname.startsWith('/auth/')
   return <div className={isMenu ? 'app-shell menu-app' : 'app-shell'}>
     <a className="skip-link" href="#main-content">Saltar al contenido</a>
     <header className="site-header"><div className="header-inner">
@@ -18,6 +20,6 @@ export function CustomerLayout() {
     </div></header>
     <Navigation />
     <main id="main-content" className={isMenu ? 'main-container menu-main' : 'main-container'}>{isAccount ? <p className="preview-notice"><span className="status-dot" aria-hidden="true" />Tu cuenta Valhalla</p> : <PreviewNotice publicMenu={isMenu} />}<Outlet /></main>
-    <footer className="site-footer"><span>Valhalla Space · Identidad visual provisional</span><Link to="/admin">Administración de Carta</Link></footer>
+    <footer className="site-footer"><span>Valhalla Space · Identidad visual provisional</span>{authority.status === 'ready' && !authority.checking && authority.data?.tenant && <Link to="/admin">Administración de Carta</Link>}</footer>
   </div>
 }

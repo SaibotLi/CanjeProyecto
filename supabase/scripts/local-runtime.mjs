@@ -4,9 +4,9 @@ import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 
 export const projectRoot = fileURLToPath(new URL('../../', import.meta.url))
-export function run(command, args, input, testDiagnostics = false) {
+export function run(command, args, input, testDiagnostics = false, timeoutMs = 60000) {
   const result = spawnSync(command, args, {
-    cwd: projectRoot, encoding: 'utf8', input, timeout: 60000,
+    cwd: projectRoot, encoding: 'utf8', input, timeout: timeoutMs,
     env: { ...process.env, SUPABASE_TELEMETRY_DISABLED: '1' },
     windowsHide: true,
   })
@@ -26,10 +26,13 @@ export function run(command, args, input, testDiagnostics = false) {
 export function cli(args) {
   // Arguments are fixed by our source code, never user input.
   const testDiagnostics = args[0] === 'test' && args[1] === 'db'
+  // Recreating the disposable LOCAL database can exceed one minute on WSL.
+  // This does not alter frontend/RPC deadlines or permit a remote reset.
+  const timeoutMs = args[0] === 'db' && args[1] === 'reset' && args[2] === '--local' ? 180000 : 60000
   if (process.platform === 'win32') {
-    return run(process.env.ComSpec ?? 'cmd.exe', ['/d', '/s', '/c', `node_modules\\.bin\\supabase.cmd ${args.join(' ')}`], undefined, testDiagnostics)
+    return run(process.env.ComSpec ?? 'cmd.exe', ['/d', '/s', '/c', `node_modules\\.bin\\supabase.cmd ${args.join(' ')}`], undefined, testDiagnostics, timeoutMs)
   }
-  return run('./node_modules/.bin/supabase', args, undefined, testDiagnostics)
+  return run('./node_modules/.bin/supabase', args, undefined, testDiagnostics, timeoutMs)
 }
 export function localSql(sql) {
   return run('docker', ['exec', '-i', 'supabase_db_canjeproyect', 'psql', '-U', 'postgres', '-d', 'postgres', '-v', 'ON_ERROR_STOP=1', '-At'], sql)

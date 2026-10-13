@@ -16,13 +16,15 @@ import { BusinessAdminRequired } from '../features/authority/BusinessAdminRequir
 import { AdminCatalogPage } from '../pages/AdminCatalogPage'
 import { PlatformRequired } from '../features/authority/PlatformRequired'
 import { PlatformPage } from '../pages/PlatformPage'
+import { OperatorPage } from '../pages/OperatorPage'
 
 export const router = createBrowserRouter([
   {
     element: <CustomerLayout />,
     children: [
       { path: '/', element: <MenuPage /> },
-      { path: '/points', element: <PointsPage /> },
+      { path: '/points', element: <AuthRequired><PointsPage /></AuthRequired> },
+      { path: '/operar', element: <AuthRequired><OperatorPage /></AuthRequired> },
       { path: '/rewards', element: <RewardsPage /> },
       { path: '/profile', element: <AuthRequired><ProfilePage /></AuthRequired> },
       { path: '/login', element: <AuthPage key="login" mode="login" /> },

@@ -1,5 +1,14 @@
 # Security — frontera implementada Sprint 2 LOCAL + HOSTED
 
+## Sprint 3C — interfaz LOCAL (13/10/2026)
+
+Intentos económicos persistidos por endpoint/usuario/negocio, sin credenciales; recuperación
+reutiliza la misma clave y una incertidumbre no habilita otra operación. Cada envío comprueba
+identidad/membership y liga su request a la sesión verificada; PostgreSQL conserva autoridad.
+Cambio de cuenta oculta datos. Downgrade Admin→Staff descarta la caché amplia incluso con
+fallo de lectura; el borrador se conserva. Pruebas reales LOCAL/móvil y SAME JWT PASS.
+[Walkthrough 3C](SPRINT_3C_WALKTHROUGH.md). Ningún cambio en backend, RLS, migrations o Hosted.
+
 ## Sprint 3B — autorización económica exclusivamente LOCAL (13/10/2026)
 
 Admin/Staff actuales pueden acreditar; sólo Admin revierte. Prohibida autoacreditación.

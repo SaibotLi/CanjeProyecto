@@ -9,6 +9,9 @@
   },
   "scripts": {
     "dev": "pnpm --filter @canjeproyect/web dev",
+    "dev:loyalty:local": "node supabase/scripts/loyalty-dev.mjs",
+    "test:loyalty": "pnpm --filter @canjeproyect/web test:loyalty",
+    "test:loyalty:local": "pnpm --filter @canjeproyect/web test:loyalty:local",
     "lint": "pnpm --filter @canjeproyect/web lint",
     "typecheck": "pnpm --filter @canjeproyect/web typecheck",
     "build": "pnpm --filter @canjeproyect/web build",

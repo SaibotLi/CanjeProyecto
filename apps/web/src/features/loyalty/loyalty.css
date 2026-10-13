@@ -1,0 +1,26 @@
+.loyalty-workspace { max-width: 48rem; margin: auto; }
+.operator-links { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1rem 0; align-items: center; }
+.operator-links a { color: var(--color-primary); text-decoration: underline; min-height: 44px; display: inline-flex; align-items: center; }
+.credit-form, .customer-code-card, .pending-operation, .operation-receipt, .reversal-confirmation { padding: 1.25rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); margin: 1rem 0; }
+.credit-form input, .reversal-confirmation textarea { width: 100%; min-height: 52px; padding: .8rem; border-radius: var(--radius-sm); border: 1px solid var(--color-border); background: var(--color-bg); color: var(--color-text); font-size: 1.125rem; }
+.reversal-confirmation textarea { min-height: 100px; margin-top: .5rem; font: inherit; }
+.credit-form > .button-primary, .pending-operation > .button-primary { width: 100%; min-height: 56px; font-size: 1rem; }
+.code-entry { display: grid; gap: .6rem; grid-template-columns: 1fr; }
+.code-entry input, .customer-code { font-family: monospace; letter-spacing: .06em; text-transform: uppercase; }
+.customer-code { font-size: clamp(1.3rem, 6vw, 2rem); margin: .5rem 0; overflow-wrap: anywhere; user-select: all; }
+.resolved-customer { padding: 1rem; border-left: 3px solid var(--color-primary); background: var(--color-surface-elevated); }
+.resolved-customer strong { font-size: 1.2rem; }
+.points-estimate { display: grid; grid-template-columns: 1fr auto; gap: .4rem; padding: 1rem 0; }
+.points-estimate strong, .operation-receipt > strong { color: var(--color-primary); font-size: 2rem; font-family: var(--font-display); }
+.points-estimate small { grid-column: 1 / -1; color: var(--color-text-muted); }
+.operation-receipt, .pending-operation { border-color: var(--color-primary); }
+.loyalty-notice { padding: 1rem; border: 1px solid var(--color-primary); margin: 1rem 0; }
+.loyalty-history ul { list-style: none; padding: 0; }
+.loyalty-movement { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--color-border); }
+.loyalty-movement > div { min-width: 0; overflow-wrap: anywhere; }
+.loyalty-movement p { font-size: .85rem; color: var(--color-text-muted); }
+.loyalty-movement > strong { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.loyalty-movement .button-secondary { margin-top: .5rem; }
+.loyalty-empty { padding: 1rem 0; color: var(--color-text-muted); }
+.credit-form summary { cursor: pointer; min-height: 44px; }
+@media (min-width: 560px) { .code-entry { grid-template-columns: 1fr auto; } }

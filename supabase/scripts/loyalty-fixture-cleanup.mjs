@@ -18,10 +18,14 @@ const quote = id => `'${id}'` // UUIDs already validated, not arbitrary SQL inpu
 if (localSql(`select (select count(*) from storage.objects)+(select count(*) from public.businesses where id not in (${owned.businesses.map(quote).join(',')}));`) !== '0') {
   throw new Error('Refusing: unowned LOCAL business/Storage data')
 }
-// Destroy/recreate only the guarded disposable local schema. No bypass of
-// ledger mutation triggers, no remote reset, no real-world economic records.
-cli(['db','reset','--local'])
-const count = localSql('select (select count(*) from auth.users)+(select count(*) from auth.mfa_factors)+(select count(*) from public.profiles)+(select count(*) from public.point_transactions)+(select count(*) from public.business_memberships)+(select count(*) from private.platform_admins)+(select count(*) from storage.objects);')
+const residualSql = "select (select count(*) from auth.users)+(select count(*) from auth.mfa_factors)+(select count(*) from public.profiles)+(select count(*) from public.point_transactions)+(select count(*) from public.business_memberships)+(select count(*) from private.platform_admins)+(select count(*) from storage.objects)+(select count(*) from public.businesses where id<>'a11a0000-0000-4000-8000-000000000001');"
+// A reset can complete after the CLI wait times out. If all owned fixtures are
+// already absent, finish its manifest without another destructive schema reset.
+if (localSql(residualSql) !== '0') {
+  // Recreate only the guarded disposable LOCAL schema, never mutate ledger rows.
+  cli(['db','reset','--local'])
+}
+const count = localSql(residualSql)
 if (count !== '0') throw new Error('LOCAL cleanup residuals')
 unlinkSync(marker)
 console.log('Sprint 3 LOCAL fixtures removed through guarded schema reset; zero Auth/membership/MFA/ledger/Storage residuals.')
