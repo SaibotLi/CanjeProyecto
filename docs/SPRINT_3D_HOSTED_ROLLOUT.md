@@ -70,13 +70,18 @@ Smoke HTTPS de rutas, reload, console/network, URL/public key Hosted y ausencia 
 Login humano normal; /points código/saldo/historial, Admin/operar y Platform AAL1/MFA/AAL2
 read-only. No passwords, sesiones ni códigos MFA por chat o logs.
 
-**A-S3D-002 pendiente: toda acreditación/reversa Hosted exige autorización previa propia.** No usar el operador
+**A-S3D-002 AUTORIZADA CON CONDICIONES; gate de identidad pendiente.** Se autoriza un único
+crédito ARS6500 → 6 puntos y su reversa total, ambos identificados S3D-SMOKE-20261013.
+Antes de ejecutar se presenta la segunda identidad interna y se espera confirmación expresa.
+Tras confirmar: verificar saldo/historial receptor, dos movimientos persistentes, saldo final
+cero, sin duplicaciones ni cambios económicos en otras cuentas. Ante cualquier fallo: STOP;
+no retries o compensaciones adicionales automáticos. No usar el operador
 como cliente de su propia acreditación. Con el único perfil actual, la prueba de escritura
 requiere definir una segunda identidad interna y el negocio/consumo de prueba autorizados.
 No registrar clientes externos con SMTP default ni crear fixtures aprovechando el permiso H1.
 
 El ledger conserva créditos y reversas compensatorias. Una reversa deja saldo neto cero,
 pero no elimina el historial ni permite borrar perfiles/negocios referenciados (FK RESTRICT).
-La prueba Hosted y la permanencia auditada de sus registros deben aprobarse explícitamente;
+La permanencia auditada de esos dos registros queda aprobada por A-S3D-002;
 no prometer cleanup completo, ejecutar DELETE/TRUNCATE ni desactivar triggers de inmutabilidad.
 3D no se declara VERIFIED hasta completar la validación autorizada y documentar sus límites.
