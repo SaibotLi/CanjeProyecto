@@ -1,5 +1,8 @@
 # Sprint 3C — interfaz económica LOCAL
 
+> Registro de la fase LOCAL. Backend Hosted aplicado después bajo A-S3D-001; frontend
+> Production aún Sprint 2. [Estado actual y gates 3D](SPRINT_3D_HOSTED_ROLLOUT.md).
+
 13/10/2026. Contrato backend: [Sprint 3B](SPRINT_3B_BACKEND.md). Las seis migrations,
 RLS, grants, Auth y Storage permanecen intactos. Hosted conserva Sprint 2.
 Rama `codex/sprint-3`; backend 3B resguardado primero en commit `f39a263`.

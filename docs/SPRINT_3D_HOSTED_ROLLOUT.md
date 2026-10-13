@@ -1,7 +1,7 @@
-# Sprint 3D — publicación Hosted, pendiente de autorización
+# Sprint 3D — backend Hosted aplicado; validación económica pendiente
 
 13/10/2026. Objetivo confirmado: preparar/aplicar 3B en Hosted con autorización específica,
-publicar 3C y validar Hosted/Vercel. **PRECHECK PASS; REMOTE MIGRATION NOT AUTHORIZED.**
+publicar 3C y validar Hosted/Vercel. **A-S3D-001 APPLIED / SCHEMA VERIFIED; 3D IN PROGRESS.**
 No reset remoto, seed, SMTP, OAuth, POS, recompensas ni escrituras globales Platform.
 External pilot sigue bloqueado por custom SMTP + dominio autenticado.
 
@@ -11,7 +11,7 @@ External pilot sigue bloqueado por custom SMTP + dominio autenticado.
 reescritura. Conserva `0a269db` (cierre Sprint 2), `f39a263` (3B) y `d20d18b` (3C).
 Único conflicto: roadmap, resuelto conservando el cierre Hosted y el estado 3B/3C LOCAL.
 Frontend/backend económicos coinciden con `d20d18b`; cinco migrations previas, config y
-seed coinciden con `origin/main`. Ninguna aplicación económica remota ni push Sprint 3.
+seed coinciden con `origin/main`. Sin push Sprint 3 ni frontend económico en Production.
 
 ## Preflight read-only
 
@@ -26,9 +26,9 @@ Auth/Admin/menu y 10 checks QA/PWA/env PASS; auditoría de secretos PASS.
 Evidencia 3B/3C de PostgreSQL/JWT/concurrencia/replay/cleanup sigue válida: código sin cambios.
 No se reinicia Sprint 3 ni la auditoría completa de Sprint 2.
 
-## A-S3D-001 — acción concreta que requiere aprobación
+## A-S3D-001 — AUTORIZADA, aplicada y verificada
 
-Aplicar exclusivamente `20261010120000_sprint3_loyalty.sql` al proyecto Hosted indicado.
+Se aplicó exclusivamente `20261010120000_sprint3_loyalty.sql` al proyecto Hosted indicado.
 SHA256: `2f5a4342de35f1c83311c09084a8fc73fff299dec23c3a482069ead69c6112be`.
 
 Efectos: admitir Staff, policy READ de su negocio, customer_code inmutable con generación
@@ -40,9 +40,24 @@ Antes de ejecutar: comprobar target, branch, hash, historia remota y lista exact
 Usar CLI oficial sin include-all/include-seed; STOP ante otra migration pendiente, drift
 no explicado, target distinto o fallo de aplicación. No repair ni reset como recuperación.
 
-Después: historia de seis versiones, constraints/RLS/grants/RPC y backfill correctos;
-ledger vacío, private/storage no expuestos y anon sin EXECUTE económico. Generación de
-tipos Hosted comparada con el contrato LOCAL. Luego integrar en main por avance seguro,
+Resultado: historia de seis versiones, constraints/RLS/grants/RPC y backfill correctos.
+25 checks de catálogo PASS; único perfil con código válido, no nulo y único; constraints
+UNIQUE/CHECK e inmutabilidad habilitadas. Ledger vacío; cuatro requests reales PASS:
+private/storage HTTP406, ledger y RPC de lectura anon HTTP401/42501. Sin calls económicas.
+
+Preflight completo coincidió antes de aplicar; dry-run confirmó una única migration.
+Digests read-only antes/después: datos comerciales/settings/memberships, campos previos
+del perfil, identidades Auth/MFA/Platform, Storage/buckets/objects/ACLs/policies y policies
+app previas sin diferencias. No nueva membership, cuenta ni movimiento económico.
+
+La comparación textual inicial de tipos generados activó STOP de verificación. Diagnóstico
+read-only: nombres quoted/unquoted, metadata/utilidades del generador y Args `never` versus
+`Record<PropertyKey, never>` en tres funciones sin argumentos. El AST de schema coincide
+en todos los otros campos/tablas/relaciones/RPC; PostgreSQL confirmó cero argumentos y
+retornos iguales en esos tres casos. Sin drift de schema, edición de tipos LOCAL ni
+correcciones backend. No se oculta la diferencia textual entre generadores.
+
+Pendiente: integrar en main por avance seguro,
 push normal y esperar deployment Git READY/activo con SHA exacto; no force push.
 
 Publicar schema antes del frontend evita desplegar /operar y /points contra RPC ausentes.
@@ -55,7 +70,7 @@ Smoke HTTPS de rutas, reload, console/network, URL/public key Hosted y ausencia 
 Login humano normal; /points código/saldo/historial, Admin/operar y Platform AAL1/MFA/AAL2
 read-only. No passwords, sesiones ni códigos MFA por chat o logs.
 
-**Toda acreditación/reversa Hosted exige autorización previa propia.** No usar el operador
+**A-S3D-002 pendiente: toda acreditación/reversa Hosted exige autorización previa propia.** No usar el operador
 como cliente de su propia acreditación. Con el único perfil actual, la prueba de escritura
 requiere definir una segunda identidad interna y el negocio/consumo de prueba autorizados.
 No registrar clientes externos con SMTP default ni crear fixtures aprovechando el permiso H1.

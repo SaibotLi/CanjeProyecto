@@ -1,5 +1,8 @@
 # Sprint 3B — backend LOCAL y contrato para 3C
 
+> Registro de la fase LOCAL. Posteriormente A-S3D-001 autorizó y aplicó la sexta migration
+> Hosted sin movimientos económicos; [estado actual y límites](SPRINT_3D_HOSTED_ROLLOUT.md).
+
 Implementado 10/10/2026; verificado con Supabase LOCAL/PostgreSQL17.11 el 13/10/2026.
 **BACKEND LOCAL VERIFIED.** Hosted conserva Sprint 2 y sus cinco migrations; ninguna
 migration remota, deployment, commit/push ni implementación operativa de 3C.

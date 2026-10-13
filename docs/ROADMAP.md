@@ -38,8 +38,10 @@ Pendientes operativos antes de invitar externos, no fallos de Sprint 2:
 **SPRINT 3C VERIFIED LOCAL.** Staff, identificación por código, ledger,
 acreditación/idempotencia/reversas y consultas seguras implementadas y probadas LOCAL.
 3C conecta acreditación/recovery, reversas y puntos/historial reales con UX móvil.
-Hosted conserva Sprint 2. 3D inicia preparación e integración con el nuevo `main`;
-aplicar migrations o cambios económicos Hosted requiere autorización específica previa.
+3D integró el nuevo `main` y aplicó exclusivamente la sexta migration bajo A-S3D-001.
+Backend Hosted: schema/backfill/grants verificados; ledger vacío. Production conserva
+frontend Sprint 2. Nuevos cambios remotos y pruebas económicas requieren autorización específica.
+[Estado 3D y límites](SPRINT_3D_HOSTED_ROLLOUT.md).
 [Walkthrough 3C](SPRINT_3C_WALKTHROUGH.md).
 [Contrato y walkthrough](SPRINT_3B_BACKEND.md).
 La regresión temporal de Admin quedó corregida y verificada:
@@ -167,6 +169,6 @@ Segundo negocio piloto, onboarding, tema/configuración por tenant, aislamiento 
 
 - Sprint 1: assets definitivos, contenido real y aprobación visual.
 - Piloto externo después de foundation Hosted completada: SMTP/dominio, catálogo real y validación operativa final. No blockers de Sprint 2; flujo Auth cerrado en D-035.
-- Sprint 3D/aplicación Hosted: tareas posteriores que requieren autorización explícita.
+- Sprint 3D: pruebas económicas Hosted con autorización separada y publicación/verificación frontend pendientes.
 - Sprint 4: vencimiento y formato de token QR.
 - Sprint 5/6: reglas de gamificación, votación y abuso.
