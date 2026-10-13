@@ -25,7 +25,23 @@ export type Database = {
             [_ in never]: never;
         };
         Functions: {
+            "credit_points": {
+                Args: {
+                    "business_id": string;
+                    "customer_code": string;
+                    "paid_amount": Json;
+                    "reference": string;
+                    "request_id": string;
+                };
+                Returns: Json;
+            };
             "is_business_admin": {
+                Args: {
+                    "target_business_id": string;
+                };
+                Returns: boolean;
+            };
+            "is_business_staff": {
                 Args: {
                     "target_business_id": string;
                 };
@@ -34,6 +50,70 @@ export type Database = {
             "is_platform_admin": {
                 Args: Record<PropertyKey, never>;
                 Returns: boolean;
+            };
+            "lookup_loyalty_customer": {
+                Args: {
+                    "business_id": string;
+                    "customer_code": string;
+                };
+                Returns: Json;
+            };
+            "loyalty_history": {
+                Args: {
+                    "before_id": string;
+                    "before_time": string;
+                    "business_id": string;
+                    "page_size": number;
+                };
+                Returns: Json;
+            };
+            "loyalty_operator": {
+                Args: {
+                    "admin_only": boolean;
+                    "lock_rows": boolean;
+                    "target_business": string;
+                };
+                Returns: string;
+            };
+            "loyalty_receipt": {
+                Args: {
+                    "entry": Database["public"]['Tables']["point_transactions"]['Row'];
+                };
+                Returns: Json;
+            };
+            "my_loyalty": {
+                Args: {
+                    "before_id": string;
+                    "before_time": string;
+                    "business_id": string;
+                    "page_size": number;
+                };
+                Returns: Json;
+            };
+            "new_customer_code": {
+                Args: Record<PropertyKey, never>;
+                Returns: string;
+            };
+            "normalize_customer_code": {
+                Args: {
+                    "value": string;
+                };
+                Returns: string;
+            };
+            "parse_paid_amount": {
+                Args: {
+                    "value": Json;
+                };
+                Returns: number;
+            };
+            "reverse_credit": {
+                Args: {
+                    "business_id": string;
+                    "original_id": string;
+                    "reason": string;
+                    "request_id": string;
+                };
+                Returns: Json;
             };
         };
         Enums: {
@@ -283,21 +363,128 @@ export type Database = {
                     }
                 ];
             };
+            "point_transactions": {
+                Row: {
+                    "actor_id": string;
+                    "actor_role": string;
+                    "business_id": string;
+                    "created_at": string;
+                    "currency_code": string;
+                    "currency_per_point": number;
+                    "customer_code": string;
+                    "customer_id": string;
+                    "entry_type": string;
+                    "id": string;
+                    "paid_amount": number;
+                    "points_delta": number;
+                    "reason": string | null;
+                    "reference": string | null;
+                    "request_id": string;
+                    "reverses_id": string | null;
+                };
+                Insert: {
+                    "actor_id": string;
+                    "actor_role": string;
+                    "business_id": string;
+                    "created_at"?: string;
+                    "currency_code"?: string;
+                    "currency_per_point": number;
+                    "customer_code": string;
+                    "customer_id": string;
+                    "entry_type": string;
+                    "id"?: string;
+                    "paid_amount": number;
+                    "points_delta": number;
+                    "reason"?: string | null;
+                    "reference"?: string | null;
+                    "request_id": string;
+                    "reverses_id"?: string | null;
+                };
+                Update: {
+                    "actor_id"?: string;
+                    "actor_role"?: string;
+                    "business_id"?: string;
+                    "created_at"?: string;
+                    "currency_code"?: string;
+                    "currency_per_point"?: number;
+                    "customer_code"?: string;
+                    "customer_id"?: string;
+                    "entry_type"?: string;
+                    "id"?: string;
+                    "paid_amount"?: number;
+                    "points_delta"?: number;
+                    "reason"?: string | null;
+                    "reference"?: string | null;
+                    "request_id"?: string;
+                    "reverses_id"?: string | null;
+                };
+                Relationships: [
+                    {
+                        foreignKeyName: "point_transactions_actor_id_fkey";
+                        columns: [
+                            "actor_id"
+                        ];
+                        isOneToOne: false;
+                        referencedRelation: "profiles";
+                        referencedColumns: [
+                            "id"
+                        ];
+                    },
+                    {
+                        foreignKeyName: "point_transactions_business_id_fkey";
+                        columns: [
+                            "business_id"
+                        ];
+                        isOneToOne: false;
+                        referencedRelation: "businesses";
+                        referencedColumns: [
+                            "id"
+                        ];
+                    },
+                    {
+                        foreignKeyName: "point_transactions_customer_id_fkey";
+                        columns: [
+                            "customer_id"
+                        ];
+                        isOneToOne: false;
+                        referencedRelation: "profiles";
+                        referencedColumns: [
+                            "id"
+                        ];
+                    },
+                    {
+                        foreignKeyName: "point_transactions_reversal_fkey";
+                        columns: [
+                            "business_id",
+                            "reverses_id"
+                        ];
+                        isOneToOne: false;
+                        referencedRelation: "point_transactions";
+                        referencedColumns: [
+                            "business_id",
+                            "id"
+                        ];
+                    }
+                ];
+            };
             "profiles": {
                 Row: {
                     "created_at": string;
+                    "customer_code": string;
                     "display_name": string | null;
                     "id": string;
                     "updated_at": string;
                 };
                 Insert: {
                     "created_at"?: string;
+                    "customer_code"?: string;
                     "display_name"?: string | null;
                     "id": string;
                     "updated_at"?: string;
                 };
                 Update: {
                     "created_at"?: string;
+                    "customer_code"?: string;
                     "display_name"?: string | null;
                     "id"?: string;
                     "updated_at"?: string;
@@ -310,9 +497,53 @@ export type Database = {
             [_ in never]: never;
         };
         Functions: {
+            "credit_points": {
+                Args: {
+                    "business_id": string;
+                    "customer_code": string;
+                    "paid_amount": Json;
+                    "reference"?: string;
+                    "request_id": string;
+                };
+                Returns: Json;
+            };
+            "get_loyalty_history": {
+                Args: {
+                    "before_id"?: string;
+                    "before_time"?: string;
+                    "business_id": string;
+                    "page_size"?: number;
+                };
+                Returns: Json;
+            };
+            "get_my_loyalty": {
+                Args: {
+                    "before_id"?: string;
+                    "before_time"?: string;
+                    "business_id": string;
+                    "page_size"?: number;
+                };
+                Returns: Json;
+            };
             "is_current_user_platform_admin": {
                 Args: Record<PropertyKey, never>;
                 Returns: boolean;
+            };
+            "lookup_loyalty_customer": {
+                Args: {
+                    "business_id": string;
+                    "customer_code": string;
+                };
+                Returns: Json;
+            };
+            "reverse_credit": {
+                Args: {
+                    "business_id": string;
+                    "original_id": string;
+                    "reason": string;
+                    "request_id": string;
+                };
+                Returns: Json;
             };
         };
         Enums: {

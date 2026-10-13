@@ -1,5 +1,15 @@
 # Security — frontera implementada Sprint 2 LOCAL + HOSTED
 
+## Sprint 3B — autorización económica exclusivamente LOCAL (13/10/2026)
+
+Admin/Staff actuales pueden acreditar; sólo Admin revierte. Prohibida autoacreditación.
+Staff no amplía is_business_admin ni obtiene edición de Carta/settings/Storage/memberships.
+Ledger con RLS enabled y sin SELECT/INSERT/UPDATE/DELETE directo; cinco RPC de SQL fijo
+usan auth.uid(), membership vigente y tenant/estado DB. Platform no obtiene economía global.
+Código público sólo identifica; resolver exacto no enumera perfiles ni emails.
+Revocación SAME JWT, aislamiento y concurrencia comprobados con Auth/JWT reales LOCAL.
+[Contrato y evidencia 3B](SPRINT_3B_BACKEND.md). Ningún cambio aplicado a Hosted.
+
 ## Admin — recuperación frontend ante errores de refetch (08/10/2026)
 
 El catálogo conserva datos/borrador del mismo dueño durante revalidación y fallos de red;

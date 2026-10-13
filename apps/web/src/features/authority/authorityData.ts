@@ -2,10 +2,13 @@ import type { AppClient } from '../auth/authData'
 
 export const operatingBusinessSlug = 'valhalla-space'
 export type AdminBusiness = { id: string; slug: string; name: string; isActive: boolean }
+export type OperatorBusiness = AdminBusiness & { role: 'admin' | 'staff' }
 export type Authority = {
   userId: string
   adminBusinesses: AdminBusiness[]
   tenant: AdminBusiness | null
+  operatorBusinesses: OperatorBusiness[]
+  operatorTenant: OperatorBusiness | null
   // DB membership only. Auth SDK assurance is deliberately separate.
   platform: { isAdmin: boolean }
 }
@@ -15,17 +18,22 @@ type Membership = {
 }
 export function mapAuthority(rows: Membership[], userId: string, slug = operatingBusinessSlug, platformAdmin = false): Authority {
   const businesses = rows.map(row => {
-    if (row.user_id !== userId || row.role !== 'admin' || !row.businesses || row.businesses.id !== row.business_id) {
+    if (row.user_id !== userId || !['admin', 'staff'].includes(row.role) || !row.businesses || row.businesses.id !== row.business_id) {
       throw new Error('No pudimos comprobar tus permisos.')
     }
     const b = row.businesses
-    return { id: b.id, slug: b.slug, name: b.name, isActive: b.is_active }
+    return { id: b.id, slug: b.slug, name: b.name, isActive: b.is_active, role: row.role as OperatorBusiness['role'] }
   })
-  return { userId, adminBusinesses: businesses, tenant: businesses.find(b => b.slug === slug) ?? null,
+  // Staff is recognized, but never enters existing Admin guards/actions/catalog.
+  const adminBusinesses = businesses.filter(b => b.role === 'admin')
+  return { userId, adminBusinesses, tenant: adminBusinesses.find(b => b.slug === slug) ?? null,
+    operatorBusinesses: businesses, operatorTenant: businesses.find(b => b.slug === slug) ?? null,
     platform: { isAdmin: platformAdmin } }
 }
 export const isBusinessAdmin = (authority: Authority | null, businessId: string) =>
   !!authority?.adminBusinesses.some(b => b.id === businessId)
+export const isBusinessOperator = (authority: Authority | null, businessId: string) =>
+  !!authority?.operatorBusinesses.some(b => b.id === businessId)
 
 export async function readCurrentPlatformCapability(client: AppClient, signal = AbortSignal.timeout(15000)): Promise<boolean> {
   const { data, error } = await client.rpc('is_current_user_platform_admin').abortSignal(signal)

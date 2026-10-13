@@ -1,5 +1,15 @@
 # Database — esquema real Sprint 2 LOCAL + HOSTED
 
+## Sprint 3B — extensión exclusivamente LOCAL (13/10/2026)
+
+La sexta migration forward-only añade Staff, profiles.customer_code con backfill e
+inmutabilidad, y point_transactions sin grants directos ni CASCADE económico. Cinco RPC
+autoritativas resuelven cliente, acreditan, revierten y consultan saldo/historial.
+NUMERIC sin redondeo implícito, snapshots históricos y unicidad de request/reversa.
+Seis migrations reproducidas desde cero, JWT/concurrencia y tipos generados verificados.
+[Contrato vigente LOCAL](SPRINT_3B_BACKEND.md). Las descripciones de role sólo Admin
+de las secciones siguientes corresponden al baseline Sprint 2; Hosted sigue en ese baseline.
+
 ## Estado Hosted consolidado — 08/10/2026
 
 Las mismas cinco migrations están aplicadas y verificadas en Hosted; sin cambios de schema,

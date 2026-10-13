@@ -31,7 +31,8 @@ insert into expected_policies select 'public',t,n,c,array['authenticated']::name
   from unnest(array['menu_categories','menu_items']) t
   cross join (values ('business_admin_insert','INSERT'),('business_admin_update','UPDATE')) p(n,c)
   cross join lateral (select '(private.is_business_admin(business_id) AND (EXISTS ( SELECT 1 FROM businesses business WHERE ((business.id = '||t||'.business_id) AND business.is_active))))' as expression) predicate;
-select is((select count(*) from pg_policies where schemaname in ('public','private')),24::bigint,'Exactly 24 policies; no accidental policies');
+insert into expected_policies values ('public','businesses','business_staff_read','SELECT',array['authenticated']::name[],'private.is_business_staff(id)',null);
+select is((select count(*) from pg_policies where schemaname in ('public','private')),25::bigint,'Exactly 25 policies; Staff own-business READ is the only Sprint 3 addition');
 select results_eq($$select jsonb_build_array(schemaname,tablename,policyname,cmd,roles,permissive,
   regexp_replace(qual,'\s','','g'),regexp_replace(with_check,'\s','','g'))
   from pg_policies where schemaname in ('public','private') order by schemaname,tablename,policyname$$,
@@ -48,6 +49,7 @@ insert into expected_acl values
  ('public','businesses',true,true,array[]::text[],array['name']),
  ('public','profiles',false,true,array[]::text[],array['display_name']),
  ('public','business_memberships',false,true,array[]::text[],array[]::text[]),
+ ('public','point_transactions',false,false,array[]::text[],array[]::text[]),
  ('private','platform_admins',false,false,array[]::text[],array[]::text[]),
  ('public','loyalty_settings',true,true,array[]::text[],array['currency_per_point','points_enabled']),
  ('public','menu_categories',true,true,array['business_id','name','slug','display_order','is_active'],array['name','slug','display_order','is_active']),
@@ -83,8 +85,12 @@ insert into expected_functions values
  ('is_platform_admin','','boolean',false,'s',$$select exists ( select 1 from private.platform_admins as administrator where administrator.user_id = (select auth.uid()) );$$),
  ('set_updated_at','','trigger',false,'v',$$begin new.updated_at := pg_catalog.now(); return new; end;$$),
  ('create_profile_for_auth_user','','trigger',true,'v',$$begin insert into public.profiles (id) values (new.id); return new; end;$$);
-select functions_are('private',array['create_profile_for_auth_user','is_business_admin','is_platform_admin','set_updated_at']);
-select functions_are('public',array['is_current_user_platform_admin']);
+-- Exact names stay closed; new function modes/grants are tested independently in 07.
+select functions_are('private',array['create_profile_for_auth_user','is_business_admin','is_platform_admin','set_updated_at',
+  'is_business_staff','new_customer_code','preserve_customer_code','prevent_economic_mutation','validate_economic_insert',
+  'normalize_customer_code','parse_paid_amount','loyalty_operator','loyalty_receipt','lookup_loyalty_customer',
+  'credit_points','reverse_credit','my_loyalty','loyalty_history']);
+select functions_are('public',array['is_current_user_platform_admin','lookup_loyalty_customer','credit_points','reverse_credit','get_my_loyalty','get_loyalty_history']);
 create temporary view function_inventory as select e.*,p.oid,p.proowner,p.prosecdef,p.provolatile,p.proconfig,p.prosrc
  from expected_functions e join pg_proc p on p.oid=format('private.%I(%s)',e.n,e.args)::regprocedure;
 select is(pg_get_userbyid(proowner),'postgres','Function owner '||n) from function_inventory;

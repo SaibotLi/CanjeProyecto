@@ -1,10 +1,21 @@
 # Database tests
 
+Sprint 3B LOCAL-first adds `07_loyalty_contract.test.sql` and
+`pnpm supabase:test:loyalty` for real Auth JWTs, money validation,
+concurrent idempotency/reversals, tenant isolation, Staff separation and
+same-JWT revocation. Run against an isolated disposable LOCAL checkout;
+the Hosted-linked checkout is refused. Use `pnpm supabase:test:loyalty:cleanup`
+for an explicit ownership-guarded LOCAL schema reset: never bypass ledger
+immutability to delete economic fixtures. Fixtures must not share human data.
+`node --test supabase/tests/local-runtime-guard.test.mjs` tests endpoint guards
+without starting Docker. See `docs/SPRINT_3B_BACKEND.md` for verification
+status, exact RPC contracts and the focused suite selection.
+
 Task 2B: `pnpm supabase:test:db` (official Supabase pgTAP runner) on a freshly reset LOCAL
 stack, followed by `pnpm supabase:test:smoke` (genuine HTTP Auth / Data API).
 No hosted targets, real identities or secrets in source. Node >=22.13.
 
-- 01_schema.test.sql: exact seven tables/fields, PK/FK/actions, defaults/indexes/CHECKs,
+- 01_schema.test.sql: exact application tables/fields, PK/FK/actions, defaults/indexes/CHECKs,
   RLS flags and hardened trigger functions. Historical absent app ACL checks
   superseded by the exact 2C inventory, without dropping structure/integrity checks.
 - 02_integrity.test.sql: tenant/status fixtures, uniqueness/text bounds, money/special values,

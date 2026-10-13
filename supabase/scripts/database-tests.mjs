@@ -6,7 +6,9 @@ import { cli, localRuntime, projectRoot } from './local-runtime.mjs'
 
 localRuntime()
 const directory = mkdtempSync(join(projectRoot, 'supabase', '.temp', 'task-2c-pgtap-'))
-const files = ['01_schema.test.sql', '02_integrity.test.sql', '03_auth_seed.test.sql', '04_authorization_inventory.test.sql', '05_storage_inventory.test.sql', '06_platform_capability.test.sql']
+const allowed = ['01_schema.test.sql', '02_integrity.test.sql', '03_auth_seed.test.sql', '04_authorization_inventory.test.sql', '05_storage_inventory.test.sql', '06_platform_capability.test.sql', '07_loyalty_contract.test.sql']
+const files = process.argv.length > 2 ? process.argv.slice(2) : allowed
+if (files.some(file => !allowed.includes(file))) throw new Error('Unknown local test suite')
 const written = []
 try {
   const fixture = readFileSync(new URL('../fixtures/catalog.sql', import.meta.url), 'utf8')

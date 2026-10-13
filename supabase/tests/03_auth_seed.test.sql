@@ -26,7 +26,8 @@ select throws_ok($$update public.profiles set display_name=' ' where id='fa11000
 select throws_ok($$update public.profiles set display_name=repeat('a',81) where id='fa110000-0000-4000-8000-000000000001'$$,'23514',null,'Display name limit');
 select lives_ok($$update public.profiles set display_name='Demo tester' where id='fa110000-0000-4000-8000-000000000001'$$,'Valid display name');
 select throws_ok($$insert into public.business_memberships(business_id,user_id,role) values ('a11a0000-0000-4000-8000-000000000001','fa110000-0000-4000-8000-000000000001','customer')$$,'23514',null,'Customer is implicit, not membership');
-select throws_ok($$insert into public.business_memberships(business_id,user_id,role) values ('a11a0000-0000-4000-8000-000000000001','fa110000-0000-4000-8000-000000000001','staff')$$,'23514',null,'Staff is forbidden');
+select lives_ok($$insert into public.business_memberships(business_id,user_id,role) values ('a11a0000-0000-4000-8000-000000000001','fa110000-0000-4000-8000-000000000001','staff')$$,'Staff is a membership role in Sprint 3');
+delete from public.business_memberships where user_id='fa110000-0000-4000-8000-000000000001';
 insert into public.business_memberships(business_id,user_id,role) values
   ('a11a0000-0000-4000-8000-000000000001','fa110000-0000-4000-8000-000000000001','admin');
 select throws_ok($$insert into public.business_memberships(business_id,user_id,role) values ('a11a0000-0000-4000-8000-000000000001','fa110000-0000-4000-8000-000000000001','admin')$$,'23505',null,'Membership composite PK');

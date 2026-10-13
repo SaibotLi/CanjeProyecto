@@ -2,7 +2,7 @@
 
 La numeración es única y expresa dependencias, no fechas.
 
-## Estado consolidado — 08/10/2026
+## Estado consolidado — 13/10/2026
 
 **Sprint 2 + Hosted Foundation: COMPLETADOS.**
 **External Pilot Ready: NO.**
@@ -22,10 +22,14 @@ Pendientes operativos antes de invitar externos, no fallos de Sprint 2:
 - Validaciones finales de operación: runbook MFA/recovery, backups/rollback, PWA física y smoke final.
 - Google OAuth opcional; requiere tarea propia y no es gate del email/password existente.
 
-**SPRINT 3 READY TO PLAN.** La regresión temporal de Admin quedó corregida y verificada:
+**SPRINT 3B BACKEND LOCAL VERIFIED.** Staff, identificación por código, ledger,
+acreditación/idempotencia/reversas y consultas seguras implementadas y probadas LOCAL.
+Hosted conserva Sprint 2; 3C y aplicación remota pendientes de autorización.
+[Contrato y walkthrough](SPRINT_3B_BACKEND.md).
+La regresión temporal de Admin quedó corregida y verificada:
 edición prolongada, revalidación, guardado real y restauración PASS; deployment Git activo.
 [Causa raíz y validación](ADMIN_CATALOG_LIFECYCLE_FIX.md).
-Sin implementación automática ni nuevas tablas/migrations.
+No avance automático a 3C, Hosted, SMTP u otras fases.
 
 ## Sprint 0 — Foundation
 
@@ -109,17 +113,19 @@ estrategia Git en [closeout](SPRINT_2_CLOSEOUT.md). No hosted/commit/push autom�
 
 ## Sprint 3 — Loyalty Ledger + Admin Operations
 
-Alcance inicial a planificar, todavía no implementado:
+3A aprobado; backend 3B implementado y verificado exclusivamente LOCAL:
 
 - Registro de consumos efectivamente pagados, aislado por negocio.
 - Regla inicial: ARS 1.000 efectivamente pagados = 1 punto; cálculo sobre total de transacción,
-  no suma de badges estimativos por producto. Definir redondeo y snapshot de regla en el contrato.
+  no suma de badges estimativos por producto. floor por transacción y snapshot del divisor.
 - Ledger inmutable; historial y saldo derivados para clientes.
 - Operaciones económicas autorizadas desde backend; UI expresa intención y no acredita puntos.
 - Idempotencia, reversas compensatorias y auditoría suficiente de operaciones sensibles.
 
-Resolver política de reversas con saldo insuficiente antes de implementar. Premios, vouchers
-y canje QR quedan exclusivamente en Sprint 4. Ninguna interfaz de compras/Edge Function ahora.
+Reversas completas y compensatorias, sólo Admin, sin bloquear por saldo insuficiente:
+decisión aprobada en 3B; aún no hay canjes. Referencia opcional, autoacreditación prohibida,
+código público exacto e idempotencia atómica PostgreSQL. Frontend operativo corresponde a
+3C y no comenzó; sin nuevo servidor/Edge Function. Premios/vouchers/canje QR siguen Sprint 4.
 
 ## Sprint 4 — Rewards + Voucher Redemption
 
@@ -145,6 +151,6 @@ Segundo negocio piloto, onboarding, tema/configuración por tenant, aislamiento 
 
 - Sprint 1: assets definitivos, contenido real y aprobación visual.
 - Piloto externo después de foundation Hosted completada: SMTP/dominio, catálogo real y validación operativa final. No blockers de Sprint 2; flujo Auth cerrado en D-035.
-- Sprint 3: política de reversión con saldo insuficiente.
+- Sprint 3C/aplicación Hosted: tareas posteriores que requieren autorización explícita.
 - Sprint 4: vencimiento y formato de token QR.
 - Sprint 5/6: reglas de gamificación, votación y abuso.

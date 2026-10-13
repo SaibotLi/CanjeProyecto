@@ -27,6 +27,8 @@
     "supabase:test:db": "node supabase/scripts/database-tests.mjs",
     "supabase:test:smoke": "node --test supabase/tests/local-smoke.test.mjs",
     "supabase:test:authz": "node --test supabase/tests/authorization-rest.test.mjs",
+    "supabase:test:loyalty": "node --test supabase/tests/loyalty-rest.test.mjs",
+    "supabase:test:loyalty:cleanup": "node supabase/scripts/loyalty-fixture-cleanup.mjs",
     "supabase:test:storage": "node --test supabase/tests/storage-rest.test.mjs",
     "supabase:test:storage:orphan-probe": "node --test supabase/tests/orphan-delete-probe.test.mjs",
     "supabase:types": "node supabase/scripts/database-types.mjs --write",

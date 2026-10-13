@@ -6,12 +6,18 @@ Fundación frontend de una futura plataforma SaaS de fidelización para comercio
 
 ## Estado actual
 
-**SPRINT 2 + HOSTED FOUNDATION CLOSED — SPRINT 3 READY TO PLAN.**
+**SPRINT 2 + HOSTED FOUNDATION CLOSED — SPRINT 3B BACKEND LOCAL VERIFIED.**
 H1 foundation, H2 Auth/bootstrap real y H3 conexión HTTPS completados en
 https://valhallapp.vercel.app. Perfil/Admin/Platform MFA read-only operativos, catálogo
 sin productos (categoría Vinos existente). **External Pilot Ready: NO**: custom SMTP/dominio autenticado, catálogo
-real y validaciones operativas finales pendientes. Google OAuth opcional; economía no implementada.
+real y validaciones operativas finales pendientes. Google OAuth opcional; economía no desplegada en Hosted.
 [Cierre vigente](docs/SPRINT_2_CLOSEOUT.md) y [roadmap](docs/ROADMAP.md).
+
+Sprint 3B implementa exclusivamente LOCAL Staff, código público de cliente, ledger inmutable,
+acreditación/reversas atómicas e idempotentes y saldo/historial por RPC. Seis migrations
+reproducibles; las cinco de Sprint 2 intactas. Hosted continúa con cinco y no fue modificado.
+[Contrato y pruebas de 3B](docs/SPRINT_3B_BACKEND.md). Frontend operativo 3C pendiente;
+`/points` conserva su mock hasta una implementación explícitamente autorizada.
 
 ### Historia de Sprint 2 LOCAL
 

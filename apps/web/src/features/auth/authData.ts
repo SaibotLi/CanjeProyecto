@@ -5,7 +5,9 @@ export type AppClient = SupabaseClient<Database>
 // Match the existing profiles_display_name_valid CHECK; no schema change.
 export const displayNameMaxLength = 80
 export type Profile = { id: string; displayName: string | null; createdAt: string; updatedAt: string }
-type ProfileRow = Database['public']['Tables']['profiles']['Row']
+// This adapter deliberately selects only the current profile UI projection.
+// New backend-only columns (customer_code in 3B) do not expand its response.
+type ProfileRow = Pick<Database['public']['Tables']['profiles']['Row'], 'id' | 'display_name' | 'created_at' | 'updated_at'>
 export function mapProfile(row: ProfileRow, userId: string): Profile {
   if (row.id !== userId) throw new Error('Perfil no disponible.')
   return { id: row.id, displayName: row.display_name, createdAt: row.created_at, updatedAt: row.updated_at }

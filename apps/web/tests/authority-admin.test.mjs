@@ -5,7 +5,7 @@ import React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter } from 'react-router-dom'
 import { createClient } from '@supabase/supabase-js'
-import { mapAuthority, isBusinessAdmin, readAuthority } from '../src/features/authority/authorityData.ts'
+import { mapAuthority, isBusinessAdmin, isBusinessOperator, readAuthority } from '../src/features/authority/authorityData.ts'
 import { createAuthorityStore, businessGate, platformGate } from '../src/features/authority/authorityStore.ts'
 import { AuthorityContext } from '../src/features/authority/authorityContext.ts'
 import { BusinessAdminRequired } from '../src/features/authority/BusinessAdminRequired.tsx'
@@ -53,6 +53,26 @@ test('real SDK authority query explicitly self-filters and uses FK, not private 
   assert.equal(rpc.url.pathname, '/rest/v1/rpc/is_current_user_platform_admin')
   assert.equal(rpc.body, '{}')
   await client.auth.dispose()
+})
+
+test('Staff is an operator only: no Admin tenant, guard or catalog action authority; mixed tenants remain isolated', async () => {
+  const staff = { ...member(), role: 'staff' }
+  const own = mapAuthority([staff], 'A')
+  assert.equal(own.operatorTenant.role, 'staff')
+  assert.ok(isBusinessOperator(own, businessId))
+  assert.equal(own.tenant, null)
+  assert.deepEqual(own.adminBusinesses, [])
+  assert.equal(isBusinessAdmin(own, businessId), false)
+  assert.equal(businessGate({ status: 'ready', data: own }), 'forbidden')
+  const b = { ...member('A', 'other'), business_id: 'other-business', businesses: { ...member().businesses, id: 'other-business', slug: 'other' } }
+  const mixed = mapAuthority([staff, b], 'A')
+  assert.equal(mixed.operatorBusinesses.length, 2)
+  assert.equal(isBusinessAdmin(mixed, businessId), false)
+  assert.equal(isBusinessAdmin(mixed, 'other-business'), true)
+  const auth = authHarness(), authority = createAuthorityStore(auth, async () => own)
+  await authority.reload()
+  await assert.rejects(() => createAdminActions(auth, authority).saveCategory(businessId, categoryDraft), /Ya no tenés acceso administrativo/)
+  authority.disconnect()
 })
 test('authority store drops late A result after B, logout clears synchronously and errors fail closed', async () => {
   const auth = authHarness(), reads = []

@@ -34,11 +34,23 @@ export function cli(args) {
 export function localSql(sql) {
   return run('docker', ['exec', '-i', 'supabase_db_canjeproyect', 'psql', '-U', 'postgres', '-d', 'postgres', '-v', 'ON_ERROR_STOP=1', '-At'], sql)
 }
+export function localDockerHost() {
+  // A local API URL/container label alone cannot exclude a remote Docker context.
+  // Accept only local IPC; never an SSH/TCP daemon, and never print its address.
+  const local = host => /^unix:\/\/\//.test(host)
+    || /^npipe:\/\/\/\/\.\/pipe\/docker(?:_engine|DesktopLinuxEngine)$/.test(host)
+  if (process.env.DOCKER_HOST && !local(process.env.DOCKER_HOST)) throw new Error('Refusing: non-local Docker host')
+  const host = process.env.DOCKER_HOST && !process.env.DOCKER_CONTEXT ? process.env.DOCKER_HOST
+    : run('docker', ['context', 'inspect', '--format', '{{.Endpoints.docker.Host}}'])
+  if (!local(host)) throw new Error('Refusing: non-local Docker context')
+  return host
+}
 export function localRuntime() {
   const config = readFileSync(new URL('../config.toml', import.meta.url), 'utf8')
   if (!/^project_id = "canjeproyect"$/m.test(config) || existsSync(new URL('../.temp/project-ref', import.meta.url))) {
     throw new Error('Refusing: unexpected project or hosted link')
   }
+  localDockerHost()
   const label = run('docker', ['inspect', 'supabase_db_canjeproyect', '--format', '{{index .Config.Labels "com.supabase.cli.project"}}'])
   if (label !== 'canjeproyect') throw new Error('Refusing: unexpected Docker target')
   let status, db
