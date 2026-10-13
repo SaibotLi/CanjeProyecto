@@ -8,7 +8,40 @@ del smoke H3 está corregido y publicado: edición de casi siete minutos, revali
 guardado real después de tres minutos, persistencia y restauración PASS. El commit
 funcional ca71f52 tiene deployment Git Production READY y activo.
 [Causa raíz y regresión](ADMIN_CATALOG_LIFECYCLE_FIX.md).
-No se inició Sprint3; su planificación requiere un nuevo encargo.
+Este cierre del 08/10 no inició Sprint3; su estado posterior se aclara abajo.
+
+## Revalidación del cierre — 13/10/2026
+
+El nuevo pedido de consolidación se ejecuta exclusivamente sobre `main` y Production.
+Antes de esta actualización documental, `main` y `origin/main` coincidían en `c816003`;
+el deployment Git correspondiente estaba READY y activo en https://valhallapp.vercel.app.
+El rewrite SPA, copy de Hosted, informes H1/H2/H3 y fix temporal de Admin ya estaban
+versionados. No se necesitó ningún cambio funcional, de configuración o de backend.
+
+- CLI oficial: Production conserva las dos variables públicas aprobadas; URL y publishable
+  key coinciden con el proyecto Hosted. No se registraron valores de claves.
+- Lint, typecheck y build con env públicas Production PASS; 40 regresiones Admin/Auth/env/QA
+  y un test de ownership Storage PASS. Auditoría de secretos de fuente/bundle PASS.
+- Ocho rutas HTTPS HTTP200, sin 404 SPA. Navegador de prueba: Carta Valhalla vacía controlada,
+  login visible, acceso directo y reload PASS; Admin/Platform anónimos redirigen a login.
+  Requests Supabase sólo al Hosted aprobado; cero errores de consola o requests fallidas.
+  Bundle sin endpoint Supabase loopback ni patrones de secretos de servidor.
+- Login personal, restore/profile, Admin y Platform AAL1/MFA/AAL2 conservan su evidencia
+  H1/H2/H3 y de la regresión Admin publicada, sin cambios que la invaliden. No se repitió
+  login personal, entrega de correo ni escrituras Hosted para este smoke.
+- Cinco migrations y toda la autoridad backend intactas. Sin reset, seed ni datos nuevos.
+  El deployment posterior al push documental se verifica nuevamente contra su SHA y alias;
+  la evidencia sanitizada queda fuera de Git, siguiendo el contrato de cierre existente.
+
+**Sprint 2 + Hosted Foundation CLOSED; External Pilot Ready: NO.** SMTP custom con dominio
+autenticado, catálogo/precios/imágenes reales y validaciones operativas finales siguen
+pendientes. Google OAuth permanece opcional y requiere tarea propia.
+
+El texto original «SPRINT 3 READY TO PLAN» describe el hito del 08/10, no el estado de
+todo el trabajo local al 13/10. Encargos posteriores aprobaron 3A e implementaron 3B/3C
+exclusivamente LOCAL en `codex/sprint-3` (`f39a263`, `d20d18b`). Esa rama se conserva sin
+merge ni push en este cierre; `main`/Hosted/Production continúan con Sprint 2. No se
+implementa economía adicional ni se publica Sprint 3 por este pedido.
 
 Este documento reemplaza el estado exclusivamente LOCAL del cierre original. La evidencia
 histórica de 2H y sus 1.257 comprobaciones permanece en

@@ -2,6 +2,19 @@
 
 La numeración es única y expresa dependencias, no fechas.
 
+## Revalidación de main / Production — 13/10/2026
+
+**SPRINT 2 + HOSTED FOUNDATION CLOSED. External Pilot Ready: NO.** Rewrite y cierre Hosted
+ya versionados; nueva verificación de env públicas, build/regresiones y smoke HTTPS PASS.
+Sólo actualización documental y sincronización Git; backend y frontend funcional intactos.
+[Resultados y límites](SPRINT_2_CLOSEOUT.md).
+
+Las secciones siguientes conservan el alcance histórico de `main` al cierre de Sprint 2.
+Por encargos posteriores, 3A fue aprobada y 3B/3C están implementadas y probadas LOCAL en
+la rama separada `codex/sprint-3`; no se incorporan ni se publican por este pedido.
+Hosted/Production siguen sin economía real. Cualquier publicación de Sprint 3 requiere
+un encargo separado; SMTP/dominio continúan bloqueando usuarios externos.
+
 ## Estado consolidado — 08/10/2026
 
 **Sprint 2 + Hosted Foundation: COMPLETADOS.**
