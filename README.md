@@ -10,7 +10,7 @@ Fundación frontend de una futura plataforma SaaS de fidelización para comercio
 H1 foundation, H2 Auth/bootstrap real y H3 conexión HTTPS completados en
 https://valhallapp.vercel.app. Perfil/Admin/Platform MFA read-only operativos, catálogo
 sin productos (categoría Vinos existente). **External Pilot Ready: NO**: custom SMTP/dominio autenticado, catálogo
-real y validaciones operativas finales pendientes. Google OAuth opcional; frontend económico aún no publicado.
+real y validaciones operativas finales pendientes. Google OAuth opcional.
 [Cierre vigente](docs/SPRINT_2_CLOSEOUT.md) y [roadmap](docs/ROADMAP.md).
 
 Sprint 3B implementa exclusivamente LOCAL Staff, código público de cliente, ledger inmutable,
@@ -19,8 +19,12 @@ reproducibles; las cinco de Sprint 2 intactas. A-S3D-001 autorizó y aplicó la 
 schema/backfill/grants verificados, ledger vacío y cero escrituras económicas de prueba.
 [Contrato y pruebas de 3B](docs/SPRINT_3B_BACKEND.md). 3C conecta `/operar` y `/points`
 al backend LOCAL: código personal, acreditación, recovery idempotente, historial y reversas.
-[Walkthrough y reproducción segura](docs/SPRINT_3C_WALKTHROUGH.md). Production mantiene el frontend Sprint 2;
-[estado y gates de 3D](docs/SPRINT_3D_HOSTED_ROLLOUT.md). Pruebas económicas requieren aprobación separada.
+[Walkthrough y reproducción segura](docs/SPRINT_3C_WALKTHROUGH.md). Esta entrega integra el frontend
+Sprint 3 para Production; [estado y gates de 3D](docs/SPRINT_3D_HOSTED_ROLLOUT.md).
+El smoke económico Hosted requiere confirmar previamente la segunda identidad receptora.
+
+Para colaborar desde otra computadora: [guía breve de desarrollo](docs/DEVELOPMENT_QUICKSTART.md).
+`main` contiene el trabajo integrado; permisos GitHub y capacidades Admin/Staff son independientes.
 
 ### Historia de Sprint 2 LOCAL
 

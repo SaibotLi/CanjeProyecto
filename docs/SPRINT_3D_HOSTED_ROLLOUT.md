@@ -5,13 +5,29 @@ publicar 3C y validar Hosted/Vercel. **A-S3D-001 APPLIED / SCHEMA VERIFIED; 3D I
 No reset remoto, seed, SMTP, OAuth, POS, recompensas ni escrituras globales Platform.
 External pilot sigue bloqueado por custom SMTP + dominio autenticado.
 
+## Publicación retomada — 19/10/2026
+
+El usuario solicita publicar el trabajo pendiente y verificar Vercel. `origin/main`
+permanece en `0a269db`, sin commits ajenos para sobrescribir. Esta entrega integra
+3B/3C y los registros de autorización; preserva la rama Sprint 3 en remoto y actualiza
+main por avance seguro, sin force push ni migrations remotas nuevas.
+
+Revalidación read-only: 25 checks de schema, cuatro requests Data API y diagnóstico
+semántico de tipos PASS. Hosted mantiene un perfil y ledger vacío; la cuenta receptora
+todavía no existe. A-S3D-002 sigue condicionada a presentar y confirmar su identidad.
+No se ejecuta crédito/reversa para completar la publicación ni se declara 3D VERIFIED.
+El deployment se comprueba después del push por SHA exacto/READY/alias y smoke HTTPS;
+la evidencia sanitizada queda fuera del repo. Guía compartida en
+[DEVELOPMENT_QUICKSTART.md](DEVELOPMENT_QUICKSTART.md).
+
 ## Integración preservada
 
 `codex/sprint-3` incorpora `origin/main` mediante merge local `bd10e70`, sin rebase ni
 reescritura. Conserva `0a269db` (cierre Sprint 2), `f39a263` (3B) y `d20d18b` (3C).
 Único conflicto: roadmap, resuelto conservando el cierre Hosted y el estado 3B/3C LOCAL.
 Frontend/backend económicos coinciden con `d20d18b`; cinco migrations previas, config y
-seed coinciden con `origin/main`. Sin push Sprint 3 ni frontend económico en Production.
+seed coinciden con `origin/main`. Al checkpoint del 13/10 no había push Sprint 3 ni
+frontend económico en Production; la publicación del 19/10 retoma ese pendiente.
 
 ## Preflight read-only
 
@@ -57,7 +73,7 @@ en todos los otros campos/tablas/relaciones/RPC; PostgreSQL confirmó cero argum
 retornos iguales en esos tres casos. Sin drift de schema, edición de tipos LOCAL ni
 correcciones backend. No se oculta la diferencia textual entre generadores.
 
-Pendiente: integrar en main por avance seguro,
+Plan de publicación: integrar en main por avance seguro,
 push normal y esperar deployment Git READY/activo con SHA exacto; no force push.
 
 Publicar schema antes del frontend evita desplegar /operar y /points contra RPC ausentes.

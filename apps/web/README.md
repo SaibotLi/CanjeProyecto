@@ -5,8 +5,11 @@ Frontend React/Vite/TypeScript, React Router, Tailwind, CSS tokens y PWA; Carta 
 Production https://valhallapp.vercel.app conecta al Supabase Hosted aprobado con únicamente
 VITE_SUPABASE_URL/VITE_SUPABASE_PUBLISHABLE_KEY públicas. Vercel root apps/web, Vite/Node24.x;
 vercel.json conserva fallback SPA a index.html. Auth/Admin/Platform MFA read-only operativos.
-Catálogo vacío, puntos estimativos y puntos/premios demo; external pilot bloqueado por SMTP
-custom/dominio autenticado. [Cierre actual](../../docs/SPRINT_2_CLOSEOUT.md).
+Catálogo sin productos; badges de Carta estimativos. Sprint 3 conecta /points a saldo/historial
+reales y /operar a las RPC de acreditación/reversa; rewards sigue demo sin canje. Backend Hosted
+con seis migrations bajo A-S3D-001; smoke económico condicionado a confirmar la cuenta receptora.
+External pilot bloqueado por SMTP custom/dominio autenticado.
+[Estado 3D](../../docs/SPRINT_3D_HOSTED_ROLLOUT.md) y [desarrollo compartido](../../docs/DEVELOPMENT_QUICKSTART.md).
 
 Desde la raíz: `pnpm install`, Docker operativo, `pnpm supabase:start`, completar únicamente URL/publishable key LOCAL en apps/web/.env.local y `pnpm dev`. La Carta necesita backend; configuración ausente/fallo muestra error, no mock. El build no inicializa el cliente ni requiere env.
 
@@ -15,7 +18,8 @@ Task 2D aprobada visualmente por el usuario. Task 2E agrega /login, /register, /
 privado, /auth/callback, /auth/forgot-password, /auth/recovery y /auth/mfa.
 AuthProvider/sessionStore es la única fuente de sesión; cliente oficial 2.117.2 compartido,
 implicit/persist/refresh/detectURL explícitos. Env local aquí; puerto 5173 estricto.
-2E COMPLETADA/APROBADA por revisión humana declarada en prompt 2F. Puntos/rewards siguen mocks.
+2E COMPLETADA/APROBADA por revisión humana declarada en prompt 2F. Rewards conserva su demo;
+la posterior entrega 3C reemplaza puntos por consultas reales.
 2F habilita /admin, /admin/categories y /admin/products por membership actual de Valhalla:
 create/update catálogo, precios con centavos y upload nuevo, sin DELETE. Inactivo readonly.
 AuthorityProvider separado, refetch por boundaries/antes de writes; PostgreSQL sigue autoridad.

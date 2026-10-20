@@ -39,8 +39,9 @@ Pendientes operativos antes de invitar externos, no fallos de Sprint 2:
 acreditación/idempotencia/reversas y consultas seguras implementadas y probadas LOCAL.
 3C conecta acreditación/recovery, reversas y puntos/historial reales con UX móvil.
 3D integró el nuevo `main` y aplicó exclusivamente la sexta migration bajo A-S3D-001.
-Backend Hosted: schema/backfill/grants verificados; ledger vacío. Production conserva
-frontend Sprint 2. Nuevos cambios remotos y pruebas económicas requieren autorización específica.
+Backend Hosted: schema/backfill/grants verificados; ledger vacío. El 19/10 se retoma la
+publicación del frontend 3C por pedido explícito. El smoke económico sigue condicionado
+a presentar y confirmar la cuenta receptora. Nuevas migrations requieren autorización específica.
 [Estado 3D y límites](SPRINT_3D_HOSTED_ROLLOUT.md).
 [Walkthrough 3C](SPRINT_3C_WALKTHROUGH.md).
 [Contrato y walkthrough](SPRINT_3B_BACKEND.md).
