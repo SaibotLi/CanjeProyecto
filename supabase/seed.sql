@@ -3,9 +3,20 @@
 -- Stable synthetic UUIDs. No users, credentials, platform authority or test tenant.
 -- Repeat is a no-op: never overwrite local edits. A reset restores these defaults.
 begin;
-insert into public.businesses (id, slug, name, currency_code, timezone)
-values ('a11a0000-0000-4000-8000-000000000001', 'valhalla-space', 'Valhalla Space',
-  'ARS', 'America/Argentina/Buenos_Aires') on conflict (id) do nothing;
+do $$
+declare seeded_id uuid;
+begin
+  insert into public.businesses (id, slug, name, currency_code, timezone)
+  values ('a11a0000-0000-4000-8000-000000000001', 'valhalla-space', 'Valhalla Space',
+    'ARS', 'America/Argentina/Buenos_Aires') on conflict (id) do nothing returning id into seeded_id;
+  -- Only a newly created LOCAL demo receives demo capabilities. Repeating seed
+  -- never changes an existing subscription/presentation or any merchant edits.
+  if seeded_id is not null then
+    update public.business_entitlements set loyalty_enabled=true where business_id=seeded_id;
+    update public.business_presentation set city='Villaguay',region='Entre Ríos' where business_id=seeded_id;
+  end if;
+end;
+$$;
 
 insert into public.loyalty_settings (business_id, currency_per_point, points_enabled)
 values ('a11a0000-0000-4000-8000-000000000001', 1000.00, true)

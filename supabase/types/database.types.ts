@@ -106,6 +106,23 @@ export type Database = {
                 };
                 Returns: number;
             };
+            "provision_business": {
+                Args: {
+                    "business_name": string;
+                    "business_slug": string;
+                    "business_timezone"?: string;
+                    "owner_user_id": string;
+                    "with_loyalty"?: boolean;
+                };
+                Returns: string;
+            };
+            "require_loyalty_entitlement": {
+                Args: {
+                    "lock_row": boolean;
+                    "target_business": string;
+                };
+                Returns: undefined;
+            };
             "reverse_credit": {
                 Args: {
                     "business_id": string;
@@ -125,6 +142,39 @@ export type Database = {
     };
     "public": {
         Tables: {
+            "business_entitlements": {
+                Row: {
+                    "business_id": string;
+                    "created_at": string;
+                    "loyalty_enabled": boolean;
+                    "updated_at": string;
+                };
+                Insert: {
+                    "business_id": string;
+                    "created_at"?: string;
+                    "loyalty_enabled"?: boolean;
+                    "updated_at"?: string;
+                };
+                Update: {
+                    "business_id"?: string;
+                    "created_at"?: string;
+                    "loyalty_enabled"?: boolean;
+                    "updated_at"?: string;
+                };
+                Relationships: [
+                    {
+                        foreignKeyName: "business_entitlements_business_id_fkey";
+                        columns: [
+                            "business_id"
+                        ];
+                        isOneToOne: true;
+                        referencedRelation: "businesses";
+                        referencedColumns: [
+                            "id"
+                        ];
+                    }
+                ];
+            };
             "business_memberships": {
                 Row: {
                     "business_id": string;
@@ -163,6 +213,72 @@ export type Database = {
                         ];
                         isOneToOne: false;
                         referencedRelation: "profiles";
+                        referencedColumns: [
+                            "id"
+                        ];
+                    }
+                ];
+            };
+            "business_presentation": {
+                Row: {
+                    "accent": string;
+                    "address": string;
+                    "business_id": string;
+                    "city": string;
+                    "contact_phone": string;
+                    "country_code": string;
+                    "created_at": string;
+                    "description": string;
+                    "instagram_handle": string;
+                    "logo_path": string | null;
+                    "region": string;
+                    "tagline": string;
+                    "template": string;
+                    "updated_at": string;
+                    "website_url": string;
+                };
+                Insert: {
+                    "accent"?: string;
+                    "address"?: string;
+                    "business_id": string;
+                    "city"?: string;
+                    "contact_phone"?: string;
+                    "country_code"?: string;
+                    "created_at"?: string;
+                    "description"?: string;
+                    "instagram_handle"?: string;
+                    "logo_path"?: string | null;
+                    "region"?: string;
+                    "tagline"?: string;
+                    "template"?: string;
+                    "updated_at"?: string;
+                    "website_url"?: string;
+                };
+                Update: {
+                    "accent"?: string;
+                    "address"?: string;
+                    "business_id"?: string;
+                    "city"?: string;
+                    "contact_phone"?: string;
+                    "country_code"?: string;
+                    "created_at"?: string;
+                    "description"?: string;
+                    "instagram_handle"?: string;
+                    "logo_path"?: string | null;
+                    "region"?: string;
+                    "tagline"?: string;
+                    "template"?: string;
+                    "updated_at"?: string;
+                    "website_url"?: string;
+                };
+                Relationships: [
+                    {
+                        foreignKeyName: "business_presentation_business_id_fkey";
+                        columns: [
+                            "business_id"
+                        ];
+                        isOneToOne: true;
+                        referencedRelation: "businesses";
                         referencedColumns: [
                             "id"
                         ];
