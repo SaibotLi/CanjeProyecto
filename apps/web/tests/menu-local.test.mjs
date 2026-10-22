@@ -167,6 +167,8 @@ test('real local public-menu integration, session independence and reversible mu
       delete from public.menu_categories where id=${quote(otherCategory)};
       delete from public.business_memberships where business_id=${quote(otherBusiness)};
       delete from public.loyalty_settings where business_id=${quote(otherBusiness)};
+      delete from public.business_presentation where business_id=${quote(otherBusiness)};
+      delete from public.business_entitlements where business_id=${quote(otherBusiness)};
       delete from public.businesses where id=${quote(otherBusiness)};
       ${ownedUsers.length ? `delete from auth.users where email in (${ownedUsers.map(quote).join(',')});` : ''}
       commit;`)

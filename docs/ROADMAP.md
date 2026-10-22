@@ -2,6 +2,17 @@
 
 La numeración es única y expresa dependencias, no fechas.
 
+## Evolución SaaS — rama LOCAL, 22/10/2026
+
+**3E/3F/3G COMPLETADAS Y VALIDADAS LOCAL. Rollout Hosted pendiente de autorización.**
+
+3E: entitlements comerciales, presentación y provisioning atómico owner-only.
+3F: rutas por comercio, Auth global y scoping de autoridad/catálogo/ledger.
+3G: Admin reutilizado, estilos/contacto/logo y enlace/QR público. Sin onboarding automático,
+facturación, marketplace o canjes. No cambios Hosted, DNS ni producción sin autorización.
+[Walkthrough y gate de rollout](SAAS_LOCAL_WALKTHROUGH.md).
+La visión futura autogestionable informa estos límites, no agrega infraestructura especulativa.
+
 ## Estado vigente — 21/10/2026
 
 **SPRINT 3D VERIFIED HOSTED / COMPLETADA. External Pilot Ready: NO.**

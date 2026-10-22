@@ -1,5 +1,19 @@
 # Security — frontera implementada Sprint 2 LOCAL + HOSTED
 
+## SaaS multi-comercio — exclusivamente LOCAL (22/10/2026)
+
+Tenant elegido por ruta, permisos por membership vigente y RLS. El store de autoridad
+global se proyecta al negocio actual; cambiar de slug remonta su workspace. Mantener
+datos/borradores ante error de red nunca concede permiso de escritura.
+Entitlements comerciales no editables por anon/authenticated/service_role; nuevas
+operaciones económicas comprueban la capacidad en PostgreSQL bajo lock. Reintentos
+confirmados e historial se conservan sin crear movimientos. Provisioning atómico privado,
+owner-only y sin endpoint público: futuro servidor debe derivar dueño de identidad verificada.
+Presentación usa grants de columnas y RLS Admin propio/activo; Staff y Platform no ganan
+escrituras. Sin cambios en Storage administrado, Auth Hosted ni las seis migrations previas.
+[Contrato y pruebas SaaS LOCAL](SAAS_LOCAL_WALKTHROUGH.md). Las secciones anteriores
+por sprint que siguen documentan el alcance histórico de cada entrega.
+
 ## Sprint 3C — interfaz LOCAL (13/10/2026)
 
 Intentos económicos persistidos por endpoint/usuario/negocio, sin credenciales; recuperación

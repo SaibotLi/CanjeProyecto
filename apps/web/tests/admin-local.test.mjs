@@ -25,6 +25,7 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
   assert.equal(localSql(fingerprint), '5bc80b32792095fb6cf02694de9626a1', 'Preserve non-fixture edits; no reset')
   assert.equal(localSql('select (select count(*) from auth.users)+(select count(*) from storage.objects);'), '0', 'Exclusive fixtures only; preserve human accounts/objects')
   const business = localSql("select id from public.businesses where slug='valhalla-space';"), other = randomUUID()
+  const scoped=actor=>{const state=actor.authority.getSnapshot();return {...state,data:state.data?scopeAuthority(state.data,business):null}}
   const accounts = [], categoryIds = new Set(), itemIds = new Set(), paths = new Set(), fixtures = storageFixtures()
   let revokePatch, revokeUpload, uploadCount = 0
   const ownMembership = (id, tenant = business, grant = true) => localSql(grant
@@ -71,10 +72,9 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
     ownMembership(adminA.id); ownMembership(adminB.id, other); ownMembership(both.id); ownMembership(both.id, other)
     for (const actor of accounts) await actor.authority.reload()
     await t.test('customer forbidden; Admin A/B/Both membership resolution; tenant UUID from DB', async () => {
-      assert.equal(businessGate(customer.authority.getSnapshot()), 'forbidden')
-      const scoped=actor=>{const state=actor.authority.getSnapshot();return {...state,data:state.data?scopeAuthority(state.data,business):null}}
+      assert.equal(businessGate(scoped(customer)), 'forbidden')
       assert.equal(businessGate(scoped(adminA)), 'allowed')
-      assert.equal(businessGate(adminB.authority.getSnapshot()), 'forbidden')
+      assert.equal(businessGate(scoped(adminB)), 'forbidden')
       assert.equal(businessGate(scoped(both)), 'allowed')
       assert.equal(both.authority.getSnapshot().data.adminBusinesses.length, 2)
       assert.equal(scopeAuthority(adminA.authority.getSnapshot().data,business).tenant.id, business)
@@ -148,7 +148,7 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
       await adminA.auth.reload()
       await eventually(() => adminA.auth.getSnapshot().assurance?.currentLevel === 'aal2')
       await adminA.authority.reload()
-      assert.equal(businessGate(adminA.authority.getSnapshot()), 'allowed')
+      assert.equal(businessGate(scoped(adminA)), 'allowed')
       assert.equal(platformGate(adminA.authority.getSnapshot(), adminA.auth.getSnapshot().assurance), 'forbidden')
       assert.equal((await adminA.client.rpc('is_current_user_platform_admin')).data, false)
       assert.deepEqual((await adminA.client.from('profiles').select('id')).data, [{ id: adminA.id }])
@@ -174,11 +174,11 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
     await t.test('membership revoked/re-added with SAME JWT removes/restores application guard; zero-row write fails', async () => {
       const sameToken = token(adminA)
       ownMembership(adminA.id, business, false); await adminA.authority.reload()
-      assert.equal(businessGate(adminA.authority.getSnapshot()), 'forbidden')
+      assert.equal(businessGate(scoped(adminA)), 'forbidden')
       await assert.rejects(() => adminA.actions.saveCategory(business, categoryA.draft, categoryA.row.id))
       await assert.rejects(() => saveCategory(adminA.client, business, categoryA.draft, categoryA.row.id))
       ownMembership(adminA.id); await adminA.authority.reload()
-      assert.equal(businessGate(adminA.authority.getSnapshot()), 'allowed'); assert.equal(token(adminA), sameToken)
+      assert.equal(businessGate(scoped(adminA)), 'allowed'); assert.equal(token(adminA), sameToken)
     })
     await t.test('real File upload → item PATCH → Carta URL/bytes; replacement retains old orphan', async () => {
       item = await adminA.actions.saveItem(business, draft, { id: item.id, file: file() })
@@ -196,7 +196,7 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
       const before = uploadCount, sameToken = token(adminA); let receipt
       revokePatch = adminA.id
       await assert.rejects(() => adminA.actions.saveItem(business, draft, { id: item.id, existingPath: item.imagePath, file: file() }), error => { receipt = error.asset; return error.kind === 'image-save' && !!receipt })
-      assert.equal(uploadCount, before + 1); assert.equal(businessGate(adminA.authority.getSnapshot()), 'forbidden')
+      assert.equal(uploadCount, before + 1); assert.equal(businessGate(scoped(adminA)), 'forbidden')
       assert.equal((await fetch(`${runtime.url}/storage/v1/object/public/menu-images/${receipt.path}`)).status, 200)
       ownMembership(adminA.id); await adminA.authority.reload()
       item = await adminA.actions.saveItem(business, draft, { id: item.id, uploadedAsset: receipt, existingPath: item.imagePath })
@@ -224,18 +224,18 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
         await actor.authority.reload()
       }
       assert.equal((await customer.client.from('profiles').select('id')).data.length, 1)
-      assert.equal(businessGate(customer.authority.getSnapshot()), 'forbidden')
+      assert.equal(businessGate(scoped(customer)), 'forbidden')
       assert.ok((await platform.client.from('profiles').select('id')).data.length > 1)
       const authority = await readAuthority(platform.client, platform.id)
       assert.equal(authority.adminBusinesses.length, 0); assert.equal(authority.platform.isAdmin, true)
       assert.equal(platformGate(platform.authority.getSnapshot(),platform.auth.getSnapshot().assurance),'allowed')
       assert.equal(platformGate(customer.authority.getSnapshot(),customer.auth.getSnapshot().assurance),'forbidden')
       assert.equal((await readPlatformBusinesses(platform.auth)).length,2)
-      ownMembership(platform.id); await platform.authority.reload(); assert.equal(businessGate(platform.authority.getSnapshot()), 'allowed')
+      ownMembership(platform.id); await platform.authority.reload(); assert.equal(businessGate(scoped(platform)), 'allowed')
       const sameToken = token(platform)
       localSql(`delete from private.platform_admins where user_id='${platform.id}';`)
       assert.equal((await platform.client.from('profiles').select('id')).data.length, 1)
-      await platform.authority.reload(); assert.equal(businessGate(platform.authority.getSnapshot()), 'allowed'); assert.equal(token(platform), sameToken)
+      await platform.authority.reload(); assert.equal(businessGate(scoped(platform)), 'allowed'); assert.equal(token(platform), sameToken)
       assert.equal(platformGate(platform.authority.getSnapshot(),platform.auth.getSnapshot().assurance),'forbidden')
       await assert.rejects(() => readPlatformBusinesses(platform.auth))
       localSql(`insert into private.platform_admins(user_id) values('${platform.id}');`)
@@ -248,7 +248,7 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
       assert.ok(!(await adminA.client.auth.signInWithPassword({ email: adminB.email, password: adminB.password })).error)
       await eventually(() => adminA.auth.getSnapshot().profile?.id === adminB.id)
       await adminA.authority.reload()
-      assert.equal(adminA.authority.getSnapshot().data.userId, adminB.id); assert.equal(businessGate(adminA.authority.getSnapshot()), 'forbidden')
+      assert.equal(adminA.authority.getSnapshot().data.userId, adminB.id); assert.equal(businessGate(scoped(adminA)), 'forbidden')
       assert.equal(adminA.authority.getSnapshot().data.adminBusinesses[0].id, other)
     })
   } finally {
@@ -258,7 +258,7 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
     for (const id of categoryIds) localSql(`delete from public.menu_categories where id='${id}' and business_id in ('${business}','${other}');`)
     await fixtures.removeObjects('menu-images', [...paths])
     for (const actor of accounts) { assert.match(actor.email, /^task2f-[0-9a-f-]{36}@example\.test$/); localSql(`delete from auth.users where email='${actor.email}';`) }
-    localSql(`delete from public.loyalty_settings where business_id='${other}'; delete from public.businesses where id='${other}' and slug='task2f-${other}';`)
+    localSql(`begin; delete from public.loyalty_settings where business_id='${other}'; delete from public.business_presentation where business_id='${other}'; delete from public.business_entitlements where business_id='${other}'; delete from public.businesses where id='${other}' and slug='task2f-${other}'; commit;`)
     await cleanupFixtureMail()
     assert.equal(localSql(fingerprint), '5bc80b32792095fb6cf02694de9626a1')
     assert.equal(localSql('select (select count(*) from auth.users)+(select count(*) from storage.objects);'), '0')

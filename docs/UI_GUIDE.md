@@ -1,5 +1,15 @@
 # UI Guide — Valhalla
 
+## Evolución SaaS — rama LOCAL, 22/10/2026
+
+La raíz es portal de plataforma; cartas por `/:businessSlug`, sin directorio transversal.
+Admin reutiliza catálogo y añade Mi comercio (identidad/contacto/estilo/logo) y Compartir
+(enlace/QR público). Perfil global muestra accesos propios a varios negocios.
+Solo Carta no invita a registro ni muestra puntos/recompensas; Fidelización mantiene
+código/consumos/saldo por negocio. Tres estilos y cuatro acentos reutilizables.
+[Demo y límites de la entrega LOCAL](SAAS_LOCAL_WALKTHROUGH.md). La sección siguiente
+describe Hosted, que permanece con Sprint 3D hasta autorizar el rollout por separado.
+
 ## Estado actual de Hosted — 21/10/2026
 
 Carta conectada a Hosted, catálogo comercial vacío/controlado. Copy pública «Carta de

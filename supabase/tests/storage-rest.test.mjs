@@ -312,6 +312,6 @@ test('Task 2G LOCAL Storage / real JWT tenant authorization (Sprint 2 DELETE DEN
       const paths=JSON.parse(localSql(`select coalesce(json_agg(name),'[]'::json) from storage.objects where bucket_id='${otherBucket}';`))
       await fixture.removeObjects(otherBucket,paths); await fixture.removeBucket(otherBucket)}
     for(const email of emails){assert.match(email,/^task2c-[0-9a-f-]{36}@example\.test$/);localSql(`delete from auth.users where email='${email}';`)}
-    localSql(`begin; delete from public.menu_items where business_id in ('${B}','c33c0000-0000-4000-8000-000000000003'); delete from public.menu_categories where business_id in ('${B}','c33c0000-0000-4000-8000-000000000003'); delete from public.loyalty_settings where business_id in ('${B}','c33c0000-0000-4000-8000-000000000003'); delete from public.businesses where id in ('${B}','c33c0000-0000-4000-8000-000000000003'); commit;`)
+    localSql(`begin; delete from public.menu_items where business_id in ('${B}','c33c0000-0000-4000-8000-000000000003'); delete from public.menu_categories where business_id in ('${B}','c33c0000-0000-4000-8000-000000000003'); delete from public.loyalty_settings where business_id in ('${B}','c33c0000-0000-4000-8000-000000000003'); delete from public.business_presentation where business_id in ('${B}','c33c0000-0000-4000-8000-000000000003'); delete from public.business_entitlements where business_id in ('${B}','c33c0000-0000-4000-8000-000000000003'); delete from public.businesses where id in ('${B}','c33c0000-0000-4000-8000-000000000003'); commit;`)
   }
 })

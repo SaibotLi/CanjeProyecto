@@ -1,5 +1,16 @@
 # Database — esquema real Sprint 2 LOCAL + HOSTED
 
+## Base SaaS — séptima migration, sólo LOCAL (22/10/2026)
+
+`20261021120000_saas_business_foundation.sql` agrega business_entitlements y
+business_presentation con RLS/grants por propietario; provisioning privado owner-only
+y slugs reservados. Tres implementaciones económicas comprueban entitlement comercial;
+ledger/códigos/NUMERIC/idempotencia y las seis migrations previas permanecen intactos.
+Backfill conserva capacidades existentes; negocios nuevos default false. No billing,
+nueva autoridad Platform o Storage ACL. [Contrato vigente de esta rama](SAAS_LOCAL_WALKTHROUGH.md).
+Hosted sigue en seis migrations de Sprint 3D, sin ejecutar la séptima ni seed.
+Las secciones fechadas siguientes conservan su contexto histórico.
+
 ## Sprint 3B — extensión exclusivamente LOCAL (13/10/2026)
 
 La sexta migration forward-only añade Staff, profiles.customer_code con backfill e

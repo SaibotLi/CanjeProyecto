@@ -2,6 +2,20 @@
 
 Las decisiones `CLOSED` no cambian sin una propuesta documentada y aprobación. `PROVISIONAL` identifica elecciones de Foundation que requieren validación. `OPEN` no debe resolverse por accidente en código.
 
+## SaaS 3E/3F/3G — implementado LOCAL (22/10/2026)
+
+Una app/DB; tenant por ruta; Auth global. Carta es el servicio base y loyalty_enabled
+es capacidad comercial independiente de points_enabled. Nuevos negocios default-deny;
+backfill true conserva Sprint 3 en los existentes. Alta atómica owner-only, sin endpoint
+de autoservicio ni escritura Platform. No billing ni precios dentro de permisos.
+Presentación parametrizada (tres estilos/cuatro acentos), sin HTML/CSS arbitrarios;
+QR público generado localmente. Raíz de plataforma sin marketplace; aliases antiguos
+conservan Valhalla. Callbacks globales y destinos internos exactos, también al recargar MFA.
+Historia/recibos anteriores siguen consultables si se desactiva el módulo; nuevas operaciones
+requieren capacidad vigente. Moneda ARS permanece; país/región son metadatos, no multimoneda.
+Estas decisiones superseden el contexto visual fijo del MVP sólo en esta rama LOCAL.
+[Walkthrough y siguiente gate Hosted](SAAS_LOCAL_WALKTHROUGH.md).
+
 ## Nombre visible — ajuste de producto (21/10/2026)
 
 Por pedido del usuario, Perfil admite nombre visible/apodo de hasta 20 caracteres en

@@ -1,5 +1,17 @@
 # Database tests
 
+SaaS 3E/3F/3G (22/10/2026), LOCAL only: `08_saas_contract.test.sql` and
+`pnpm supabase:test:saas` cover default-deny commercial capabilities, trusted atomic
+provisioning, presentation permissions and genuine JWT/concurrent economic gating.
+Run 07+08 for related contracts and 01+04 for the updated exact schema/ACL inventory:
+`node supabase/scripts/database-tests.mjs 07_loyalty_contract.test.sql 08_saas_contract.test.sql`.
+The real REST suite requires exclusive disposable LOCAL data; do not run over a manual
+demo or human accounts. Fixtures/cleanup use the same guarded manifest as 3B.
+The legacy loyalty REST fixture explicitly enables its business entitlement; this does
+not grant app roles permission to change subscriptions. See `docs/SAAS_LOCAL_WALKTHROUGH.md`.
+Historical suite cleanup removes only the new configuration rows for its exact fixture
+business IDs before deleting those businesses; no economic DELETE or RLS/grant relaxation.
+
 Sprint 3B LOCAL-first adds `07_loyalty_contract.test.sql` and
 `pnpm supabase:test:loyalty` for real Auth JWTs, money validation,
 concurrent idempotency/reversals, tenant isolation, Staff separation and

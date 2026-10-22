@@ -364,6 +364,6 @@ test('Task 2C genuine LOCAL Auth / REST authorization', { concurrency: false }, 
       assert.match(id,/^[0-9a-f-]{36}$/)
       localSql(`delete from public.${table} where id='${id}';`)
     }
-    localSql(`begin; delete from public.menu_items where business_id in ('${B}','${C}'); delete from public.menu_categories where business_id in ('${B}','${C}'); delete from public.loyalty_settings where business_id in ('${B}','${C}'); delete from public.businesses where id in ('${B}','${C}'); commit;`)
+    localSql(`begin; delete from public.menu_items where business_id in ('${B}','${C}'); delete from public.menu_categories where business_id in ('${B}','${C}'); delete from public.loyalty_settings where business_id in ('${B}','${C}'); delete from public.business_presentation where business_id in ('${B}','${C}'); delete from public.business_entitlements where business_id in ('${B}','${C}'); delete from public.businesses where id in ('${B}','${C}'); commit;`)
   }
 })

@@ -21,7 +21,7 @@ insert into expected_policies values
  ('public','menu_items','public_read','SELECT',array['anon','authenticated']::name[],'(is_active AND (EXISTS ( SELECT 1 FROM businesses business WHERE ((business.id = menu_items.business_id) AND business.is_active))) AND (EXISTS ( SELECT 1 FROM menu_categories category WHERE ((category.id = menu_items.category_id) AND (category.business_id = menu_items.business_id) AND category.is_active))))',null);
 insert into expected_policies select 'public',t,'platform_admin_read','SELECT',array['authenticated']::name[],
   '((( SELECT (auth.jwt() ->> ''aal''::text)) = ''aal2''::text) AND ( SELECT private.is_platform_admin() AS is_platform_admin))',null
-  from unnest(array['businesses','profiles','business_memberships','loyalty_settings','menu_categories','menu_items']) t;
+  from unnest(array['businesses','profiles','business_memberships','loyalty_settings','menu_categories','menu_items','business_entitlements','business_presentation']) t;
 insert into expected_policies select 'public',t,'business_admin_read','SELECT',array['authenticated']::name[],
   'private.is_business_admin(business_id)',null
   from unnest(array['menu_categories','menu_items']) t;
@@ -32,7 +32,16 @@ insert into expected_policies select 'public',t,n,c,array['authenticated']::name
   cross join (values ('business_admin_insert','INSERT'),('business_admin_update','UPDATE')) p(n,c)
   cross join lateral (select '(private.is_business_admin(business_id) AND (EXISTS ( SELECT 1 FROM businesses business WHERE ((business.id = '||t||'.business_id) AND business.is_active))))' as expression) predicate;
 insert into expected_policies values ('public','businesses','business_staff_read','SELECT',array['authenticated']::name[],'private.is_business_staff(id)',null);
-select is((select count(*) from pg_policies where schemaname in ('public','private')),25::bigint,'Exactly 25 policies; Staff own-business READ is the only Sprint 3 addition');
+insert into expected_policies select 'public',t,'public_read','SELECT',array['anon','authenticated']::name[],
+  '(EXISTS ( SELECT 1 FROM businesses b WHERE ((b.id = '||t||'.business_id) AND b.is_active)))',null
+  from unnest(array['business_entitlements','business_presentation']) t;
+insert into expected_policies select 'public',t,'member_read','SELECT',array['authenticated']::name[],
+  '(private.is_business_admin(business_id) OR private.is_business_staff(business_id))',null
+  from unnest(array['business_entitlements','business_presentation']) t;
+insert into expected_policies values ('public','business_presentation','business_admin_update','UPDATE',array['authenticated']::name[],
+  '(private.is_business_admin(business_id) AND (EXISTS ( SELECT 1 FROM businesses b WHERE ((b.id = business_presentation.business_id) AND b.is_active))))',
+  '(private.is_business_admin(business_id) AND (EXISTS ( SELECT 1 FROM businesses b WHERE ((b.id = business_presentation.business_id) AND b.is_active))))');
+select is((select count(*) from pg_policies where schemaname in ('public','private')),32::bigint,'Exactly 32 policies including seven scoped SaaS configuration policies');
 select results_eq($$select jsonb_build_array(schemaname,tablename,policyname,cmd,roles,permissive,
   regexp_replace(qual,'\s','','g'),regexp_replace(with_check,'\s','','g'))
   from pg_policies where schemaname in ('public','private') order by schemaname,tablename,policyname$$,
@@ -53,7 +62,9 @@ insert into expected_acl values
  ('private','platform_admins',false,false,array[]::text[],array[]::text[]),
  ('public','loyalty_settings',true,true,array[]::text[],array['currency_per_point','points_enabled']),
  ('public','menu_categories',true,true,array['business_id','name','slug','display_order','is_active'],array['name','slug','display_order','is_active']),
- ('public','menu_items',true,true,array['business_id','category_id','name','description','price_amount','image_path','image_alt','image_presentation','is_available','is_featured','is_active','display_order'],array['category_id','name','description','price_amount','image_path','image_alt','image_presentation','is_available','is_featured','is_active','display_order']);
+ ('public','menu_items',true,true,array['business_id','category_id','name','description','price_amount','image_path','image_alt','image_presentation','is_available','is_featured','is_active','display_order'],array['category_id','name','description','price_amount','image_path','image_alt','image_presentation','is_available','is_featured','is_active','display_order']),
+ ('public','business_entitlements',true,true,array[]::text[],array[]::text[]),
+ ('public','business_presentation',true,true,array[]::text[],array['tagline','description','city','region','country_code','address','contact_phone','instagram_handle','website_url','template','accent','logo_path']);
 select is(has_table_privilege(r,format('%I.%I',s,t),p),case when p='SELECT' and r='anon' then anon_read when p='SELECT' and r='authenticated' then auth_read else false end,
   r||' '||s||'.'||t||' table '||p)
  from expected_acl cross join unnest(array['anon','authenticated','service_role']) r
@@ -89,7 +100,7 @@ insert into expected_functions values
 select functions_are('private',array['create_profile_for_auth_user','is_business_admin','is_platform_admin','set_updated_at',
   'is_business_staff','new_customer_code','preserve_customer_code','prevent_economic_mutation','validate_economic_insert',
   'normalize_customer_code','parse_paid_amount','loyalty_operator','loyalty_receipt','lookup_loyalty_customer',
-  'credit_points','reverse_credit','my_loyalty','loyalty_history']);
+  'credit_points','reverse_credit','my_loyalty','loyalty_history','initialize_business_configuration','provision_business','require_loyalty_entitlement']);
 select functions_are('public',array['is_current_user_platform_admin','lookup_loyalty_customer','credit_points','reverse_credit','get_my_loyalty','get_loyalty_history']);
 create temporary view function_inventory as select e.*,p.oid,p.proowner,p.prosecdef,p.provolatile,p.proconfig,p.prosrc
  from expected_functions e join pg_proc p on p.oid=format('private.%I(%s)',e.n,e.args)::regprocedure;

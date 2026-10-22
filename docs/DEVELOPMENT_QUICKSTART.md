@@ -1,5 +1,9 @@
 # Desarrollo compartido — empezar desde GitHub
 
+La rama LOCAL `codex/saas-multi-business` incorpora la evolución por comercio; antes de
+publicarla, usar [su walkthrough](SAAS_LOCAL_WALKTHROUGH.md). No aplicar su séptima migration
+a Hosted ni desplegarla como parte de estas instrucciones de desarrollo.
+
 Usar `main` para obtener el código integrado. Cada desarrollador trabaja en su clon y
 Supabase LOCAL; no necesita acceso a credenciales Hosted para modificar/probar la app.
 

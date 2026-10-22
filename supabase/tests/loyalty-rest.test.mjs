@@ -30,6 +30,8 @@ test('Sprint 3B real LOCAL economic RPC contract', {concurrency:false}, async t 
     localSql(`begin;
       insert into public.businesses(id,slug,name,timezone) values (${quote(B)},'loyalty-fixture-b','LOCAL fixture B','America/Argentina/Cordoba');
       insert into public.loyalty_settings(business_id,currency_per_point) values (${quote(B)},2000.00);
+      -- This legacy economic fixture contracts loyalty explicitly; new businesses default to menu-only.
+      update public.business_entitlements set loyalty_enabled=true where business_id=${quote(B)};
       insert into public.business_memberships(business_id,user_id,role) values
         (${quote(A)},${quote(actors.adminA.id)},'admin'),(${quote(B)},${quote(actors.adminB.id)},'admin'),(${quote(A)},${quote(actors.staffA.id)},'staff');
       insert into private.platform_admins(user_id) values (${quote(actors.platform.id)});

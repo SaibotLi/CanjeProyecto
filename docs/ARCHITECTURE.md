@@ -1,5 +1,16 @@
 # Architecture — CanjeProyect
 
+## SaaS 3E/3F/3G — LOCAL, 22/10/2026
+
+La ruta `/:businessSlug` resuelve datos/configuración reales y remonta el workspace al
+cambiar de comercio. Auth y el store de memberships siguen globales; `scopeAuthority`
+elige por business_id sin inferir permisos de la URL. Guards son UX, PostgreSQL autoridad.
+Entitlement comercial independiente de loyalty_settings, comprobado en RPC económicas.
+Admin existente mantiene catálogo e incorpora identidad/contacto/estilos/QR. La raíz es
+plataforma mínima, sin marketplace ni catálogo transversal. Marca central configurable;
+callbacks Auth globales exactos. [Contrato y límites](SAAS_LOCAL_WALKTHROUGH.md).
+Hosted continúa con Sprint 3D: la historia siguiente no describe esta rama LOCAL.
+
 ## Estado consolidado — 08/10/2026
 
 Admin añade store de catálogo frontend con deadline por request y cache de display del

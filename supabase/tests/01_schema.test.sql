@@ -11,9 +11,11 @@ insert into expected_tables values
   ('public', 'loyalty_settings', array['business_id','currency_per_point','points_enabled','created_at','updated_at'], array['business_id']),
   ('public', 'menu_categories', array['id','business_id','name','slug','display_order','is_active','created_at','updated_at'], array['id']),
   ('public', 'menu_items', array['id','business_id','category_id','name','description','price_amount','image_path','image_alt','image_presentation','is_available','is_featured','is_active','display_order','created_at','updated_at'], array['id']),
-  ('private', 'platform_admins', array['user_id','created_at'], array['user_id']);
+  ('private', 'platform_admins', array['user_id','created_at'], array['user_id']),
+  ('public','business_entitlements',array['business_id','loyalty_enabled','created_at','updated_at'],array['business_id']),
+  ('public','business_presentation',array['business_id','tagline','description','city','region','country_code','address','contact_phone','instagram_handle','website_url','template','accent','logo_path','created_at','updated_at'],array['business_id']);
 select has_schema('private', 'Private schema exists');
-select tables_are('public', array['businesses','profiles','business_memberships','loyalty_settings','menu_categories','menu_items','point_transactions']);
+select tables_are('public', array['businesses','profiles','business_memberships','loyalty_settings','menu_categories','menu_items','point_transactions','business_entitlements','business_presentation']);
 select tables_are('private', array['platform_admins']);
 select has_table(schema_name, table_name, schema_name || '.' || table_name || ' exists') from expected_tables;
 select columns_are(schema_name, table_name, columns, table_name || ' exact fields') from expected_tables;
@@ -29,12 +31,13 @@ select ok(not has_schema_privilege(r, 'private', 'USAGE,CREATE'), 'Private has n
   from unnest(array['anon','service_role']) r;
 select is((select count(*) from information_schema.columns c join expected_tables e
   on c.table_schema=e.schema_name and c.table_name=e.table_name
-  where c.is_nullable='YES' and c.column_name not in ('display_name','description','image_path','image_alt')),
+  where c.is_nullable='YES' and c.column_name not in ('display_name','description','image_path','image_alt','logo_path')),
   0::bigint, 'Only approved optional fields are nullable');
 select col_is_null('public','profiles','display_name','Display name nullable');
 select col_is_null('public','menu_items','description','Description nullable');
 select col_is_null('public','menu_items','image_path','Image path nullable');
 select col_is_null('public','menu_items','image_alt','Image alt nullable');
+select col_is_null('public','business_presentation','logo_path','Logo path nullable');
 select col_type_is('public','menu_items','price_amount','numeric(14,2)','Price exact numeric type');
 select col_type_is('public','loyalty_settings','currency_per_point','numeric(14,2)','Divisor exact numeric type');
 select col_type_is('public','business_memberships','role','text','Role text, not enum');
@@ -52,7 +55,7 @@ select col_default_is('public','menu_categories','display_order','0','Category o
 select is((select count(*) from information_schema.columns c join expected_tables e
   on c.table_schema=e.schema_name and c.table_name=e.table_name
   where c.column_name in ('created_at','updated_at') and c.data_type='timestamp with time zone'
-    and c.is_nullable='NO' and c.column_default='now()'), 12::bigint, '12 DB timestamp defaults');
+    and c.is_nullable='NO' and c.column_default='now()'), 16::bigint, '16 DB timestamp defaults including SaaS configuration');
 select ok((select column_default like '%gen_random_uuid()%' from information_schema.columns
   where table_schema='public' and table_name=t and column_name='id'), t || ' DB UUID default')
   from unnest(array['businesses','menu_categories','menu_items']) t;
@@ -67,7 +70,9 @@ insert into expected_fks values
   ('loyalty_settings_business_fkey','loyalty_settings',array['business_id'],'public','businesses',array['id'],'r'),
   ('menu_categories_business_fkey','menu_categories',array['business_id'],'public','businesses',array['id'],'r'),
   ('menu_items_business_fkey','menu_items',array['business_id'],'public','businesses',array['id'],'r'),
-  ('menu_items_business_category_fkey','menu_items',array['business_id','category_id'],'public','menu_categories',array['business_id','id'],'r');
+  ('menu_items_business_category_fkey','menu_items',array['business_id','category_id'],'public','menu_categories',array['business_id','id'],'r'),
+  ('business_entitlements_business_id_fkey','business_entitlements',array['business_id'],'public','businesses',array['id'],'r'),
+  ('business_presentation_business_id_fkey','business_presentation',array['business_id'],'public','businesses',array['id'],'r');
 select fk_ok(case when source_table='platform_admins' then 'private' else 'public' end,
   source_table, source_cols, target_schema, target_table, target_cols, constraint_name || ' correct endpoints') from expected_fks;
 select is((select c.confdeltype::text || c.confupdtype::text from pg_constraint c
@@ -75,7 +80,7 @@ select is((select c.confdeltype::text || c.confupdtype::text from pg_constraint 
     case when e.source_table='platform_admins' then 'private' else 'public' end, e.source_table)::regclass),
   e.delete_action || 'r', e.constraint_name || ' exact actions') from expected_fks e;
 select is((select count(*) from pg_constraint c join expected_tables e
-  on c.conrelid=format('%I.%I',e.schema_name,e.table_name)::regclass where c.contype='f'), 8::bigint, 'Exactly eight FKs');
+  on c.conrelid=format('%I.%I',e.schema_name,e.table_name)::regclass where c.contype='f'), 10::bigint, 'Exactly ten FKs on foundation and SaaS tables');
 select has_index('public','business_memberships','business_memberships_user_business_idx','Inverse membership index');
 select has_index('public','menu_categories','menu_categories_business_order_idx','Category read index');
 select has_index('public','menu_items','menu_items_business_category_order_idx','Item read index');
@@ -90,11 +95,12 @@ select has_unique('public','menu_categories','Category UNIQUE');
 select is((select count(*) from pg_constraint where conrelid='public.menu_items'::regclass and contype='u'),
   0::bigint, 'Items have no UNIQUE name');
 select is((select count(*) from pg_constraint c join expected_tables e
-  on c.conrelid=format('%I.%I',e.schema_name,e.table_name)::regclass where c.contype='c'), 18::bigint, '18 native named CHECKs on foundation tables, including customer code');
+  on c.conrelid=format('%I.%I',e.schema_name,e.table_name)::regclass where c.contype='c'), 31::bigint, '31 named CHECKs including reserved slugs and bounded presentation');
 
 select has_trigger('auth','users','on_auth_user_created','Auth signup trigger');
 select triggers_are('public',t,array[t || '_set_updated_at'])
-  from unnest(array['businesses','loyalty_settings','menu_categories','menu_items']) t;
+  from unnest(array['loyalty_settings','menu_categories','menu_items','business_entitlements','business_presentation']) t;
+select triggers_are('public','businesses',array['businesses_set_updated_at','businesses_initialize_configuration']);
 select triggers_are('public','profiles',array['profiles_set_updated_at','profiles_preserve_customer_code']);
 select triggers_are('public','business_memberships',array[]::text[]);
 select triggers_are('private','platform_admins',array[]::text[]);
