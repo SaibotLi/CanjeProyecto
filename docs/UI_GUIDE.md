@@ -9,7 +9,9 @@ Puntos/premios conservan explícitamente datos de ejemplo y controles económico
 Sin rediseño, cambio de branding o promesa de economía/piloto externo listo.
 Las referencias a seed/demo en las entregas anteriores son evidencia histórica LOCAL.
 
-QA 2H preserva el diseño aprobado; sólo alinea el input display_name a 80 con helper compartido
+Desde 21/10/2026 el nombre visible/apodo en Perfil se limita a 20 caracteres en HTML y
+adapter frontend; se conserva el CHECK DB de 80 para compatibilidad, sin truncar datos.
+La nota histórica de QA 2H abajo describe el límite anterior de 80 con helper compartido
 y copy de límite. SSR verifica labels/submit/guards/status, código conserva foco/touch/safe areas.
 No capturas nuevas ni certificación visual adicional. Checklist humano por tamaños en
 [TASK_2H_WALKTHROUGH](TASK_2H_WALKTHROUGH.md); 2F aprobada por el usuario.

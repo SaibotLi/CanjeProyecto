@@ -104,9 +104,9 @@ test('profile mapper never copies email/metadata; UPDATE contains only display_n
   assert.equal((await updateDisplayName(client, 'A', ' Alice ')).displayName, 'Alice')
   assert.deepEqual(payload, { display_name: 'Alice' }); assert.deepEqual(filter, ['id', 'A'])
   assert.equal((await updateDisplayName(client, 'A', ' ')).displayName, null)
-  assert.equal((await updateDisplayName(client, 'A', 'x'.repeat(80))).displayName.length, 80)
+  assert.equal((await updateDisplayName(client, 'A', 'x'.repeat(20))).displayName.length, 20)
   payload = undefined
-  await assert.rejects(() => updateDisplayName(client, 'A', 'x'.repeat(81)), /hasta 80 caracteres/)
+  await assert.rejects(() => updateDisplayName(client, 'A', 'x'.repeat(21)), /hasta 20 caracteres/)
   assert.equal(payload, undefined, 'Reject before requesting a DB write')
 })
 test('signup confirmation state and recovery use exact redirects with no user metadata', async () => {

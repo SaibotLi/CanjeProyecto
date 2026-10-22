@@ -2,6 +2,16 @@
 
 Las decisiones `CLOSED` no cambian sin una propuesta documentada y aprobación. `PROVISIONAL` identifica elecciones de Foundation que requieren validación. `OPEN` no debe resolverse por accidente en código.
 
+## Nombre visible — ajuste de producto (21/10/2026)
+
+Por pedido del usuario, Perfil admite nombre visible/apodo de hasta 20 caracteres en
+HTML y adapter frontend, rechazando 21 antes de emitir UPDATE. Sustituye sólo el límite
+UI de D-041: CHECK DB de 80 permanece por compatibilidad; no migration, truncado de datos
+ni nuevas garantías backend de máximo20. Si se requiere ese máximo en toda API, definir
+una migration forward-only con aprobación Hosted separada. Ambos perfiles existentes
+cumplen20; no se editaron para este ajuste. Tests de boundary/SSR y contrato LOCAL reflejan
+UI20/DB80; las suites destructivas LOCAL no se ejecutan sobre Hosted.
+
 ## A-H1-001 — APPROVED (07/10/2026)
 
 Managed Storage ACL may differ between local Supabase distribution and Hosted;

@@ -2,8 +2,9 @@ import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '../../../../../supabase/types/database.types'
 
 export type AppClient = SupabaseClient<Database>
-// Match the existing profiles_display_name_valid CHECK; no schema change.
-export const displayNameMaxLength = 80
+// Product limit for the visible nickname. The DB retains its existing 80-char
+// compatibility ceiling; this UI change does not truncate stored names.
+export const displayNameMaxLength = 20
 export type Profile = { id: string; displayName: string | null; createdAt: string; updatedAt: string }
 // This adapter deliberately selects only the current profile UI projection.
 // New backend-only columns (customer_code in 3B) do not expand its response.

@@ -20,10 +20,10 @@ const render = (element, auth = {}) => renderToStaticMarkup(React.createElement(
   React.createElement(AuthContext.Provider, { value: { ...initialAuthState, initializing: false, store: {}, ...auth } },
     React.createElement(AuthorityContext.Provider, { value: { status: 'ready', checking: false, data: null, store: {} } }, element))))
 
-test('2H profile input shares the DB 80-character boundary, labels and keyboard-submit form', () => {
+test('profile input uses the 20-character product limit, labels and keyboard-submit form', () => {
   const html = render(React.createElement(ProfilePage), { session: { user: { id: 'self', email: 'synthetic@example.test' } },
     profile: { id: 'self', displayName: '', createdAt: '', updatedAt: '' }, profileStatus: 'ready' })
-  assert.match(html, /maxLength="80"/)
+  assert.match(html, /maxLength="20"/)
   assert.match(html, /for="display-name"/)
   assert.match(html, /autoComplete="nickname"/)
   assert.match(html, /type="submit"/)

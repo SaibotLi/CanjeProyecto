@@ -79,13 +79,15 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
       assert.equal(adminA.authority.getSnapshot().data.tenant.id, business)
       await assert.rejects(() => customer.actions.saveCategory(business, categoryDraft('Denied')))
     })
-    await t.test('2H customer login/profile → known-ID API attack → identical anon Carta; DB profile boundary', async () => {
+    await t.test('customer profile UI20 / DB80 compatibility → known-ID API attack → identical anon Carta', async () => {
       const anon = createClient(runtime.url, runtime.publishableKey, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } })
       try {
         assert.deepEqual(await readPublicMenu(customer.client), await readPublicMenu(anon))
-        await updateDisplayName(customer.client, customer.id, 'x'.repeat(80))
-        assert.equal((await readProfile(customer.client, customer.id)).displayName.length, 80)
-        await assert.rejects(() => updateDisplayName(customer.client, customer.id, 'x'.repeat(81)))
+        await updateDisplayName(customer.client, customer.id, 'x'.repeat(20))
+        assert.equal((await readProfile(customer.client, customer.id)).displayName.length, 20)
+        await assert.rejects(() => updateDisplayName(customer.client, customer.id, 'x'.repeat(21)))
+        const compatible = await customer.client.from('profiles').update({ display_name: 'x'.repeat(80) }).eq('id', customer.id).select('id').single()
+        assert.equal(compatible.error, null, 'Existing DB80 compatibility ceiling is retained')
         const bypass = await customer.client.from('profiles').update({ display_name: 'x'.repeat(81) }).eq('id', customer.id).select('id').single()
         assert.equal(bypass.error?.code, '23514')
         assert.equal((await readProfile(customer.client, customer.id)).displayName.length, 80)

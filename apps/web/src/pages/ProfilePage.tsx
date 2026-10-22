@@ -42,7 +42,7 @@ function ProfileForm({ displayName }: { displayName: string }) {
     } catch { setError(true); setMessage('No pudimos guardar tu nombre. Intentá de nuevo.') }
     finally { submitting.current = false; setBusy(false) }
   }
-  return <form className="auth-form" onSubmit={submit} aria-busy={busy}><label htmlFor="display-name">Cómo te llamamos</label><input id="display-name" name="display-name" autoComplete="nickname" maxLength={displayNameMaxLength} value={name} onChange={e => setName(e.target.value)} /><small className="muted">Opcional. Hasta {displayNameMaxLength} caracteres; podés dejarlo vacío.</small>{message && <AuthStatus error={error} message={message} />}<button className="button-primary" type="submit" disabled={busy}>{busy ? 'Guardando…' : 'Guardar nombre'}</button></form>
+  return <form className="auth-form" onSubmit={submit} aria-busy={busy}><label htmlFor="display-name">Cómo te llamamos</label><input id="display-name" name="display-name" autoComplete="nickname" maxLength={displayNameMaxLength} value={name} onChange={e => setName(e.target.value)} /><small className="muted">Tu nombre visible o apodo. Opcional, hasta {displayNameMaxLength} caracteres.</small>{message && <AuthStatus error={error} message={message} />}<button className="button-primary" type="submit" disabled={busy}>{busy ? 'Guardando…' : 'Guardar nombre'}</button></form>
 }
 function LogoutButton() {
   const { store } = useAuth()
