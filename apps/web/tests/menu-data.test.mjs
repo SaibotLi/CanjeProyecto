@@ -14,7 +14,7 @@ const item = { id: 'i2', business_id: 'b', category_id: 'c2', name: 'Bebida', de
   price_amount: 6500.50, image_path: null, image_alt: null, image_presentation: 'photo',
   is_active: true, is_available: false, is_featured: true, display_order: 20 }
 const category = { id: 'c2', name: 'Categoría', slug: 'categoria', display_order: 20, is_active: true, menu_items: [item] }
-const row = { id: 'b', is_active: true, loyalty_settings: { currency_per_point: 1000, points_enabled: true }, menu_categories: [category] }
+const row = { id: 'b', is_active: true, business_entitlements:{loyalty_enabled:true},loyalty_settings: { currency_per_point: 1000, points_enabled: true }, menu_categories: [category] }
 const client = (fetchImpl = async () => { throw new Error('Unexpected network request') }) => createClient('http://127.0.0.1:54321', 'sb_publishable_test_only', {
   auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }, global: { fetch: fetchImpl },
 })
@@ -87,7 +87,7 @@ test('loading/empty/error/not-found have controlled accessible markup; success r
     assert.match(markup(status), /Volver a intentar/)
     assert.doesNotMatch(markup(status), /drink-item|Budweiser|sb_publishable/)
   }
-  assert.match(markup('empty'), /no hay bebidas publicadas/)
+  assert.match(markup('empty'), /no hay productos publicados/)
   assert.match(markup('not-found'), /Carta no disponible/)
   assert.match(markup('error'), /No pudimos cargar/)
   assert.equal(markup('success'), '')

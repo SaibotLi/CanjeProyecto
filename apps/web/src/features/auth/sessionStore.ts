@@ -1,5 +1,6 @@
 import type { AuthChangeEvent, Session } from '@supabase/supabase-js'
 import { readProfile, type AppClient, type Profile } from './authData'
+import {authPathAfterCleanup} from './authNavigation'
 
 export type Assurance = { currentLevel: string | null; nextLevel: string | null }
 export type AuthState = {
@@ -84,7 +85,7 @@ export function createAuthStore(client: AppClient | null) {
         // Evaluate once BEFORE our URL cleanup, including on StrictMode reconnect.
         const callbackAccepted = callbackChecked ? state.callbackAccepted : (callbackIntent && !result.error && !!state.session && !window.location.hash)
         callbackChecked = true
-        if (authPath) window.history.replaceState(window.history.state, '', window.location.pathname)
+        if (authPath) window.history.replaceState(window.history.state, '', authPathAfterCleanup(window.location.pathname,window.location.search))
         emit({ ...state, initializing: false, linkError: !!result.error, callbackAccepted })
         void reload()
       }, 0)

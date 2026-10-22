@@ -3,7 +3,7 @@ import { readPublicMenu } from './publicMenu'
 import type { MenuState } from './menuState'
 import { useAuth } from '../auth/authContext'
 
-export function usePublicMenu() {
+export function usePublicMenu(slug: string) {
   const { revision: authRevision, initializing } = useAuth()
   const [state, setState] = useState<MenuState>({ status: 'loading' })
   const [revision, setRevision] = useState(0)
@@ -18,7 +18,7 @@ export function usePublicMenu() {
       try {
         const { getSupabaseClient } = await import('../../lib/supabase')
         if (controller.signal.aborted) return
-        const result = await readPublicMenu(getSupabaseClient(), AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]))
+        const result = await readPublicMenu(getSupabaseClient(), AbortSignal.any([controller.signal, AbortSignal.timeout(15000)]), slug)
         if (controller.signal.aborted) return
         setState(result.kind === 'not-found' ? { status: 'not-found' } : {
           status: result.data.items.length ? 'success' : 'empty', data: result.data,
@@ -29,6 +29,6 @@ export function usePublicMenu() {
     }
     void load()
     return () => controller.abort()
-  }, [revision, authRevision, initializing])
+  }, [revision, authRevision, initializing, slug])
   return { state, retry }
 }

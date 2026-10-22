@@ -2,7 +2,7 @@
   "name": "canjeproyect",
   "private": true,
   "version": "0.1.0",
-  "description": "Fundación frontend de Valhalla Space",
+  "description": "Cartas digitales y fidelización multi-comercio",
   "packageManager": "pnpm@11.19.0",
   "engines": {
     "node": ">=22.13.0"
@@ -10,6 +10,9 @@
   "scripts": {
     "dev": "pnpm --filter @canjeproyect/web dev",
     "dev:loyalty:local": "node supabase/scripts/loyalty-dev.mjs",
+    "dev:saas:local": "node supabase/scripts/loyalty-dev.mjs",
+    "test:saas": "pnpm --filter @canjeproyect/web test:saas",
+    "supabase:test:saas": "node --test supabase/tests/saas-rest.test.mjs",
     "test:loyalty": "pnpm --filter @canjeproyect/web test:loyalty",
     "test:loyalty:local": "pnpm --filter @canjeproyect/web test:loyalty:local",
     "lint": "pnpm --filter @canjeproyect/web lint",

@@ -2,9 +2,10 @@ import { useRef, useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../features/auth/authContext'
 import { authMessage, readProfile, requestRecovery, signUp } from '../features/auth/authData'
-import { mfaLoginDestination, normalLoginDestination } from '../features/auth/authNavigation'
+import { mfaLoginDestination, normalLoginDestination, rememberSignupDestination } from '../features/auth/authNavigation'
 import { needsMfa } from '../features/auth/sessionStore'
 import { AuthStatus } from '../features/auth/components/AuthStatus'
+import {platformBrand} from '../config/platform'
 
 type Mode = 'login' | 'register' | 'forgot'
 export function AuthPage({ mode }: { mode: Mode }) {
@@ -17,7 +18,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success'>('idle')
   const [error, setError] = useState('')
   const busy = useRef(false)
-  const title = mode === 'login' ? 'Volvé a Valhalla' : mode === 'register' ? 'Tu lugar en Valhalla' : 'Recuperá tu cuenta'
+  const title = mode === 'login' ? 'Ingresá a tu cuenta' : mode === 'register' ? 'Creá tu cuenta' : 'Recuperá tu cuenta'
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (busy.current || auth.logoutError || auth.signingOut) return
@@ -26,6 +27,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
     try {
       const client = auth.store.getClient()
       if (mode === 'register') {
+        rememberSignupDestination(location.state?.returnTo)
         const result = await signUp(client, email, password)
         if (result.error) throw result.error
         setPassword(''); setConfirmation(''); setStatus('success')
@@ -55,7 +57,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
   }
   if (auth.initializing) return <AuthStatus message="Preparando tu sesión…" />
   return <section className="auth-panel" aria-labelledby="auth-title">
-    <span className="eyebrow">VALHALLA · TU CUENTA</span><h1 id="auth-title">{title}</h1>
+    <span className="eyebrow">{platformBrand.name} · TU CUENTA</span><h1 id="auth-title">{title}</h1>
     <p className="muted">{mode === 'login' ? 'Ingresá para continuar con tu cuenta. La carta siempre está abierta.' : mode === 'register' ? 'Creá tu cuenta y confirmá tu email para comenzar.' : 'Te enviaremos un enlace para elegir una nueva contraseña.'}</p>
     {auth.logoutError && <><AuthStatus error message="Tu perfil se ocultó, pero no pudimos terminar de cerrar la sesión. No está confirmado el cierre; reintentá antes de cambiar de cuenta." /><button className="button-secondary" type="button" onClick={() => { void auth.store.signOut().catch(() => {}) }}>Reintentar cierre de sesión</button></>}
     {auth.unavailable ? <AuthStatus error message="La conexión de cuentas no está disponible. Recargá e intentá de nuevo." />
@@ -67,7 +69,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
         {error && <AuthStatus error message={error} />}
         <button className="button-primary" type="submit" disabled={status === 'submitting' || auth.logoutError || auth.signingOut}>{status === 'submitting' ? 'Un momento…' : mode === 'login' ? 'Ingresar' : mode === 'register' ? 'Crear cuenta' : 'Enviar enlace'}</button>
       </form>}
-    <div className="auth-links">{mode === 'login' ? <><Link to="/auth/forgot-password">Olvidé mi contraseña</Link><Link to="/register">Crear una cuenta</Link></> : <Link to="/login">Ya tengo cuenta · Ingresar</Link>}<Link to="/">Seguir viendo la carta</Link></div>
-    <p className="context-note">Revisá tu bandeja de correo para confirmar tu cuenta. En Mis puntos verás tu código, saldo y movimientos.</p>
+    <div className="auth-links">{mode === 'login' ? <><Link to="/auth/forgot-password">Olvidé mi contraseña</Link><Link to="/register" state={location.state}>Crear una cuenta</Link></> : <Link to="/login" state={location.state}>Ya tengo cuenta · Ingresar</Link>}<Link to="/">Ver comercios</Link></div>
+    <p className="context-note">Una sola cuenta para tus comercios. Revisá tu bandeja para confirmar tu email.</p>
   </section>
 }

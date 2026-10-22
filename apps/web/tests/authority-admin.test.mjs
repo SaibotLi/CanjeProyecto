@@ -46,7 +46,9 @@ test('real SDK authority query explicitly self-filters and uses FK, not private 
     if (String(url).includes('/rpc/')) { rpc = { url: new URL(url), body: options.body }; return json(false) }
     seen = new URL(url); return json([member()])
   })
-  assert.equal((await readAuthority(client, 'A')).tenant.id, businessId)
+  const authority=await readAuthority(client,'A')
+  assert.equal(authority.tenant,null,'The global store never chooses a tenant implicitly')
+  assert.equal(authority.adminBusinesses[0].id,businessId)
   assert.equal(seen.searchParams.get('user_id'), 'eq.A')
   assert.ok(seen.searchParams.get('select').includes('business_memberships_business_fkey'))
   assert.equal(seen.pathname, '/rest/v1/business_memberships')

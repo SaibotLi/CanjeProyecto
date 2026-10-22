@@ -2,13 +2,14 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../features/auth/authContext'
 import { AuthStatus } from '../features/auth/components/AuthStatus'
+import {takeSignupDestination} from '../features/auth/authNavigation'
 
 export function AuthCallbackPage() {
   const auth = useAuth()
   const navigate = useNavigate()
   const accepted = !auth.initializing && auth.callbackAccepted && !!auth.session && !auth.linkError
   useEffect(() => {
-    if (accepted) { navigate('/profile', { replace: true }); auth.store.finishCallback() }
+    if (accepted) { navigate(takeSignupDestination(), { replace: true }); auth.store.finishCallback() }
   }, [accepted, auth.store, navigate])
   if (auth.initializing) return <AuthStatus message="Confirmando tu cuenta…" />
   if (accepted) return <AuthStatus message="Cuenta confirmada. Abriendo tu perfil…" />

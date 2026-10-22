@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import {platformBrand} from './src/config/platform'
 
 export default defineConfig({
   plugins: [
@@ -11,9 +12,9 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['icons/app.svg'],
       manifest: {
-        name: 'Valhalla Space — Carta',
-        short_name: 'Valhalla',
-        description: 'Prototipo visual de la carta y fidelización de Valhalla Space.',
+        name: `${platformBrand.name} — Cartas digitales`,
+        short_name: platformBrand.name,
+        description: 'Cartas digitales independientes para cada comercio.',
         lang: 'es-AR',
         start_url: '/',
         scope: '/',

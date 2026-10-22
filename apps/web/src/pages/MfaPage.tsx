@@ -5,6 +5,7 @@ import { authMessage, verifyTotp, totpQrSource } from '../features/auth/authData
 import { AuthStatus } from '../features/auth/components/AuthStatus'
 import { needsMfa } from '../features/auth/sessionStore'
 import { safeAuthDestination } from '../features/auth/authNavigation'
+import { platformBrand } from '../config/platform'
 
 type TotpFactor = { id: string; friendly_name?: string; status: 'verified' | 'unverified' }
 type Enrollment = { id: string; qr: string; secret: string }
@@ -49,7 +50,7 @@ function MfaPanel({ owner }: { owner: string }) {
     finally { inFlight.current = false; if (current()) setBusy(false) }
   }
   async function enroll() {
-    const result = await store.getClient().auth.mfa.enroll({ factorType: 'totp', issuer: 'Valhalla Space', friendlyName: `Valhalla ${Date.now()}` })
+    const result = await store.getClient().auth.mfa.enroll({ factorType: 'totp', issuer: platformBrand.name, friendlyName: `${platformBrand.name} ${Date.now()}` })
     if (result.error) throw result.error
     if (!current()) return // never display A's enrollment after switching to B
     setEnrollment({ id: result.data.id, qr: totpQrSource(result.data.totp.qr_code), secret: result.data.totp.secret }); setCode('')

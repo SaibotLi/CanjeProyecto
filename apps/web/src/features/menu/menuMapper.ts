@@ -21,7 +21,8 @@ export function mapMenuItem(row: PublicMenuItemRow, publicImageUrl: ImageUrlReso
 /** Explicit mapping, not a DB row cast. Empty categories are intentionally hidden. */
 export function mapPublicMenu(row: PublicMenuRow, publicImageUrl: ImageUrlResolver): MenuData {
   const settings = row.loyalty_settings
-  if (!row.is_active || !settings || !Number.isFinite(settings.currency_per_point) || settings.currency_per_point <= 0) {
+  const contracted = row.business_entitlements?.loyalty_enabled === true
+  if (!row.is_active || !row.business_entitlements || (contracted && (!settings || !Number.isFinite(settings.currency_per_point) || settings.currency_per_point <= 0))) {
     throw new Error('Invalid published menu settings')
   }
   const categories: MenuData['categories'] = []
@@ -38,6 +39,6 @@ export function mapPublicMenu(row: PublicMenuRow, publicImageUrl: ImageUrlResolv
   }
   return {
     categories: categories.sort(byDisplayOrder), items: items.sort(byDisplayOrder),
-    previewCurrencyPerPoint: settings.currency_per_point, pointsEnabled: settings.points_enabled,
+    previewCurrencyPerPoint: settings?.currency_per_point ?? 1000, pointsEnabled: contracted && settings?.points_enabled === true,
   }
 }

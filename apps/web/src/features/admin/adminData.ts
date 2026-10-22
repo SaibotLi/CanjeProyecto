@@ -11,6 +11,7 @@ export type CategoryDraft = { name: string; slug: string; displayOrder: string; 
 export type ItemDraft = { categoryId: string; name: string; description: string; price: string;
   imageAlt: string; imagePresentation: 'photo' | 'cutout'; isAvailable: boolean; isFeatured: boolean; isActive: boolean; displayOrder: string }
 export type UploadedAsset = { userId: string; businessId: string; path: string }
+export function categorySlug(name:string){return name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,80).replace(/-$/,'')}
 export class AdminError extends Error {
   constructor(message: string, public kind: 'validation' | 'authority' | 'save' | 'upload' | 'image-save' | 'session', public asset?: UploadedAsset) { super(message) }
 }

@@ -14,6 +14,9 @@ export function resolve(specifier, context, nextResolve) {
     return nextResolve(specifier, context)
 }
 export function load(url, context, nextLoad) {
+    // SSR exercises real components; static assets become their URL, never mocked UI logic.
+    if (url.startsWith(sourceRoot) && /\.(?:webp|png|svg)$/.test(url)) return {format:'module',shortCircuit:true,source:`export default ${JSON.stringify(new URL(url).pathname)}`}
+    if (url.startsWith(sourceRoot) && /\.css$/.test(url)) return {format:'module',shortCircuit:true,source:'export {}'}
     if (url.startsWith(sourceRoot) && /\.tsx?$/.test(url)) {
       return { format: 'module', shortCircuit: true, source: ts.transpileModule(readFileSync(new URL(url), 'utf8'), {
         compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext, jsx: ts.JsxEmit.ReactJSX },

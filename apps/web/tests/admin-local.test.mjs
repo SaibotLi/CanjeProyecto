@@ -13,7 +13,7 @@ import { totp } from '../../../supabase/scripts/auth-test-runtime.mjs'
 import { signUp, verifyTotp, readProfile, updateDisplayName } from '../src/features/auth/authData.ts'
 import { createAuthStore } from '../src/features/auth/sessionStore.ts'
 import { createAuthorityStore, businessGate, platformGate } from '../src/features/authority/authorityStore.ts'
-import { readAuthority } from '../src/features/authority/authorityData.ts'
+import { readAuthority,scopeAuthority } from '../src/features/authority/authorityData.ts'
 import { readPlatformBusinesses } from '../src/features/authority/platformData.ts'
 import { readAdminCatalog, saveCategory, saveItem } from '../src/features/admin/adminData.ts'
 import { createAdminActions } from '../src/features/admin/adminActions.ts'
@@ -72,11 +72,12 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
     for (const actor of accounts) await actor.authority.reload()
     await t.test('customer forbidden; Admin A/B/Both membership resolution; tenant UUID from DB', async () => {
       assert.equal(businessGate(customer.authority.getSnapshot()), 'forbidden')
-      assert.equal(businessGate(adminA.authority.getSnapshot()), 'allowed')
+      const scoped=actor=>{const state=actor.authority.getSnapshot();return {...state,data:state.data?scopeAuthority(state.data,business):null}}
+      assert.equal(businessGate(scoped(adminA)), 'allowed')
       assert.equal(businessGate(adminB.authority.getSnapshot()), 'forbidden')
-      assert.equal(businessGate(both.authority.getSnapshot()), 'allowed')
+      assert.equal(businessGate(scoped(both)), 'allowed')
       assert.equal(both.authority.getSnapshot().data.adminBusinesses.length, 2)
-      assert.equal(adminA.authority.getSnapshot().data.tenant.id, business)
+      assert.equal(scopeAuthority(adminA.authority.getSnapshot().data,business).tenant.id, business)
       await assert.rejects(() => customer.actions.saveCategory(business, categoryDraft('Denied')))
     })
     await t.test('customer profile UI20 / DB80 compatibility → known-ID API attack → identical anon Carta', async () => {
@@ -159,7 +160,7 @@ test('Task 2F LOCAL business authority, catalog and upload application contracts
     await t.test('inactive business own READ continues; writes/upload blocked; Both still writes B', async () => {
       const sameToken = token(adminA)
       localSql(`update public.businesses set is_active=false where id='${business}';`)
-      await adminA.authority.reload(); assert.equal(adminA.authority.getSnapshot().data.tenant.isActive, false)
+      await adminA.authority.reload(); assert.equal(scopeAuthority(adminA.authority.getSnapshot().data,business).tenant.isActive, false)
       assert.ok((await readAdminCatalog(adminA.client, business)).items.length)
       await assert.rejects(() => adminA.actions.saveCategory(business, categoryA.draft, categoryA.row.id))
       await assert.rejects(() => saveCategory(adminA.client, business, categoryA.draft, categoryA.row.id))

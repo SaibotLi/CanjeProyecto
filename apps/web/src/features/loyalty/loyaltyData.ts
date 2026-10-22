@@ -80,11 +80,6 @@ export async function readOwnCode(client: AppClient, userId: string): Promise<st
   if (error || !data) throw new LoyaltyError('No pudimos cargar tu código. Volvé a intentar.')
   return customerCode(data.customer_code)
 }
-export async function readLoyaltyBusiness(client: AppClient) {
-  const { data, error } = await client.from('businesses').select('id,name,is_active').eq('slug', 'valhalla-space').abortSignal(AbortSignal.timeout(15000)).maybeSingle()
-  if (error || !data) throw new LoyaltyError('No pudimos cargar Valhalla. Volvé a intentar.')
-  return data
-}
 export async function readRule(client: AppClient, businessId: string) {
   const { data, error } = await client.from('loyalty_settings').select('currency_per_point,points_enabled').eq('business_id', businessId).abortSignal(AbortSignal.timeout(15000)).single()
   if (error || !data) throw new LoyaltyError('No pudimos cargar la regla de puntos. Actualizá antes de acreditar.')

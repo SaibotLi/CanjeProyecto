@@ -1,7 +1,9 @@
 import type { QueryData, SupabaseClient } from '@supabase/supabase-js'
 import type { Database } from '../../../../../supabase/types/database.types'
+import {legacyBusinessSlug} from '../../config/platform'
 
-export const PUBLIC_MENU_SLUG = 'valhalla-space'
+// Legacy adapter default only. Runtime always passes the route slug.
+export const PUBLIC_MENU_SLUG = legacyBusinessSlug
 
 /** One PostgREST statement/snapshot, including children via their tenant FKs.
  * Left embeddings retain an active business with an empty published menu.
@@ -10,6 +12,7 @@ export const PUBLIC_MENU_SLUG = 'valhalla-space'
 export function publicMenuQuery(client: SupabaseClient<Database>, slug = PUBLIC_MENU_SLUG) {
   return client.from('businesses').select(`
     id, is_active,
+    business_entitlements(loyalty_enabled),
     loyalty_settings(currency_per_point, points_enabled),
     menu_categories!menu_categories_business_fkey(
       id, name, slug, display_order, is_active,

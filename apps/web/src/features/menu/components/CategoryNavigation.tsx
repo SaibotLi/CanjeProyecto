@@ -15,7 +15,7 @@ export function CategoryNavigation({ categories, activeSlug, onSelect, navRef }:
       container.scrollTo({ left: left - (container.clientWidth - selected.offsetWidth) / 2, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
     }
   }, [activeSlug])
-  return <nav className="menu-category-nav" aria-label="Categorías de bebidas" ref={navRef}><div className="menu-category-track" ref={listRef}>
+  return <nav className="menu-category-nav" aria-label="Categorías de la carta" ref={navRef}><div className="menu-category-track" ref={listRef}>
     {categories.map(category => <a key={category.id} href={`#${category.slug}`} className={activeSlug === category.slug ? 'menu-category-link active' : 'menu-category-link'} aria-current={activeSlug === category.slug ? 'location' : undefined} onClick={event => { event.preventDefault(); onSelect(category.slug) }}>{category.name}</a>)}
   </div></nav>
 }

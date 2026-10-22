@@ -3,7 +3,6 @@ import { CustomerLayout } from '../layouts/CustomerLayout'
 import { AdminLayout } from '../layouts/AdminLayout'
 import { MenuPage } from '../pages/MenuPage'
 import { PointsPage } from '../pages/PointsPage'
-import { RewardsPage } from '../pages/RewardsPage'
 import { ProfilePage } from '../pages/ProfilePage'
 import { AdminPage } from '../pages/AdminPage'
 import { NotFoundPage } from '../pages/NotFoundPage'
@@ -17,15 +16,20 @@ import { AdminCatalogPage } from '../pages/AdminCatalogPage'
 import { PlatformRequired } from '../features/authority/PlatformRequired'
 import { PlatformPage } from '../pages/PlatformPage'
 import { OperatorPage } from '../pages/OperatorPage'
+import {BusinessRoute} from '../features/business/BusinessRoute'
+import {BusinessSettingsPage} from '../pages/BusinessSettingsPage'
+import {BusinessSharePage} from '../pages/BusinessSharePage'
+import {PlatformHomePage} from '../pages/PlatformHomePage'
+import {LegacyRoute} from '../features/business/LegacyRoute'
 
 export const router = createBrowserRouter([
   {
     element: <CustomerLayout />,
     children: [
-      { path: '/', element: <MenuPage /> },
-      { path: '/points', element: <AuthRequired><PointsPage /></AuthRequired> },
-      { path: '/operar', element: <AuthRequired><OperatorPage /></AuthRequired> },
-      { path: '/rewards', element: <RewardsPage /> },
+      { path: '/', element: <PlatformHomePage /> },
+      { path: '/points', element: <LegacyRoute section="points" /> },
+      { path: '/operar', element: <LegacyRoute section="operar" /> },
+      { path: '/rewards', element: <LegacyRoute section="points" /> },
       { path: '/profile', element: <AuthRequired><ProfilePage /></AuthRequired> },
       { path: '/login', element: <AuthPage key="login" mode="login" /> },
       { path: '/register', element: <AuthPage key="register" mode="register" /> },
@@ -37,9 +41,21 @@ export const router = createBrowserRouter([
       { path: '*', element: <NotFoundPage /> },
     ],
   },
-  { path: '/admin', element: <AuthRequired><BusinessAdminRequired><AdminLayout /></BusinessAdminRequired></AuthRequired>, children: [
-    { index: true, element: <AdminPage /> },
-    { path: 'categories', element: <AdminCatalogPage key="categories" section="categories" /> },
-    { path: 'products', element: <AdminCatalogPage key="items" section="items" /> },
-  ] },
+  ...['admin','admin/categories','admin/products','admin/settings','admin/share'].map(section=>({path:`/${section}`,element:<LegacyRoute section={section}/>})),
+  {path:'/:businessSlug',element:<BusinessRoute/>,children:[
+    {element:<CustomerLayout/>,children:[
+      {index:true,element:<MenuPage/>},
+      {path:'profile',element:<AuthRequired><ProfilePage/></AuthRequired>},
+      {path:'points',element:<PointsPage/>},
+      {path:'operar',element:<AuthRequired><OperatorPage/></AuthRequired>},
+      {path:'*',element:<NotFoundPage/>},
+    ]},
+    {path:'admin',element:<AuthRequired><BusinessAdminRequired><AdminLayout/></BusinessAdminRequired></AuthRequired>,children:[
+      {index:true,element:<AdminPage/>},
+      {path:'categories',element:<AdminCatalogPage key="categories" section="categories"/>},
+      {path:'products',element:<AdminCatalogPage key="items" section="items"/>},
+      {path:'settings',element:<BusinessSettingsPage/>},
+      {path:'share',element:<BusinessSharePage/>},
+    ]},
+  ]},
 ])

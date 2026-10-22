@@ -1,6 +1,8 @@
 import type { AppClient } from '../auth/authData'
+import { legacyBusinessSlug } from '../../config/platform'
 
-export const operatingBusinessSlug = 'valhalla-space'
+// Kept only for compatibility with existing adapter consumers/tests.
+export const operatingBusinessSlug = legacyBusinessSlug
 export type AdminBusiness = { id: string; slug: string; name: string; isActive: boolean }
 export type OperatorBusiness = AdminBusiness & { role: 'admin' | 'staff' }
 export type Authority = {
@@ -52,6 +54,11 @@ export async function readAuthority(client: AppClient, userId: string, signal = 
       .eq('user_id', userId).order('business_id').range(start, start + 499).abortSignal(signal)
     if (error || !data) throw new Error('No pudimos comprobar tus permisos.')
     rows.push(...data)
-    if (data.length < 500) return mapAuthority(rows, userId, operatingBusinessSlug, platformAdmin)
+    if (data.length < 500) return mapAuthority(rows, userId, '', platformAdmin)
   }
+}
+
+export function scopeAuthority(authority: Authority, businessId: string): Authority {
+  return { ...authority, tenant: authority.adminBusinesses.find(b=>b.id===businessId)??null,
+    operatorTenant: authority.operatorBusinesses.find(b=>b.id===businessId)??null }
 }

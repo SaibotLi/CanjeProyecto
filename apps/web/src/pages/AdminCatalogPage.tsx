@@ -5,9 +5,12 @@ import { AuthStatus } from '../features/auth/components/AuthStatus'
 import { useAdminCatalog } from '../features/admin/useAdminCatalog'
 import { CategoryForm, ItemForm, AdminImage } from '../features/admin/AdminForms'
 import { formatMenuPrice } from '../features/menu/presentation'
+import {useBusiness} from '../features/business/businessContext'
+import {businessPath} from '../features/business/businessRoutes'
 
 export function AdminCatalogPage({ section }: { section: 'categories' | 'items' }) {
   const authority = useAuthority(), catalog = useAdminCatalog()
+  const context=useBusiness()
   const [selected, setSelected] = useState<string | null>(null), [notice, setNotice] = useState('')
   const editor = useRef<HTMLDivElement>(null)
   useEffect(() => { if (selected) { editor.current?.focus(); editor.current?.scrollIntoView({ block: 'start' }) } }, [selected])
@@ -30,7 +33,7 @@ export function AdminCatalogPage({ section }: { section: 'categories' | 'items' 
       {selected && selectedExists && <div className="admin-editor" ref={editor} tabIndex={-1} aria-label="Edición de catálogo">{section === 'categories'
         ? <CategoryForm key={selected} category={category} disabled={disabled} onSaved={saved} onCancel={() => setSelected(null)} />
         : <ItemForm key={selected} item={item} categories={categories} disabled={disabled} onSaved={saved} onCancel={() => setSelected(null)} />}</div>}
-      <div className="admin-actions"><button className="button-primary" type="button" disabled={disabled || (section === 'items' && !categories.length)} onClick={() => open('new')}>{section === 'categories' ? 'Nueva categoría' : 'Nuevo producto'}</button>{section === 'items' && !categories.length && <p>Creá una <Link className="text-link" to="/admin/categories">categoría</Link> primero.</p>}</div>
+      <div className="admin-actions"><button className="button-primary" type="button" disabled={disabled || (section === 'items' && !categories.length)} onClick={() => open('new')}>{section === 'categories' ? 'Nueva categoría' : 'Nuevo producto'}</button>{section === 'items' && !categories.length && <p>Creá una <Link className="text-link" to={businessPath(context.business.slug,'admin/categories')}>categoría</Link> primero.</p>}</div>
       <ul className="admin-catalog-list">{section === 'categories' ? categories.map(c => <li key={c.id}><div><h2>{c.name}</h2><p className="muted">{c.slug} · orden {c.displayOrder} · {c.isActive ? 'Activa' : 'Inactiva'}</p></div><button className="button-secondary" type="button" onClick={() => open(c.id)} aria-label={`Editar categoría ${c.name}`}>{business?.isActive ? 'Editar' : 'Ver detalles'}</button></li>) : items.map(i => <li key={i.id}>{i.imageUrl && <AdminImage key={i.imageUrl} url={i.imageUrl} alt={i.imageAlt || i.name} />}<div><h2>{i.name}</h2><p>{formatMenuPrice(i.price)}</p><p className="muted">{categories.find(c => c.id === i.categoryId)?.name} · orden {i.displayOrder}</p><p className="admin-flags">{i.isActive ? 'Activo' : 'Inactivo'} · {i.isAvailable ? 'Disponible' : 'AGOTADO'}{i.isFeatured && ' · Destacado'}{!i.imagePath && ' · Sin imagen'}</p></div><button className="button-secondary" type="button" onClick={() => open(i.id)} aria-label={`Editar producto ${i.name}`}>{business?.isActive ? 'Editar' : 'Ver detalles'}</button></li>)}</ul>
       {!(section === 'categories' ? categories.length : items.length) && <p className="muted">Todavía no hay {section === 'categories' ? 'categorías' : 'productos'}.</p>}
     </>}

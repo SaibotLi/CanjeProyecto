@@ -2,26 +2,39 @@ import { useCallback, useState } from 'react'
 import { PageHeading } from '../components/PageHeading'
 import { AuthStatus } from '../features/auth/components/AuthStatus'
 import { useAuth } from '../features/auth/authContext'
-import { formatPoints, readLoyaltyBusiness, readOwnCode, readableCode } from '../features/loyalty/loyaltyData'
+import { formatPoints, readOwnCode, readableCode } from '../features/loyalty/loyaltyData'
 import { useLoyaltyRead } from '../features/loyalty/useLoyaltyRead'
 import { useHistory } from '../features/loyalty/useHistory'
+import {useBusiness} from '../features/business/businessContext'
 import { LoyaltyHistory } from '../features/loyalty/LoyaltyHistory'
+import {Link} from 'react-router-dom'
+import {AuthRequired} from '../features/auth/AuthRequired'
+import {businessPath} from '../features/business/businessRoutes'
 
 export function PointsPage() {
   const auth = useAuth()
-  return auth.session ? <OwnPoints key={auth.session.user.id} userId={auth.session.user.id} /> : null
+  const {business}=useBusiness()
+  if(!business.loyaltyEnabled)return auth.session?<ArchivedPoints key={`${auth.session.user.id}:${business.id}`}/>:<PointsUnavailable/>
+  return <AuthRequired>{auth.session?<OwnPoints key={`${auth.session.user.id}:${business.id}`} userId={auth.session.user.id} />:null}</AuthRequired>
+}
+function PointsUnavailable(){const {business}=useBusiness();return <section className="auth-panel"><h1>Función no disponible</h1><p>Esta función no forma parte del servicio actual de este comercio.</p><Link className="button-primary" to={businessPath(business.slug)}>Volver a la carta</Link></section>}
+function ArchivedPoints(){
+  const auth=useAuth(),{business}=useBusiness(),result=useHistory(auth.store.getClient(),business.id,true,auth.revision)
+  if(!result.data)return <section className="auth-panel"><AuthStatus error={result.error} message={result.error?'No pudimos consultar tu historial.':'Consultando tu actividad anterior…'}/>{result.error&&<button className="button-secondary" onClick={()=>{void result.refresh()}}>Reintentar</button>}</section>
+  if(!result.entries.length)return <PointsUnavailable/>
+  return <div className="loyalty-workspace"><PageHeading eyebrow={business.name} title="Tu historial anterior" description="El servicio está deshabilitado. Tus movimientos se conservan para consulta."/><p>Saldo histórico: {formatPoints(result.data.balance!)} puntos</p><LoyaltyHistory entries={result.entries} more={result.more}/><Link className="text-link" to={businessPath(business.slug)}>Volver a la carta</Link></div>
 }
 function OwnPoints({ userId }: { userId: string }) {
   const auth = useAuth(), client = auth.store.getClient()
-  const load = useCallback(async () => ({ business: await readLoyaltyBusiness(client), code: await readOwnCode(client, userId) }), [client, userId])
+  const {business}=useBusiness()
+  const load = useCallback(async () => ({ code: business.loyaltyEnabled?await readOwnCode(client, userId):null }), [client, userId,business.loyaltyEnabled])
   const details = useLoyaltyRead(load, auth.revision), [copied, setCopied] = useState(false), [copyError, setCopyError] = useState(false)
-  const copy = async () => { try { await navigator.clipboard.writeText(details.data!.code); setCopied(true); setCopyError(false) } catch { setCopyError(true) } }
-  return <div className="loyalty-workspace"><PageHeading eyebrow="CADA VISITA CUENTA" title="Mis puntos" description="Tu saldo y tus consumos confirmados en Valhalla." />
+  const copy = async () => { try { if(details.data?.code)await navigator.clipboard.writeText(details.data.code); setCopied(true); setCopyError(false) } catch { setCopyError(true) } }
+  return <div className="loyalty-workspace"><PageHeading eyebrow={business.name} title="Mis puntos" description={business.loyaltyEnabled?'Tu saldo y tus consumos confirmados en este comercio.':'Fidelización no está disponible. Tu historial anterior se conserva para consulta.'} />
     {details.busy && !details.data && <AuthStatus message="Cargando tu cuenta de puntos…" />}
     {details.error && <div role="alert">No pudimos actualizar tu código y negocio. <button type="button" className="button-secondary" onClick={() => { void details.refresh() }}>Reintentar</button></div>}
-    {details.data && <><section className="customer-code-card"><span className="eyebrow">TU CÓDIGO PERSONAL</span><p className="customer-code">{readableCode(details.data.code)}</p><button type="button" className="button-secondary" onClick={() => { void copy() }}>{copied ? 'Código copiado' : 'Copiar código'}</button>{copyError && <p role="alert">No pudimos copiarlo. Podés seleccionar el código y copiarlo manualmente.</p>}<p className="muted">Mostralo al personal antes de acreditar tu consumo. Este código sólo identifica tu cuenta.</p></section>
-      <PointBalance key={details.data.business.id} businessId={details.data.business.id} businessName={details.data.business.name} />
-    </>}
+    {business.loyaltyEnabled&&details.data?.code&&<section className="customer-code-card"><span className="eyebrow">TU CÓDIGO PERSONAL</span><p className="customer-code">{readableCode(details.data.code)}</p><button type="button" className="button-secondary" onClick={() => { void copy() }}>{copied ? 'Código copiado' : 'Copiar código'}</button>{copyError && <p role="alert">No pudimos copiarlo. Podés seleccionar el código y copiarlo manualmente.</p>}<p className="muted">Mostralo al personal antes de acreditar tu consumo. Este código sólo identifica tu cuenta.</p></section>}
+    <PointBalance key={business.id} businessId={business.id} businessName={business.name}/>
   </div>
 }
 function PointBalance({ businessId, businessName }: { businessId: string; businessName: string }) {

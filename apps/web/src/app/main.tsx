@@ -9,9 +9,10 @@ import '../features/auth/auth.css'
 import { AuthorityProvider } from '../features/authority/AuthorityProvider'
 import '../features/admin/admin.css'
 import '../features/loyalty/loyalty.css'
+import {platformBrand} from '../config/platform'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
-root.render(<p className="auth-status" role="status">Abriendo Valhalla…</p>)
+root.render(<p className="auth-status" role="status">Abriendo {platformBrand.name}…</p>)
 // Attach the listener before rendering consumers or starting a Carta query.
 // Lazy SDK chunk is preserved; configuration failure doesn't crash public UI.
 void import('../lib/supabase').then(({ getSupabaseClient }) => createAuthStore(getSupabaseClient()))

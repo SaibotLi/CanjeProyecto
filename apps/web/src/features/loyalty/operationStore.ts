@@ -52,7 +52,7 @@ export function createOperationStore(storage: Storage, key: string, userId: stri
   const send = async (intent: Intent, recovery: boolean) => {
     if (busy || state.storageError) return
     busy = true; generation++
-    if (!update({ ...state, pending: intent, status: 'sending', message: 'Confirmando con Valhalla…' })) { busy = false; return }
+    if (!update({ ...state, pending: intent, status: 'sending', message: 'Confirmando con el comercio…' })) { busy = false; return }
     try {
       const result = await actions.send(intent)
       // Save the receipt and clear its pending id atomically in one storage write.
