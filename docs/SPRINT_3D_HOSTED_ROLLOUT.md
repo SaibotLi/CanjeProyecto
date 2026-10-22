@@ -31,11 +31,15 @@ protegidos y MFA conservados. Lint, typecheck, build con env públicas Hosted,
 **56 regresiones + 10 checks QA/PWA/env**, y auditoría de secretos PASS. No se repitieron
 suites destructivas LOCAL ni la auditoría completa de Sprint 2 para estos ajustes.
 
-Production ya estaba conectada y READY en `2878e0d` antes de estos ajustes; la publicación
-final se verifica por SHA exacto, READY/alias y smoke HTTPS después del push. Evidencia
-sanitizada de deployment, doce rutas directas/reload, consola/network y capturas queda
-en el workspace de la tarea, fuera del repositorio. No se afirma una nueva prueba manual
-de contraseña para la mejora de navegación; su contrato tiene regresión automatizada.
+Release funcional `c0d6beb` publicada por Git, READY y activa en https://valhallapp.vercel.app;
+SHA exacto/alias y variables públicas Hosted verificados. Doce rutas HTTP200 y doce rutas
+en navegador con acceso directo/reload PASS; sesión restaurada, Admin/Platform operativos,
+Perfil maxlength20 y cero errores/warnings de consola. Sin URL Supabase loopback ni secrets
+privados en el build. El usuario confirmó además logout/login normal de la receptora:
+vuelve a la Carta con sesión iniciada. La PWA anterior se actualizó cerrando su última
+pestaña y reabriendo, sin eliminar datos ni sesiones. Evidencia sanitizada y capturas
+quedan en el workspace de la tarea, fuera del repositorio. El commit documental posterior
+conserva el mismo frontend; su deployment se comprueba por SHA/READY/alias al publicarlo.
 
 **No se declara External Pilot Ready.** Pendientes: custom SMTP + dominio autenticado,
 catálogo real aprobado y preparación operativa. Google OAuth opcional, recompensas/canjes,
