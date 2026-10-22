@@ -4,6 +4,7 @@ import { useAuth } from '../features/auth/authContext'
 import { authMessage, verifyTotp, totpQrSource } from '../features/auth/authData'
 import { AuthStatus } from '../features/auth/components/AuthStatus'
 import { needsMfa } from '../features/auth/sessionStore'
+import { safeAuthDestination } from '../features/auth/authNavigation'
 
 type TotpFactor = { id: string; friendly_name?: string; status: 'verified' | 'unverified' }
 type Enrollment = { id: string; qr: string; secret: string }
@@ -16,6 +17,7 @@ function MfaPanel({ owner }: { owner: string }) {
   const navigate = useNavigate()
   const [search] = useSearchParams()
   const continuePlatform = search.get('continue') === 'platform' && !recovery
+  const returnTo = safeAuthDestination(search.get('returnTo'))
   const [factors, setFactors] = useState<TotpFactor[]>([])
   const [loading, setLoading] = useState(true)
   const [enrollment, setEnrollment] = useState<Enrollment | null>(null)
@@ -93,6 +95,7 @@ function MfaPanel({ owner }: { owner: string }) {
     {!loading && <div className="auth-security"><h2>Tus autenticadores</h2>{!factors.length && <p className="muted">Todavía no tenés un segundo factor.</p>}<ul className="auth-factors">{factors.map(factor => <li key={factor.id}><div><strong>{factor.friendly_name || 'Autenticador'}</strong><span className="muted">{factor.status === 'verified' ? 'Verificado' : 'Pendiente de verificación'}</span></div>{removing === factor.id ? <div className="auth-actions"><p className="muted">¿Retirar este autenticador?</p><button className="button-secondary" type="button" disabled={busy} onClick={() => { void run(() => remove(factor.id, factor.status === 'verified')) }}>Confirmar retiro</button><button className="button-secondary" type="button" disabled={busy} onClick={() => setRemoving('')}>Conservar</button></div> : <button className="button-secondary" type="button" disabled={busy || (factor.status === 'verified' && assurance?.currentLevel !== 'aal2')} onClick={() => setRemoving(factor.id)}>Retirar</button>}</li>)}</ul>{needsMfa(assurance) && <p className="muted">Verificá un factor vigente antes de retirarlo. Si perdiste acceso, no existe recuperación administrativa en esta versión local.</p>}</div>}
     <div className="auth-links"><Link to={recovery ? '/auth/recovery' : '/profile'}>{recovery ? 'Volver a recuperación' : 'Volver a mi perfil'}</Link><Link to="/">Seguir viendo la carta</Link></div>
     {continuePlatform && assurance?.currentLevel === 'aal2' && <Link className="button-primary" to="/platform">Continuar a Platform</Link>}
+    {!continuePlatform && !recovery && returnTo && assurance?.currentLevel === 'aal2' && <Link className="button-primary" to={returnTo}>{returnTo === '/' ? 'Continuar al inicio' : 'Continuar'}</Link>}
     <p className="context-note">Si dejás una configuración sin terminar, su factor pendiente seguirá visible para retirarlo; la clave no se vuelve a mostrar. Recuperación privilegiada de MFA pendiente antes del piloto.</p>
   </section>
 }

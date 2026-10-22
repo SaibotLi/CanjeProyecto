@@ -6,22 +6,23 @@ Fundación frontend de una futura plataforma SaaS de fidelización para comercio
 
 ## Estado actual
 
-**SPRINT 2 + HOSTED FOUNDATION CLOSED — SPRINT 3C VERIFIED LOCAL.**
+**SPRINT 2 + HOSTED FOUNDATION CLOSED — SPRINT 3D VERIFIED HOSTED.**
 H1 foundation, H2 Auth/bootstrap real y H3 conexión HTTPS completados en
 https://valhallapp.vercel.app. Perfil/Admin/Platform MFA read-only operativos, catálogo
 sin productos (categoría Vinos existente). **External Pilot Ready: NO**: custom SMTP/dominio autenticado, catálogo
 real y validaciones operativas finales pendientes. Google OAuth opcional.
 [Cierre vigente](docs/SPRINT_2_CLOSEOUT.md) y [roadmap](docs/ROADMAP.md).
 
-Sprint 3B implementa exclusivamente LOCAL Staff, código público de cliente, ledger inmutable,
-acreditación/reversas atómicas e idempotentes y saldo/historial por RPC. Seis migrations
-reproducibles; las cinco de Sprint 2 intactas. A-S3D-001 autorizó y aplicó la sexta en Hosted:
-schema/backfill/grants verificados, ledger vacío y cero escrituras económicas de prueba.
-[Contrato y pruebas de 3B](docs/SPRINT_3B_BACKEND.md). 3C conecta `/operar` y `/points`
-al backend LOCAL: código personal, acreditación, recovery idempotente, historial y reversas.
-[Walkthrough y reproducción segura](docs/SPRINT_3C_WALKTHROUGH.md). Esta entrega integra el frontend
-Sprint 3 para Production; [estado y gates de 3D](docs/SPRINT_3D_HOSTED_ROLLOUT.md).
-El smoke económico Hosted requiere confirmar previamente la segunda identidad receptora.
+Sprint 3 incorpora Staff, código público de cliente, ledger inmutable, acreditación/reversas
+atómicas e idempotentes y saldo/historial por RPC. Seis migrations reproducibles; las cinco
+de Sprint 2 intactas. A-S3D-001 aplicó la sexta en Hosted con schema/backfill/grants verificados.
+`/operar` y `/points` están publicados en Production. A-S3D-002 completada el 21/10: crédito
+interno autorizado de ARS6.500 → 6 puntos y reversa total; dos movimientos permanentes,
+saldo final cero, sin duplicaciones ni otras cuentas afectadas. Nombre visible máximo20
+en UI; login habitual de cuentas con nombre vuelve a Inicio. Lint/typecheck/build,
+66 regresiones/QA/env y auditoría de secretos PASS.
+[Contrato 3B](docs/SPRINT_3B_BACKEND.md), [walkthrough 3C](docs/SPRINT_3C_WALKTHROUGH.md)
+y [cierre/gates 3D](docs/SPRINT_3D_HOSTED_ROLLOUT.md).
 
 Para colaborar desde otra computadora: [guía breve de desarrollo](docs/DEVELOPMENT_QUICKSTART.md).
 `main` contiene el trabajo integrado; permisos GitHub y capacidades Admin/Staff son independientes.

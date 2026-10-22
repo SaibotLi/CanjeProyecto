@@ -1,11 +1,47 @@
-# Sprint 3D — backend Hosted aplicado; validación económica pendiente
+# Sprint 3D — VERIFIED HOSTED / COMPLETADA
 
-13/10/2026. Objetivo confirmado: preparar/aplicar 3B en Hosted con autorización específica,
-publicar 3C y validar Hosted/Vercel. **A-S3D-001 APPLIED / SCHEMA VERIFIED; 3D IN PROGRESS.**
+21/10/2026. Objetivo completado: aplicar 3B en Hosted con autorización específica,
+publicar 3C y validar Hosted/Vercel. **A-S3D-001 APPLIED / SCHEMA VERIFIED;
+A-S3D-002 ECONOMIC SMOKE PASS.**
 No reset remoto, seed, SMTP, OAuth, POS, recompensas ni escrituras globales Platform.
 External pilot sigue bloqueado por custom SMTP + dominio autenticado.
 
-## Publicación retomada — 19/10/2026
+## Cierre — 21/10/2026
+
+Identidad receptora interna creada/confirmada por flujo normal, presentada y aprobada
+expresamente por el usuario antes de operar. Sin membership ni Platform; distinta del
+Business Admin emisor. No usuarios externos ni autoacreditación.
+
+Smoke `S3D-SMOKE-20261013`: un crédito ARS 6.500,00 / divisor 1.000,00 = **+6 puntos**;
+una reversa completa **−6**, vinculada al crédito y con motivo obligatorio ingresado por
+el usuario. Ambos clics económicos finales fueron humanos: la revisión automática
+exigió ese traspaso; no se intentó ejecutar las operaciones por otra vía.
+
+El usuario verificó saldo e historial del receptor tras el crédito y la reversa.
+Observación PostgreSQL exclusivamente read-only confirma **dos movimientos permanentes,
+saldo neto cero**, request IDs distintos, un crédito y una reversa, vínculo correcto,
+actor Admin autorizado y **cero movimientos sobre otras cuentas**. Ninguna compensación
+adicional, limpieza económica, nueva migration o cambio de permisos/configuración.
+Las seis versiones de migrations permanecen exactas. El ledger ya no debe estar vacío:
+sus dos registros auditables son el resultado autorizado, no drift ni fixtures borrables.
+
+Frontend de cierre: nombre visible/apodo máximo20 en UI (DB80 conservado); login habitual
+con nombre configurado a Inicio, primera confirmación/sin nombre a Perfil, destinos
+protegidos y MFA conservados. Lint, typecheck, build con env públicas Hosted,
+**56 regresiones + 10 checks QA/PWA/env**, y auditoría de secretos PASS. No se repitieron
+suites destructivas LOCAL ni la auditoría completa de Sprint 2 para estos ajustes.
+
+Production ya estaba conectada y READY en `2878e0d` antes de estos ajustes; la publicación
+final se verifica por SHA exacto, READY/alias y smoke HTTPS después del push. Evidencia
+sanitizada de deployment, doce rutas directas/reload, consola/network y capturas queda
+en el workspace de la tarea, fuera del repositorio. No se afirma una nueva prueba manual
+de contraseña para la mejora de navegación; su contrato tiene regresión automatizada.
+
+**No se declara External Pilot Ready.** Pendientes: custom SMTP + dominio autenticado,
+catálogo real aprobado y preparación operativa. Google OAuth opcional, recompensas/canjes,
+pagos/POS y gestión de empleados fuera de este cierre. No avance automático.
+
+## Historia: publicación retomada — 19/10/2026
 
 El usuario solicita publicar el trabajo pendiente y verificar Vercel. `origin/main`
 permanece en `0a269db`, sin commits ajenos para sobrescribir. Esta entrega integra
@@ -29,7 +65,7 @@ Frontend/backend económicos coinciden con `d20d18b`; cinco migrations previas, 
 seed coinciden con `origin/main`. Al checkpoint del 13/10 no había push Sprint 3 ni
 frontend económico en Production; la publicación del 19/10 retoma ese pendiente.
 
-## Preflight read-only
+## Historia: preflight read-only anterior a la migration
 
 Hosted `liojmtsopplgzderrrqi`: cinco versiones aprobadas exactas; ledger, customer_code
 y cinco RPC nuevas todavía ausentes. Un perfil confirmado, profile trigger sin huecos,
@@ -80,24 +116,21 @@ Publicar schema antes del frontend evita desplegar /operar y /points contra RPC 
 Si falla el frontend, puede restaurarse el deployment Sprint 2 conservando la migration;
 no bajar schema ni borrar ledger, especialmente después de movimientos.
 
-## Validación posterior y gate económico separado
+## Validación posterior y autorización económica separada
 
 Smoke HTTPS de rutas, reload, console/network, URL/public key Hosted y ausencia de secretos.
 Login humano normal; /points código/saldo/historial, Admin/operar y Platform AAL1/MFA/AAL2
 read-only. No passwords, sesiones ni códigos MFA por chat o logs.
 
-**A-S3D-002 AUTORIZADA CON CONDICIONES; gate de identidad pendiente.** Se autoriza un único
+**A-S3D-002 AUTORIZADA CON CONDICIONES; ejecutada y verificada el 21/10.** Se autorizó un único
 crédito ARS6500 → 6 puntos y su reversa total, ambos identificados S3D-SMOKE-20261013.
-Antes de ejecutar se presenta la segunda identidad interna y se espera confirmación expresa.
-Tras confirmar: verificar saldo/historial receptor, dos movimientos persistentes, saldo final
-cero, sin duplicaciones ni cambios económicos en otras cuentas. Ante cualquier fallo: STOP;
-no retries o compensaciones adicionales automáticos. No usar el operador
-como cliente de su propia acreditación. Con el único perfil actual, la prueba de escritura
-requiere definir una segunda identidad interna y el negocio/consumo de prueba autorizados.
-No registrar clientes externos con SMTP default ni crear fixtures aprovechando el permiso H1.
+Se cumplió la confirmación expresa de identidad antes de ejecutar. Saldo/historial receptor,
+dos movimientos persistentes, saldo final cero, ausencia de duplicaciones y de cambios
+económicos en otras cuentas PASS. La autorización quedó consumida por ese par de operaciones;
+no autoriza nuevos créditos/reversas, clientes externos ni fixtures bajo el permiso H1.
 
 El ledger conserva créditos y reversas compensatorias. Una reversa deja saldo neto cero,
 pero no elimina el historial ni permite borrar perfiles/negocios referenciados (FK RESTRICT).
 La permanencia auditada de esos dos registros queda aprobada por A-S3D-002;
 no prometer cleanup completo, ejecutar DELETE/TRUNCATE ni desactivar triggers de inmutabilidad.
-3D no se declara VERIFIED hasta completar la validación autorizada y documentar sus límites.
+La validación autorizada y sus límites quedaron documentados arriba: 3D VERIFIED HOSTED.

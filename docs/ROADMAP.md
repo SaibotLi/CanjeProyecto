@@ -2,7 +2,25 @@
 
 La numeración es única y expresa dependencias, no fechas.
 
-## Revalidación de main / Production — 13/10/2026
+## Estado vigente — 21/10/2026
+
+**SPRINT 3D VERIFIED HOSTED / COMPLETADA. External Pilot Ready: NO.**
+Sprint 2/H1–H3 preservados; 3B/3C integrados en main y publicados. Sexta migration aplicada
+bajo A-S3D-001; smoke A-S3D-002 completado tras aprobación de la identidad receptora:
+un crédito interno ARS6.500 → 6 puntos y una reversa total, dos movimientos auditables,
+saldo cero, sin duplicaciones ni otras cuentas afectadas. No nuevas escrituras económicas.
+Frontend: nombre visible20 (DB80 conservado), login habitual con nombre a Inicio,
+primera confirmación/sin nombre a Perfil, MFA y guards conservados. 66 regresiones/QA/env,
+lint/typecheck/build y auditoría de secretos PASS. [Cierre y límites](SPRINT_3D_HOSTED_ROLLOUT.md).
+
+Siguiente alcance por acordar: custom SMTP + dominio autenticado antes de usuarios
+externos; catálogo real aprobado y preparación operativa antes del piloto. Google OAuth
+opcional. Sin avance automático a SMTP, OAuth, recompensas/canjes, POS ni pagos.
+
+Las secciones fechadas siguientes conservan el estado histórico de cada entrega;
+sus pendientes de publicación/identidad ya están resueltos por el cierre vigente.
+
+## Historia: revalidación de main / Production — 13/10/2026
 
 **SPRINT 2 + HOSTED FOUNDATION CLOSED. External Pilot Ready: NO.** Rewrite y cierre Hosted
 ya versionados; nueva verificación de env públicas, build/regresiones y smoke HTTPS PASS.

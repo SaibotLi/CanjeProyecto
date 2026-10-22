@@ -11,6 +11,30 @@ import { AuthRequired } from '../src/features/auth/AuthRequired.tsx'
 import { AuthPage } from '../src/pages/AuthPage.tsx'
 import { AuthCallbackPage } from '../src/pages/AuthCallbackPage.tsx'
 import { RecoveryPage } from '../src/pages/RecoveryPage.tsx'
+import { mfaLoginDestination, normalLoginDestination, safeAuthDestination } from '../src/features/auth/authNavigation.ts'
+
+test('normal login returns configured customers home; missing names go to profile', () => {
+  assert.equal(normalLoginDestination('S3D Interno'), '/')
+  for (const name of [null, undefined, '', '   ']) assert.equal(normalLoginDestination(name), '/profile')
+  assert.equal(normalLoginDestination('Configured', '/points'), '/points')
+  assert.equal(normalLoginDestination('Configured', '/admin/products'), '/admin/products')
+  assert.equal(normalLoginDestination('Configured', '/platform'), '/platform')
+  assert.equal(normalLoginDestination('Configured', '/profile'), '/profile')
+})
+
+test('login return intent accepts only known exact local routes, never tokens or redirects', () => {
+  for (const target of ['https://example.test', '//example.test', '/\\example.test', '/login', '/auth/callback', '/auth/recovery', '/admin?next=https://example.test', '/points#token', '/points/../profile', {}, 1, null]) {
+    assert.equal(safeAuthDestination(target), null)
+    assert.equal(normalLoginDestination('Configured', target), '/')
+  }
+})
+
+test('MFA keeps the existing Platform continuation and safely carries other login destinations', () => {
+  assert.equal(mfaLoginDestination('/platform'), '/auth/mfa?continue=platform')
+  assert.equal(mfaLoginDestination('/'), '/auth/mfa?returnTo=%2F')
+  assert.equal(mfaLoginDestination('/points'), '/auth/mfa?returnTo=%2Fpoints')
+  assert.equal(mfaLoginDestination('//example.test'), '/auth/mfa?returnTo=%2Fprofile')
+})
 
 const session = id => ({ user: { id, email: `${id}@example.test` } })
 const row = id => ({ id, display_name: id, created_at: '2026-10-05', updated_at: '2026-10-05' })

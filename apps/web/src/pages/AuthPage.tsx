@@ -1,7 +1,8 @@
 import { useRef, useState, type FormEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../features/auth/authContext'
-import { authMessage, requestRecovery, signUp } from '../features/auth/authData'
+import { authMessage, readProfile, requestRecovery, signUp } from '../features/auth/authData'
+import { mfaLoginDestination, normalLoginDestination } from '../features/auth/authNavigation'
 import { needsMfa } from '../features/auth/sessionStore'
 import { AuthStatus } from '../features/auth/components/AuthStatus'
 
@@ -9,6 +10,7 @@ type Mode = 'login' | 'register' | 'forgot'
 export function AuthPage({ mode }: { mode: Mode }) {
   const auth = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmation, setConfirmation] = useState('')
@@ -36,8 +38,15 @@ export function AuthPage({ mode }: { mode: Mode }) {
         const result = await client.auth.signInWithPassword({ email: email.trim(), password })
         if (result.error) throw result.error
         setPassword('')
-        const level = await client.auth.mfa.getAuthenticatorAssuranceLevel()
-        navigate(!level.error && needsMfa(level.data) ? '/auth/mfa' : '/profile', { replace: true })
+        const userId = result.data.user.id
+        const [level, profile] = await Promise.all([
+          client.auth.mfa.getAuthenticatorAssuranceLevel(),
+          readProfile(client, userId).catch(() => null),
+        ])
+        const current = auth.store.getSnapshot()
+        if (current.session?.user.id !== userId || current.signingOut) return
+        const destination = profile ? normalLoginDestination(profile.displayName, location.state?.returnTo) : '/profile'
+        navigate(level.error ? '/profile' : needsMfa(level.data) ? mfaLoginDestination(destination) : destination, { replace: true })
         setStatus('success')
       }
     } catch (failure) {
@@ -47,7 +56,7 @@ export function AuthPage({ mode }: { mode: Mode }) {
   if (auth.initializing) return <AuthStatus message="Preparando tu sesión…" />
   return <section className="auth-panel" aria-labelledby="auth-title">
     <span className="eyebrow">VALHALLA · TU CUENTA</span><h1 id="auth-title">{title}</h1>
-    <p className="muted">{mode === 'login' ? 'Ingresá para ver tu perfil. La carta siempre está abierta.' : mode === 'register' ? 'Creá tu cuenta y confirmá tu email para comenzar.' : 'Te enviaremos un enlace para elegir una nueva contraseña.'}</p>
+    <p className="muted">{mode === 'login' ? 'Ingresá para continuar con tu cuenta. La carta siempre está abierta.' : mode === 'register' ? 'Creá tu cuenta y confirmá tu email para comenzar.' : 'Te enviaremos un enlace para elegir una nueva contraseña.'}</p>
     {auth.logoutError && <><AuthStatus error message="Tu perfil se ocultó, pero no pudimos terminar de cerrar la sesión. No está confirmado el cierre; reintentá antes de cambiar de cuenta." /><button className="button-secondary" type="button" onClick={() => { void auth.store.signOut().catch(() => {}) }}>Reintentar cierre de sesión</button></>}
     {auth.unavailable ? <AuthStatus error message="La conexión de cuentas no está disponible. Recargá e intentá de nuevo." />
       : auth.session && mode !== 'forgot' ? <><AuthStatus message="Ya tenés una sesión iniciada." /><Link className="button-primary" to="/profile">Ir a mi perfil</Link></>

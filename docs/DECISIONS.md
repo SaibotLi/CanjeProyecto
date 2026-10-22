@@ -12,6 +12,15 @@ una migration forward-only con aprobación Hosted separada. Ambos perfiles exist
 cumplen20; no se editaron para este ajuste. Tests de boundary/SSR y contrato LOCAL reflejan
 UI20/DB80; las suites destructivas LOCAL no se ejecutan sobre Hosted.
 
+## Destino del login habitual — aprobado por el usuario (21/10/2026)
+
+Login email/password con nombre visible configurado lleva a Inicio; sin nombre o si
+no se puede consultar el perfil, lleva a Perfil. Un acceso previo a una ruta protegida
+conserva ese destino mediante una lista exacta de rutas internas, sin URLs externas,
+query strings ni fragmentos. La confirmación inicial de email sigue llevando a Perfil.
+MFA conserva su verificación normal antes de continuar; recovery, guards y autoridad
+PostgreSQL no cambian. No se infieren permisos del nombre ni del destino de navegación.
+
 ## A-H1-001 — APPROVED (07/10/2026)
 
 Managed Storage ACL may differ between local Supabase distribution and Hosted;

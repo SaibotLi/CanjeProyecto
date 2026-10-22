@@ -1,19 +1,24 @@
 # UI Guide — Valhalla
 
-## Copy actual de Hosted — 08/10/2026
+## Estado actual de Hosted — 21/10/2026
 
 Carta conectada a Hosted, catálogo comercial vacío/controlado. Copy pública «Carta de
 Valhalla · Puntos estimativos»; cuenta/Platform no se describen como mock. Admin usa
 «Administración de Carta», sin referencia LOCAL; Auth no remite a Mailpit en producción.
-Puntos/premios conservan explícitamente datos de ejemplo y controles económicos pendientes.
-Sin rediseño, cambio de branding o promesa de economía/piloto externo listo.
+`/points` muestra código, saldo e historial reales; `/operar` permite acreditar y revertir
+según el rol vigente. Recompensas/canjes siguen fuera de alcance, sin operación real.
+El smoke interno autorizado terminó con crédito y reversa, saldo neto cero.
+El piloto externo sigue bloqueado por custom SMTP + dominio autenticado.
 Las referencias a seed/demo en las entregas anteriores son evidencia histórica LOCAL.
 
 Desde 21/10/2026 el nombre visible/apodo en Perfil se limita a 20 caracteres en HTML y
 adapter frontend; se conserva el CHECK DB de 80 para compatibilidad, sin truncar datos.
 La nota histórica de QA 2H abajo describe el límite anterior de 80 con helper compartido
 y copy de límite. SSR verifica labels/submit/guards/status, código conserva foco/touch/safe areas.
-No capturas nuevas ni certificación visual adicional. Checklist humano por tamaños en
+Login habitual con nombre configurado vuelve a Inicio; sin nombre, a Perfil. Se conserva
+el destino protegido solicitado y el paso MFA cuando corresponde. La primera confirmación
+de email continúa en Perfil. El usuario verificó crédito/saldo/historial y reversa en Hosted;
+la evidencia visual sanitizada del smoke queda fuera del repositorio. Checklist histórico por tamaños en
 [TASK_2H_WALKTHROUGH](TASK_2H_WALKTHROUGH.md); 2F aprobada por el usuario.
 
 ## Dirección visual actual
@@ -55,7 +60,7 @@ La Carta se diseña primero para 390 × 844 px y se comprueba a 360 y 430 px. La
 
 ## Componentes actuales
 
-Header de marca compacto “VALHALLA / Carta · Villaguay”, navegación customer, aviso de muestra, categorías sticky en pills, cards visuales de bebidas, destacado con imagen, agotado y onboarding compacto Valhalla Points. Puntos/premios siguen demo; profile/Auth reales desde 2E, Admin Carta desde 2F. No QR customer. Los ajustes de Carta usan `.menu-app`.
+Header de marca compacto “VALHALLA / Carta · Villaguay”, navegación customer, categorías sticky en pills, cards de bebidas y onboarding Valhalla Points. Perfil/Auth, Admin Carta, saldo/historial y operación autorizada son reales. Recompensas siguen sin operación; el código público identifica al cliente, sin autorizar escrituras. Los ajustes de Carta usan `.menu-app`.
 
 ## Estados y accesibilidad
 
