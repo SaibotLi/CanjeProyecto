@@ -1,16 +1,17 @@
 # CanjeProyect
 
-Plataforma de cartas digitales y fidelización para comercios. **Valhalla Space**, de Villaguay, Entre Ríos, es el piloto Hosted; esta rama incorpora la evolución multi-comercio exclusivamente LOCAL.
+Plataforma de cartas digitales y fidelización para comercios. **Valhalla Space**, de Villaguay, Entre Ríos, es el primer piloto Hosted; una aplicación y una base de datos soportan varios comercios.
 
 > **Antes de implementar una feature, leer `/docs`.**
 
 ## Estado actual
 
-**Esta rama: SaaS multi-comercio 3E/3F/3G, exclusivamente LOCAL.** Comercios por ruta,
-modalidades Carta Digital / Carta + Fidelización, Admin reutilizado, identidad/contacto/
-temas y enlace/QR. Séptima migration y contratos probados primero LOCAL; ninguna publicación
-ni migration Hosted por este encargo. [Resultado y reproducción](docs/SAAS_LOCAL_WALKTHROUGH.md).
-Los apartados siguientes describen el último release Hosted, que permanece sin cambios.
+**Release SaaS 3E/3F/3G — autorizado el 23/10/2026.** Comercios por ruta, modalidades
+Carta Digital / Carta + Fidelización, Admin reutilizado, identidad/contacto/temas y enlace/QR.
+Séptima migration aplicada y verificada en Hosted antes de publicar el frontend desde main;
+datos, permisos y ledger de Valhalla preservados. [Rollout vigente](docs/SAAS_HOSTED_ROLLOUT.md)
+y [pruebas/reproducción LOCAL](docs/SAAS_LOCAL_WALKTHROUGH.md).
+Los apartados siguientes conservan el contexto del release Sprint 3D anterior.
 
 **SPRINT 2 + HOSTED FOUNDATION CLOSED — SPRINT 3D VERIFIED HOSTED.**
 H1 foundation, H2 Auth/bootstrap real y H3 conexión HTTPS completados en

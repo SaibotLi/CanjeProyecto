@@ -2,6 +2,14 @@
 
 La numeración es única y expresa dependencias, no fechas.
 
+## Rollout SaaS autorizado — 23/10/2026
+
+3E/3F/3G integrados en main; séptima migration aplicada a Hosted antes del frontend,
+con preservación verificada de datos/permisos/puntos. Publicación Vercel desde main.
+[Contrato de la release y verificación](SAAS_HOSTED_ROLLOUT.md).
+External pilot conserva el gate de custom SMTP + dominio autenticado.
+Las etapas LOCAL siguientes documentan la preparación de este rollout.
+
 ## Evolución SaaS — rama LOCAL, 22/10/2026
 
 **3E/3F/3G COMPLETADAS Y VALIDADAS LOCAL. Rollout Hosted pendiente de autorización.**

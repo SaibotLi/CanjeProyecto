@@ -1,5 +1,10 @@
 # SaaS multi-comercio — 3E / 3F / 3G LOCAL
 
+Actualización 23/10/2026: rollout a main/Hosted/producción autorizado por el usuario;
+séptima migration aplicada sin diferencias en datos/permisos previos.
+Ver [release Hosted](SAAS_HOSTED_ROLLOUT.md). El texto fechado 22/10 siguiente conserva
+la evidencia y los límites de la etapa exclusivamente LOCAL.
+
 22/10/2026. **COMPLETADA Y VALIDADA LOCAL.** Rama `codex/saas-multi-business`,
 desde Sprint 3D `3229af3`. Backend `c47bd50`; frontend `1fb5aa5`.
 Una aplicación y un Supabase. **No aplicar ni publicar en Hosted sin autorización.**
