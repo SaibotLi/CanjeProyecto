@@ -2,6 +2,14 @@
 
 La numeración es única y expresa dependencias, no fechas.
 
+## Comercial — LOCAL, 27/10/2026
+
+Landing y dos modalidades con HTML estático, contacto entrante por WhatsApp y base SEO;
+investigación competitiva/plan de captación en [GO_TO_MARKET](GO_TO_MARKET.md).
+Preparada para revisión, sin push/deploy ni cambios Hosted. Publicación requiere autorización.
+External pilot conserva el gate SMTP/dominio autenticado. Sin Sprint4, onboarding ni pagos.
+Ver [contrato de implementación](COMMERCIAL_LANDING.md).
+
 ## Rollout SaaS autorizado — 23/10/2026
 
 3E/3F/3G integrados en main; séptima migration aplicada a Hosted antes del frontend,

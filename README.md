@@ -6,6 +6,12 @@ Plataforma de cartas digitales y fidelización para comercios. **Valhalla Space*
 
 ## Estado actual
 
+**Landing comercial LOCAL — 27/10/2026.** Rama `codex/commercial-landing`, sin publicar.
+Raíz comercial y páginas por modalidad prerenderizadas; contacto WhatsApp autorizado,
+planes orientativos y Valhalla enlazado. [Estrategia comercial](docs/GO_TO_MARKET.md)
+y [implementación/checks/gates](docs/COMMERCIAL_LANDING.md). No cambios Hosted.
+El siguiente apartado sigue describiendo la versión actualmente publicada en producción.
+
 **Release SaaS 3E/3F/3G — autorizado el 23/10/2026.** Comercios por ruta, modalidades
 Carta Digital / Carta + Fidelización, Admin reutilizado, identidad/contacto/temas y enlace/QR.
 Séptima migration aplicada y verificada en Hosted antes de publicar el frontend desde main;
