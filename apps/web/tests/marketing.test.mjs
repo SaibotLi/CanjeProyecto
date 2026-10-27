@@ -91,7 +91,7 @@ test('Prerendered output has unique metadata, real crawlable text and canonicals
     assert.equal((html.match(/<h1[ >]/g) ?? []).length, 1)
     assert.ok(html.includes(metadata.title))
     assert.ok(html.includes(`href="${new URL(path, marketing.origin).href}"`))
-    assert.match(html, /name="robots" content="noindex,follow"/)
+    assert.match(html, /name="robots" content="index,follow"/)
     assert.match(html, /og:image/)
     assert.match(html, /twitter:card/)
     assert.doesNotMatch(

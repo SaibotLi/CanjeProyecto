@@ -3,7 +3,7 @@ import { platformBrand } from '../config/platform'
 export const marketing = {
   brand: platformBrand.name,
   origin: 'https://valhallapp.vercel.app',
-  indexable: false, // Enable only for the approved public domain at publication.
+  indexable: true, // The approved production domain is the canonical origin.
   whatsapp: '5493455436036',
   email: '',
   prices: { menu: 15000, loyalty: 35000 },

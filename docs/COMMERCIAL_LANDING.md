@@ -19,8 +19,8 @@ No se publica el email anterior, sustituido por decisión del usuario. Sin formu
 - Marca: `apps/web/src/config/platform.ts`, reutilizada por marketing.
 - Origen canónico, indexación, contacto, precios orientativos y comercio autorizado:
   `apps/web/src/marketing/config.ts`. Son datos públicos; no colocar secretos.
-- `indexable:false` mantiene **noindex,follow** en la salida LOCAL/preview. Cambiar sólo al
-  aprobar publicación y confirmar el dominio. Robots permite rastrear para ver ese noindex.
+- `indexable:true` habilita la indexación para el dominio de producción aprobado. Robots
+  permite el rastreo y el sitemap enumera únicamente páginas comerciales.
 - Si cambia marca, actualizar también el PNG social1200×630 y el título del shell
   `app.html`. No cambiar el slug/UUID de Valhalla para acompañar la marca.
 - `contactLink` valida destino, codifica texto y admite fallback futuro email; sin un contacto
