@@ -1,5 +1,10 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/planes/carta-digital", "destination": "/planes/carta-digital/index.html" },
+    { "source": "/planes/fidelizacion", "destination": "/planes/fidelizacion/index.html" },
+    { "source": "/contacto", "destination": "/contacto/index.html" },
+    { "source": "/privacidad", "destination": "/privacidad/index.html" },
+    { "source": "/(.*)", "destination": "/app.html" }
   ]
 }

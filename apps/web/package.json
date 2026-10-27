@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0",
     "test:env": "node --test tests/env.test.mjs",
+    "test:marketing": "node --import ./tests/register-typescript.mjs --test tests/marketing.test.mjs",
     "test:saas": "node --import ./tests/register-typescript.mjs --test tests/saas-state.test.mjs",
     "test:loyalty": "node --import ./tests/register-typescript.mjs --test tests/loyalty-state.test.mjs",
     "test:loyalty:local": "node --import ./tests/register-typescript.mjs --test tests/loyalty-browser.test.mjs",

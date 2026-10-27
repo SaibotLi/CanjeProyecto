@@ -50,12 +50,12 @@ test('2H emitted PWA contains only static precache, no API runtime cache; Auth r
   const urls = [...sw.matchAll(/url:"([^"]+)"/g)].map(m => m[1])
   assert.ok(urls.length > 0)
   for (const url of urls) {
-    assert.match(url, /^(?:assets\/[^/?]+\.(?:js|css|woff2|webp|png|svg)|icons\/[^/?]+\.svg|index\.html|registerSW\.js|manifest\.webmanifest)$/)
+    assert.match(url, /^(?:assets\/[^/?]+\.(?:js|css|woff2|webp|png|svg)|icons\/[^/?]+\.svg|marketing\/(?:menu-real-local\.jpg|social\.png)|(?:planes\/(?:carta-digital|fidelizacion)|contacto|privacidad)\/index\.html|(?:index|app)\.html|registerSW\.js|manifest\.webmanifest)$/)
     assert.doesNotMatch(url, /auth\/v1|rest\/v1|storage\/v1|token|profiles|\.env/)
   }
   assert.match(config, /runtimeCaching:\s*\[\]/)
   assert.match(sw, /NavigationRoute/)
-  assert.match(sw, /createHandlerBoundToURL\("index\.html"\)/)
+  assert.match(sw, /createHandlerBoundToURL\("app\.html"\)/)
   assert.equal((sw.match(/\.registerRoute\(/g) ?? []).length, 1, 'Only navigation fallback, besides the static precache route')
   assert.match(config, /devOptions:\s*\{\s*enabled:\s*false/)
   const manifest = JSON.parse(read('../dist/manifest.webmanifest'))
