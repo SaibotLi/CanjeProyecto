@@ -55,7 +55,7 @@ const faq = [
   ],
   [
     '¿Cómo se contrata? ¿Hay prueba gratis?',
-    'Por ahora coordinamos una demostración y acordamos el alcance y el alta de forma asistida. No hay contratación automática ni una prueba gratuita ofrecida. Los precios publicados son orientativos y se confirman antes de contratar.',
+    'Coordinamos una demostración y te acompañamos en la configuración. Antes de contratar confirmamos el alcance y los precios. La contratación se acuerda con el equipo; actualmente no ofrecemos una prueba gratuita.',
   ],
   [
     '¿Puedo usarlo si estoy en otra ciudad?',
@@ -63,29 +63,31 @@ const faq = [
   ],
   [
     '¿Puedo sumar puntos más adelante?',
-    'Sí, las modalidades comparten la misma carta. La habilitación de puntos se coordina con nuestro equipo; no es una compra automática. El acceso de clientes externos requiere completar la preparación de correo del servicio.',
+    'Sí. Podés mantener tu carta y coordinar con el equipo la incorporación de puntos. Antes de sumar clientes externos, debemos completar la configuración necesaria para sus correos de acceso.',
   ],
 ]
 function Plans() {
   return (
     <section id="planes" className="m-section m-plans">
       <div className="m-section-head">
-        <p className="m-kicker">DOS FORMAS DE EMPEZAR</p>
-        <h2>
-          Tu carta primero.
-          <br />
-          Los puntos, si los necesitás.
-        </h2>
+        <p className="m-kicker">CARTA DIGITAL Y FIDELIZACIÓN</p>
+        <h2>Una plataforma que acompaña el crecimiento de tu comercio.</h2>
+        <p className="m-plan-subtitle">
+          Presentá tus productos. Fortalecé la relación con tus clientes.
+        </p>
         <p>
-          Elegí por lo que vas a usar hoy. La contratación y el alta se
-          coordinan con una persona.
+          Elegí las herramientas que mejor se adapten a tu negocio: comenzá con
+          una carta digital profesional y ampliá las posibilidades de
+          fidelización cuando estés listo.
         </p>
       </div>
       <div className="m-plan-grid">
         <article className="m-plan">
-          <p className="m-kicker">01 / LO ESENCIAL</p>
+          <p className="m-kicker">01 / PRESENTÁ TUS PRODUCTOS</p>
           <h3>Carta Digital</h3>
-          <p>Tu propuesta, lista para abrir desde cualquier mesa.</p>
+          <p>
+            Presentá tus productos con una carta profesional y fácil de actualizar.
+          </p>
           <p className="m-price">
             <span>ARS</span> {money(marketing.prices.menu)}
             <small>/mes</small>
@@ -108,9 +110,12 @@ function Plans() {
           </a>
         </article>
         <article className="m-plan m-plan-dark">
-          <p className="m-kicker">02 / UN PASO MÁS</p>
+          <p className="m-kicker">02 / CONECTÁ CON TUS CLIENTES</p>
           <h3>Carta + Fidelización</h3>
-          <p>La misma carta, con puntos por consumos registrados.</p>
+          <p>
+            Sumá puntos por consumos y ofrecé a tus clientes un espacio para
+            consultar su actividad.
+          </p>
           <p className="m-price">
             <span>ARS</span> {money(marketing.prices.loyalty)}
             <small>/mes</small>
@@ -120,27 +125,27 @@ function Plans() {
           </p>
           <ul>
             <li>Todo lo de Carta Digital</li>
-            <li>Acreditación según el importe pagado</li>
+            <li>Puntos según el importe de cada consumo</li>
             <li>Operadores con acceso autorizado</li>
-            <li>Código de cliente, saldo e historial</li>
-            <li>Reversas completas por administrador</li>
+            <li>Código personal, saldo e historial para cada cliente</li>
+            <li>Reversión completa de consumos por administrador</li>
           </ul>
           <Action plan="loyalty" placement="plan">
-            Consultar por Carta + Puntos
+            Consultar por Carta + Fidelización
           </Action>
           <a className="m-text-link" href="/planes/fidelizacion">
             Ver cómo funcionan los puntos →
           </a>
           <p className="m-plan-note">
-            Premios y canjes todavía no disponibles. La apertura a clientes
-            externos está sujeta a completar la preparación del correo del
-            servicio.
+            Premios y canjes todavía no disponibles. Antes de incorporar
+            clientes externos, debemos completar la configuración de sus correos
+            de acceso.
           </p>
         </article>
       </div>
       <p className="m-plan-foot">
-        Alta asistida, dominio personalizado y trabajos adicionales: alcance y
-        presupuesto por separado. No se incluyen pagos online, pedidos ni
+        Configuración guiada, dominio personalizado y asistencia adicional:
+        alcance y presupuesto por separado. No se incluyen pagos online, pedidos ni
         sistema de caja.
       </p>
     </section>
@@ -150,12 +155,8 @@ function ProductDemo() {
   return (
     <section className="m-section m-demo" id="producto">
       <div>
-        <p className="m-kicker">ASÍ SE VE EL PRODUCTO</p>
-        <h2>
-          Lo que ve tu cliente.
-          <br />
-          Lo que controlás vos.
-        </h2>
+        <p className="m-kicker">TU CARTA, TU IDENTIDAD</p>
+        <h2>Conocé cómo puede verse tu carta digital.</h2>
         <p>
           Una carta propia, con categorías claras y precios a mano. Vos decidís
           qué mostrar y lo actualizás desde tu cuenta.
@@ -166,12 +167,8 @@ function ProductDemo() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Ampliar captura real ↗
+          Ampliar vista de ejemplo ↗
         </a>
-        <p className="m-fine">
-          Captura del producto en entorno local. Comercio, producto y precio de
-          demostración; no son un cliente ni una oferta comercial.
-        </p>
         <div className="m-demo-detail">
           <span>01</span>
           <div>
@@ -187,8 +184,8 @@ function ProductDemo() {
           <div>
             <h3>Tu identidad, sin encargar otra web.</h3>
             <p>
-              Logo, datos del comercio y estilos reutilizables desde la
-              configuración.
+              Personalizá el logo, los datos y la apariencia de tu carta desde
+              tu cuenta.
             </p>
           </div>
         </div>
@@ -200,9 +197,9 @@ function ProductDemo() {
           height="844"
           loading="lazy"
           decoding="async"
-          alt="Captura real de una carta en el celular: Café Demo LOCAL, categoría Cafetería y un producto de prueba con precio en pesos."
+          alt="Ejemplo ilustrativo de una carta digital en un celular, con categorías, foto de producto y precio."
         />
-        <figcaption>Interfaz real · Datos de demostración</figcaption>
+        <figcaption>Vista ilustrativa de la plataforma.</figcaption>
       </figure>
     </section>
   )
@@ -212,30 +209,28 @@ function Home() {
     <>
       <section className="m-hero">
         <div className="m-hero-copy">
-          <p className="m-kicker">
-            <span /> CARTAS DIGITALES PARA COMERCIOS
-          </p>
-          <h1>
-            Cambiá los precios.
-            <br />
-            <em>No la carta.</em>
-          </h1>
+          <p className="m-kicker">CARTA DIGITAL + FIDELIZACIÓN</p>
+          <h1>Cartas digitales para comercios.</h1>
           <p>
-            Tu carta con fotos, precios y QR propio. Administrala desde el
-            celular y, cuando lo necesites, sumá puntos por consumos.
+            Mostrá tus productos con fotos, precios y un QR propio. Administrá tu
+            carta fácilmente y sumá herramientas para fortalecer la relación con
+            tus clientes.
           </p>
           <div className="m-hero-actions">
             <Action />
             <a className="m-quiet-link" href="#producto">
-              Ver el producto <span aria-hidden="true">↓</span>
+              Ver una carta de ejemplo <span aria-hidden="true">↓</span>
             </a>
           </div>
           <p className="m-hero-note">
-            Demostración remota · Alta asistida · Sin cambiar tu caja
+            Demostración personalizada · Configuración guiada · Sin reemplazar
+            tu sistema de cobro
           </p>
         </div>
-        <div className="m-hero-art" aria-label="Vista del producto real">
-          <div className="m-art-grid" aria-hidden="true" />
+        <div
+          className="m-hero-art"
+          aria-label="Vista ilustrativa de la carta digital"
+        >
           <span className="m-art-caption">TU CARTA. TU IDENTIDAD.</span>
           <div className="m-phone">
             <span className="m-phone-speaker" />
@@ -244,7 +239,7 @@ function Home() {
               width="390"
               height="844"
               fetchPriority="high"
-              alt="Carta real de demostración de Café Demo LOCAL, vista en un celular."
+              alt="Vista ilustrativa de la plataforma con una carta digital de ejemplo."
             />
           </div>
           <div className="m-paper">
@@ -266,24 +261,6 @@ function Home() {
           Bares <i>✳</i> Cafeterías <i>✳</i> Restaurantes <i>✳</i> Heladerías
         </p>
       </div>
-      <section className="m-section m-editorial">
-        <p className="m-kicker">MENOS VUELTAS, MÁS CLARIDAD</p>
-        <h2>
-          El precio cambió.
-          <br />
-          Tu QR sigue siendo el mismo.
-        </h2>
-        <div>
-          <p>
-            Un producto nuevo, una foto mejor, un cambio de precio. Tu carta
-            tiene que acompañar el ritmo del negocio.
-          </p>
-          <p>
-            Compartí el enlace por tus redes, poné el QR en las mesas y mantené
-            la información en un solo lugar.
-          </p>
-        </div>
-      </section>
       <ProductDemo />
       <section className="m-section m-process">
         <div className="m-section-head">
@@ -293,26 +270,29 @@ function Home() {
         <ol>
           <li>
             <span>01</span>
-            <h3>Lo vemos juntos</h3>
+            <h3>Conocemos tu comercio</h3>
             <p>
-              Nos contás qué comercio tenés y te mostramos el producto en una
-              demo remota.
+              Nos contás sobre tu negocio y sus necesidades. Te presentamos una
+              demostración personalizada para que conozcas las posibilidades de
+              la plataforma.
             </p>
           </li>
           <li>
             <span>02</span>
-            <h3>Preparamos tu espacio</h3>
+            <h3>Configuramos tu espacio</h3>
             <p>
-              Acordamos modalidad, apariencia y configuración. La carga asistida
-              se presupuesta según el alcance.
+              Definimos la apariencia, las funcionalidades y la modalidad de
+              implementación. Si necesitás asistencia adicional, evaluamos su
+              alcance y presupuesto.
             </p>
           </li>
           <li>
             <span>03</span>
-            <h3>Compartís tu carta</h3>
+            <h3>Tu carta, lista para compartir</h3>
             <p>
-              Recibís el enlace y el QR. Después administrás el catálogo con tu
-              cuenta.
+              Accedés a tu carta digital mediante un enlace y un código QR.
+              Luego podés administrar tus productos y mantener la información
+              actualizada.
             </p>
           </li>
         </ol>
@@ -345,9 +325,9 @@ function Home() {
         </h2>
         <p>
           Somos el equipo que desarrolla {marketing.brand}: cartas digitales y
-          puntos por consumos para comercios. Estamos construyendo el servicio
-          con alta y acompañamiento asistidos. Preferimos mostrarte lo que
-          funciona y revisar juntos si te sirve.
+          herramientas de fidelización para comercios. Te acompañamos desde la
+          demostración hasta la configuración de tu espacio, para que puedas
+          administrar tu carta con confianza.
         </p>
       </section>
       <Closing />
@@ -389,7 +369,9 @@ function Closing() {
         empieza con una charla.
       </h2>
       <Action placement="footer">Coordinar una demostración</Action>
-      <p>Sin contratar desde la web. Primero conocemos tu negocio.</p>
+      <p>
+        Coordinamos una demostración y respondemos tus consultas antes de contratar.
+      </p>
     </section>
   )
 }
@@ -610,7 +592,7 @@ function Privacy() {
 }
 export function MarketingPage({ path = '/' }: { path?: CommercialPath }) {
   return (
-    <div className="marketing">
+    <div className={`marketing${path === '/' ? ' marketing-home' : ''}`}>
       <a className="m-skip" href="#commercial-main">
         Saltar al contenido
       </a>
@@ -622,7 +604,6 @@ export function MarketingPage({ path = '/' }: { path?: CommercialPath }) {
         >
           <Mark />
           {marketing.brand}
-          <span>BETA</span>
         </a>
         <nav aria-label="Navegación comercial">
           <a href="/#producto">Producto</a>
