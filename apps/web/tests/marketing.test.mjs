@@ -76,7 +76,7 @@ test('Commercial pages SSR without Auth, Supabase, profile or browser storage', 
     'demostración',
   ])
     assert.ok(home.toLowerCase().includes(text.toLowerCase()))
-  assert.match(home, /datos de demostración/i)
+  assert.match(home, /Vista ilustrativa de la plataforma/i)
   assert.match(home, /sin fecha comprometida/i)
 })
 test('Prerendered output has unique metadata, real crawlable text and canonicals on every page', () => {
